@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: morix-backend
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    plan: free
+    region: frankfurt
+    envVars:
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_ANON_KEY
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: JWT_SECRET_KEY
+        sync: false
+      - key: FRONTEND_URL
+        value: https://morix.tech
+      - key: ALLOWED_EMAIL_DOMAIN
+        value: morix.tech
+      - key: APP_VERSION
+        value: 1.0.0
+      - key: PYTHON_VERSION
+        value: 3.11.9
