@@ -6,8 +6,10 @@ import { z } from "zod";
 const schema = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
 
-  // Supabase Postgres. Runtime uses the transaction pooler (:6543).
-  DATABASE_URL: z.url(),
+  // MySQL / MariaDB (Hostinger in production, XAMPP MariaDB locally).
+  DATABASE_URL: z.string().regex(/^mysql:\/\//, "DATABASE_URL must start with mysql://"),
+  // Shared hosting caps connections per database user, so keep the pool small.
+  DATABASE_POOL_SIZE: z.coerce.number().int().min(1).max(50).default(5),
 
   // Better Auth
   BETTER_AUTH_SECRET: z.string().min(32, "BETTER_AUTH_SECRET must be at least 32 characters"),
@@ -25,14 +27,12 @@ const schema = z.object({
   AI_MODEL_SMART: z.string().default("gemini-3.8-flash"),
   AI_MODEL_IMAGE: z.string().default("gemini-3.1-flash-image"),
 
-  // File storage: Backblaze B2 (S3-compatible) primary, Supabase Storage fallback.
+  // File storage: Backblaze B2 (S3-compatible). Optional until book uploads are used.
   B2_KEY_ID: z.string().optional(),
   B2_APP_KEY: z.string().optional(),
   B2_BUCKET: z.string().optional(),
   B2_ENDPOINT: z.url().optional(),
   B2_REGION: z.string().optional(),
-  SUPABASE_URL: z.url().optional(),
-  SUPABASE_SECRET_KEY: z.string().optional(),
 
   // Optional "Sign in with Microsoft" (single tenant).
   MICROSOFT_CLIENT_ID: z.string().optional(),
@@ -45,7 +45,9 @@ export type Env = z.infer<typeof schema>;
 function parseEnv(): Env {
   // Lint/type-check jobs may import server modules without secrets.
   if (process.env.SKIP_ENV_VALIDATION === "1") return process.env as unknown as Env;
-  const result = schema.safeParse(process.env);
+  // Hosting panels save unset variables as empty strings; treat those as missing.
+  const source = Object.fromEntries(Object.entries(process.env).filter(([, value]) => value !== ""));
+  const result = schema.safeParse(source);
   if (!result.success) {
     const issues = result.error.issues.map((i) => `  - ${i.path.join(".")}: ${i.message}`).join("\n");
     throw new Error(`Invalid environment variables:\n${issues}`);

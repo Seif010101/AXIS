@@ -10,7 +10,22 @@ export default defineConfig({
     },
   },
   test: {
-    include: ["tests/unit/**/*.test.ts", "tests/api/**/*.test.ts"],
     environment: "node",
+    projects: [
+      // Pure logic, no database.
+      { extends: true, test: { name: "unit", include: ["tests/unit/**/*.test.ts"] } },
+      // Runs against a real local MariaDB/MySQL database (`axis_test`).
+      {
+        extends: true,
+        test: {
+          name: "api",
+          include: ["tests/api/**/*.test.ts"],
+          setupFiles: ["tests/api/setup.ts"],
+          fileParallelism: false,
+          testTimeout: 30_000,
+          hookTimeout: 60_000,
+        },
+      },
+    ],
   },
 });
