@@ -42,3 +42,7 @@ backend/.env
 
 # Claude Code
 .claude/
+
+# Next.js build output
+web/.next/
+web/next-env.d.ts
