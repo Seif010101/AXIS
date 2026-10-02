@@ -16,8 +16,8 @@
     "i18n:convert": "node scripts/convert-legacy-i18n.mjs",
     "test:api": "vitest run --project api",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "node --env-file=.env.local node_modules/drizzle-kit/bin.cjs migrate",
-    "create-owner": "tsx --conditions=react-server --env-file=.env.local scripts/create-owner.ts"
+    "db:migrate": "node --env-file-if-exists=.env.local node_modules/drizzle-kit/bin.cjs migrate",
+    "create-owner": "node --env-file-if-exists=.env.local --conditions=react-server --import tsx scripts/create-owner.ts"
   },
   "dependencies": {
     "@better-auth/drizzle-adapter": "^1.7.6",

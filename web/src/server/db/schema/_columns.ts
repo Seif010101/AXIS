@@ -10,18 +10,23 @@ export const pk = () =>
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID());
 
-// All timestamps are UTC DATETIME(3); the mysql2 pool is configured with timezone "Z".
+// All timestamps are UTC DATETIME(3); the mysql2 pool is configured with timezone "Z"
+// and every connection runs SET time_zone = '+00:00'.
 export const timestamp = (name: string) => datetime(name, { mode: "date", fsp: 3 });
 
+// The app supplies the value ($defaultFn) so it never depends on the server's time zone;
+// the SQL default only covers rows written outside the app.
 export const createdAt = () =>
   timestamp("created_at")
     .notNull()
-    .default(sql`CURRENT_TIMESTAMP(3)`);
+    .default(sql`CURRENT_TIMESTAMP(3)`)
+    .$defaultFn(() => new Date());
 
 export const updatedAt = () =>
   timestamp("updated_at")
     .notNull()
     .default(sql`CURRENT_TIMESTAMP(3)`)
+    .$defaultFn(() => new Date())
     .$onUpdate(() => new Date());
 
 // JSON stored as LONGTEXT and (de)serialized here. MariaDB's JSON type is an alias of

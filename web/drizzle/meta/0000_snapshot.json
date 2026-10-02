@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "2c39b194-b79e-41b9-9a49-ba284471d574",
+  "id": "244cdf26-5c05-470d-979f-d27a467ca4d3",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "accounts": {
@@ -1526,7 +1526,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
+          "onDelete": "restrict",
           "onUpdate": "no action"
         },
         "homework_school_id_schools_id_fk": {
@@ -1987,7 +1987,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
+          "onDelete": "restrict",
           "onUpdate": "no action"
         },
         "tests_school_id_schools_id_fk": {
@@ -2215,7 +2215,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
+          "onDelete": "restrict",
           "onUpdate": "no action"
         },
         "worksheets_school_id_schools_id_fk": {

@@ -17,9 +17,18 @@ const pool =
     connectionLimit: env.DATABASE_POOL_SIZE,
     timezone: "Z", // all DATETIME values are UTC
     charset: "utf8mb4",
-    // DECIMAL columns (scores) come back as numbers instead of strings.
+    // Raw numeric aggregates (SUM/AVG) come back as numbers. Drizzle still maps DECIMAL
+    // columns to strings, matching their TypeScript type.
     decimalNumbers: true,
   });
+
+if (!globalForDb.__dbPool) {
+  // `timezone: "Z"` only affects how the driver converts dates; the server's own clock
+  // functions (CURRENT_TIMESTAMP, NOW) follow the session time zone, so pin it to UTC.
+  pool.on("connection", (connection) => {
+    connection.query("SET time_zone = '+00:00'");
+  });
+}
 
 if (env.NODE_ENV !== "production") globalForDb.__dbPool = pool;
 

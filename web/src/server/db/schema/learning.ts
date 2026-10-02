@@ -14,6 +14,14 @@ import { createdAt, id, json, pk, timestamp, updatedAt } from "./_columns";
 import { users } from "./auth";
 import { schools } from "./school";
 
+// Deleting a teacher who authored content must fail rather than cascade: a cascade would
+// silently delete every student's submissions and results for that content. Departing
+// teachers are deactivated instead.
+const authoredBy = () =>
+  id("teacher_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "restrict" });
+
 // Homework, tests and worksheets are targeted at school + grade + optional section
 // ('' = the whole grade).
 const classTarget = () => ({
@@ -29,9 +37,7 @@ export const homework = mysqlTable(
   "homework",
   {
     id: pk(),
-    teacherId: id("teacher_id")
-      .notNull()
-      .references(() => users.id, { onDelete: "cascade" }),
+    teacherId: authoredBy(),
     ...classTarget(),
     title: varchar("title", { length: 255 }).notNull(),
     description: text("description"),
@@ -79,9 +85,7 @@ export const tests = mysqlTable(
   "tests",
   {
     id: pk(),
-    teacherId: id("teacher_id")
-      .notNull()
-      .references(() => users.id, { onDelete: "cascade" }),
+    teacherId: authoredBy(),
     ...classTarget(),
     title: varchar("title", { length: 255 }).notNull(),
     questions: json<TestQuestion[]>("questions").notNull(),
@@ -122,9 +126,7 @@ export const worksheets = mysqlTable(
   "worksheets",
   {
     id: pk(),
-    teacherId: id("teacher_id")
-      .notNull()
-      .references(() => users.id, { onDelete: "cascade" }),
+    teacherId: authoredBy(),
     ...classTarget(),
     title: varchar("title", { length: 255 }).notNull(),
     content: longtext("content").notNull(),

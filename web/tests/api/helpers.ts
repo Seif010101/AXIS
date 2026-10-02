@@ -5,22 +5,34 @@ import { migrate } from "drizzle-orm/mysql2/migrator";
 
 export const ORIGIN = "http://localhost:3000";
 
+/** Drops every table in the test database and rebuilds it from the migrations. */
 export async function resetDatabase() {
   const { db } = await import("@/server/db");
-  await migrate(db, { migrationsFolder: fileURLToPath(new URL("../../drizzle", import.meta.url)) });
   const [rows] = await db.execute(
-    sql`SELECT table_name AS name FROM information_schema.tables WHERE table_schema = DATABASE() AND table_name <> '__drizzle_migrations'`,
+    sql`SELECT table_name AS name FROM information_schema.tables WHERE table_schema = DATABASE()`,
   );
-  await db.execute(sql`SET FOREIGN_KEY_CHECKS = 0`);
-  for (const row of rows as unknown as { name: string }[]) {
-    await db.execute(sql.raw(`TRUNCATE TABLE \`${row.name}\``));
-  }
-  await db.execute(sql`SET FOREIGN_KEY_CHECKS = 1`);
+  // One dedicated connection: FOREIGN_KEY_CHECKS is per session, and the pool may hand
+  // each statement to a different connection.
+  await db.transaction(async (tx) => {
+    await tx.execute(sql`SET FOREIGN_KEY_CHECKS = 0`);
+    for (const row of rows as unknown as { name: string }[]) {
+      await tx.execute(sql.raw(`DROP TABLE IF EXISTS \`${row.name}\``));
+    }
+    await tx.execute(sql`SET FOREIGN_KEY_CHECKS = 1`);
+  });
+  await migrate(db, { migrationsFolder: fileURLToPath(new URL("../../drizzle", import.meta.url)) });
 }
 
 /** A browser-like client: keeps cookies between requests to the Better Auth handler. */
 export class TestClient {
   private cookies = new Map<string, string>();
+
+  /** `ip` is sent as X-Forwarded-For, which is how the server sees the client address. */
+  constructor(readonly ip = "203.0.113.10") {}
+
+  hasCookie(fragment: string): boolean {
+    return [...this.cookies.keys()].some((name) => name.includes(fragment));
+  }
 
   get cookieHeader(): string {
     return [...this.cookies].map(([k, v]) => `${k}=${v}`).join("; ");
@@ -28,7 +40,7 @@ export class TestClient {
 
   /** Headers as a Next.js request would carry them (for code that calls next/headers). */
   get headers(): Headers {
-    return new Headers({ cookie: this.cookieHeader, origin: ORIGIN });
+    return new Headers({ cookie: this.cookieHeader, origin: ORIGIN, "x-forwarded-for": this.ip });
   }
 
   async request(method: "GET" | "POST", path: string, body?: unknown) {
@@ -39,6 +51,7 @@ export class TestClient {
         headers: {
           origin: ORIGIN,
           cookie: this.cookieHeader,
+          "x-forwarded-for": this.ip,
           ...(body === undefined ? {} : { "content-type": "application/json" }),
         },
         body: body === undefined ? undefined : JSON.stringify(body),
@@ -54,7 +67,8 @@ export class TestClient {
       else this.cookies.set(name, value);
     }
     const text = await response.text();
-    return { status: response.status, body: text ? JSON.parse(text) : null };
+    const isJson = response.headers.get("content-type")?.includes("application/json");
+    return { status: response.status, body: text && isJson ? JSON.parse(text) : text || null };
   }
 
   signIn(email: string, password: string) {

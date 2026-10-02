@@ -1,22 +1,14 @@
 import "server-only";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { APIError, createAuthMiddleware, isAPIError } from "better-auth/api";
+import { APIError } from "better-auth/api";
 import { nextCookies } from "better-auth/next-js";
 import { twoFactor } from "better-auth/plugins";
 import { eq } from "drizzle-orm";
 import { brand } from "@/config/brand";
 import { env } from "@/env";
 import { db, schema } from "@/server/db";
-import { throttleHit, throttleReset, throttleStatus, type ThrottleRule } from "./throttle";
-
-// Failed password attempts per account. Keyed by email, not IP: a whole classroom often
-// shares one public IP, and the legacy per-IP limiter locked classes out.
-export const LOGIN_FAILURE_RULE: ThrottleRule = { max: 8, windowSeconds: 15 * 60 };
-const loginKey = (email: string) => `login:${email.trim().toLowerCase()}`;
-
-const SIGN_IN_PATH = "/sign-in/email";
-const CHANGE_PASSWORD_PATH = "/change-password";
+import { afterAuthRequest, beforeAuthRequest } from "./guards";
 
 export const auth = betterAuth({
   appName: brand.name,
@@ -30,7 +22,14 @@ export const auth = betterAuth({
     // Brand-neutral so the product rename doesn't sign everyone out.
     cookiePrefix: "app",
     database: { generateId: () => crypto.randomUUID() },
+    // TODO(deploy): check which client-IP header Hostinger's proxy sets and configure
+    // ipAddress.ipAddressHeaders / trustedProxies. Without it, a multi-hop
+    // X-Forwarded-For makes every client share one rate-limit bucket.
   },
+
+  // Users can't edit their own profile through Better Auth: name is set by staff and the
+  // avatar goes through the app's settings API, which validates it.
+  disabledPaths: ["/update-user"],
 
   user: {
     additionalFields: {
@@ -63,21 +62,22 @@ export const auth = betterAuth({
     updateAge: 60 * 60 * 24,
   },
 
-  // Database-backed so limits hold across server instances. Per-IP limits stay generous
-  // for shared school networks; brute force is stopped by the per-account lockout below.
+  // Per-IP limits, database-backed so they hold across instances. Kept generous for school
+  // networks where a whole class shares one IP; per-account limits live in guards.ts.
   rateLimit: {
     enabled: env.NODE_ENV === "production",
     storage: "database",
     window: 60,
     max: 120,
     customRules: {
-      [SIGN_IN_PATH]: { window: 60, max: 60 },
+      "/sign-in/email": { window: 60, max: 60 },
     },
   },
 
   databaseHooks: {
     session: {
       create: {
+        // Runs for every way a session is created: sign-in, 2FA completion, rotation.
         before: async (session) => {
           const [user] = await db
             .select({ isActive: schema.users.isActive })
@@ -114,38 +114,7 @@ export const auth = betterAuth({
     },
   },
 
-  hooks: {
-    before: createAuthMiddleware(async (ctx) => {
-      if (ctx.path !== SIGN_IN_PATH) return;
-      const email = typeof ctx.body?.email === "string" ? ctx.body.email : "";
-      if (!email) return;
-      const status = await throttleStatus(loginKey(email), LOGIN_FAILURE_RULE);
-      if (status.blocked) {
-        throw new APIError("TOO_MANY_REQUESTS", {
-          code: "ACCOUNT_LOCKED",
-          message: `Too many failed attempts. Try again in ${Math.ceil(status.retryAfterSeconds / 60)} minutes.`,
-        });
-      }
-    }),
-    after: createAuthMiddleware(async (ctx) => {
-      const failed = isAPIError(ctx.context.returned);
-
-      if (ctx.path === SIGN_IN_PATH) {
-        const email = typeof ctx.body?.email === "string" ? ctx.body.email : "";
-        if (!email) return;
-        if (failed) await throttleHit(loginKey(email), LOGIN_FAILURE_RULE);
-        else await throttleReset(loginKey(email));
-        return;
-      }
-
-      if (ctx.path === CHANGE_PASSWORD_PATH && !failed) {
-        const userId = ctx.context.session?.user.id ?? ctx.context.newSession?.user.id;
-        if (userId) {
-          await db.update(schema.users).set({ mustChangePassword: false }).where(eq(schema.users.id, userId));
-        }
-      }
-    }),
-  },
+  hooks: { before: beforeAuthRequest, after: afterAuthRequest },
 
   plugins: [
     twoFactor({ issuer: brand.name }),
