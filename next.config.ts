@@ -25,6 +25,9 @@ const nextConfig: NextConfig = {
   experimental: {
     // forbidden() renders src/app/forbidden.tsx (e.g. a school-only page opened by the owner).
     authInterrupts: true,
+    // Small files (Excel imports, chat attachments up to 8 MB) are posted straight to a
+    // server action; large ones (curriculum books) go to object storage via presigned URLs.
+    serverActions: { bodySizeLimit: "10mb" },
   },
   turbopack: {
     resolveAlias: { "next-intl/config": I18N_REQUEST_CONFIG },

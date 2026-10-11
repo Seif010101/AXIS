@@ -17,8 +17,11 @@ The Arabic overview of the project lives in `docs/ARCHITECTURE.md`.
 - **UI:** Tailwind v4 + shadcn/ui (`radix-nova` style, RTL enabled) in `src/components/ui`,
   lucide icons, sonner toasts, recharts (through `components/ui/chart`).
 - **AI:** Vercel AI SDK 7 with Google Gemini, only through `src/server/services/ai`.
-- **Files:** Backblaze B2 (S3 API) only through `src/server/services/storage`; text extraction
-  through `src/server/services/files`.
+- **Files:** small files (≤ 8 MB: Excel imports, chat attachments) are posted as `FormData`
+  straight to a server action (limit 10 MB in `next.config.ts`) and never stored unless needed.
+  Large files (curriculum books) go to Backblaze B2 (S3 API) through presigned URLs, only via
+  `src/server/services/storage`. Text extraction and spreadsheets go through
+  `src/server/services/files`.
 - **Tests:** Vitest. `npm test` (unit, no DB) and `npm run test:api` (real MariaDB).
 
 Dependencies are fixed. Do not add or upgrade packages; if something is truly missing, say so
