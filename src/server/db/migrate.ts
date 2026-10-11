@@ -1,3 +1,4 @@
+import { existsSync } from "node:fs";
 import path from "node:path";
 import { drizzle } from "drizzle-orm/mysql2";
 import { migrate } from "drizzle-orm/mysql2/migrator";
@@ -9,6 +10,15 @@ import mysql from "mysql2/promise";
 // can run before anything else is initialised.
 const LOCK_NAME = "app_schema_migrations";
 const LOCK_TIMEOUT_SECONDS = 120;
+
+// Source checkout (dev, tests) first, then the copy that `npm run build` puts inside `.next`
+// (the deployed server has no source tree; see scripts/copy-migrations.mjs).
+function findMigrationsFolder(): string {
+  const candidates = [path.join(process.cwd(), "drizzle"), path.join(process.cwd(), ".next", "drizzle")];
+  const found = candidates.find((dir) => existsSync(path.join(dir, "meta", "_journal.json")));
+  if (!found) throw new Error(`no migrations found; looked in ${candidates.join(", ")}`);
+  return found;
+}
 
 export async function runMigrations(): Promise<void> {
   const url = process.env.DATABASE_URL;
@@ -29,7 +39,7 @@ export async function runMigrations(): Promise<void> {
       throw new Error(`could not acquire the migration lock within ${LOCK_TIMEOUT_SECONDS}s`);
     }
     try {
-      await migrate(drizzle(connection), { migrationsFolder: path.join(process.cwd(), "drizzle") });
+      await migrate(drizzle(connection), { migrationsFolder: findMigrationsFolder() });
       console.log("[migrate] database schema is up to date");
     } finally {
       await connection.query("SELECT RELEASE_LOCK(?)", [LOCK_NAME]);
