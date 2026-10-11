@@ -5,4 +5,11 @@ export async function register() {
   // A failed migration stops the server from starting: running against a schema the code
   // doesn't expect is worse than being down.
   await runMigrations();
+
+  // First-owner bootstrap for a fresh production database (no-op unless configured).
+  // A misconfiguration is logged, not fatal: the rest of the platform keeps working.
+  const { bootstrapOwner } = await import("./server/bootstrap-owner");
+  await bootstrapOwner().catch((error: unknown) =>
+    console.error(error instanceof Error ? error.message : error),
+  );
 }
