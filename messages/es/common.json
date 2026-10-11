@@ -1,0 +1,85 @@
+{
+  "app": {
+    "name": "{brand}",
+    "tagline": "Plataforma de aprendizaje inteligente"
+  },
+  "roles": {
+    "owner": "Propietario",
+    "manager": "Gerente",
+    "admin": "Administrador escolar",
+    "teacher": "Docente",
+    "student": "Estudiante"
+  },
+  "actions": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "add": "Añadir",
+    "create": "Crear",
+    "search": "Buscar",
+    "send": "Enviar",
+    "back": "Volver",
+    "confirm": "Confirmar",
+    "close": "Cerrar",
+    "upload": "Subir",
+    "download": "Descargar",
+    "copy": "Copiar",
+    "copied": "Copiado",
+    "refresh": "Actualizar",
+    "retry": "Reintentar",
+    "submit": "Enviar",
+    "view": "Ver",
+    "reset": "Restablecer",
+    "generate": "Generar",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "continue": "Continuar",
+    "start": "Empezar",
+    "signOut": "Cerrar sesión",
+    "clear": "Borrar",
+    "filter": "Filtrar",
+    "seeAll": "Ver todo"
+  },
+  "states": {
+    "loading": "Cargando…",
+    "saving": "Guardando…",
+    "saved": "Guardado",
+    "generating": "Generando…",
+    "uploading": "Subiendo…",
+    "empty": "Aún no hay nada aquí",
+    "noResults": "Sin resultados"
+  },
+  "status": {
+    "active": "Activo",
+    "inactive": "Inactivo",
+    "pending": "Pendiente",
+    "resolved": "Resuelto"
+  },
+  "fields": {
+    "name": "Nombre",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "school": "Escuela",
+    "grade": "Curso",
+    "section": "Grupo",
+    "subject": "Asignatura",
+    "date": "Fecha"
+  },
+  "errors": {
+    "UNAUTHENTICATED": "Tu sesión terminó. Vuelve a iniciar sesión.",
+    "FORBIDDEN": "No tienes permiso para hacer eso.",
+    "NO_SCHOOL": "Tu cuenta no está vinculada a una escuela.",
+    "TWO_FACTOR_REQUIRED": "Configura primero la verificación en dos pasos.",
+    "PASSWORD_CHANGE_REQUIRED": "Cambia primero tu contraseña temporal.",
+    "STEP_UP_REQUIRED": "Introduce el código de tu autenticador para continuar.",
+    "NOT_FOUND": "No lo encontramos.",
+    "CONFLICT": "Eso ya existe.",
+    "VALIDATION": "Revisa los datos introducidos.",
+    "RATE_LIMITED": "Demasiados intentos. Espera un poco e inténtalo de nuevo.",
+    "AI_NOT_CONFIGURED": "El servicio de IA no está disponible ahora.",
+    "STORAGE_NOT_CONFIGURED": "El almacenamiento de archivos no está disponible ahora.",
+    "INTERNAL": "Algo salió mal. Inténtalo de nuevo.",
+    "NETWORK": "No se puede conectar. Revisa tu conexión."
+  }
+}

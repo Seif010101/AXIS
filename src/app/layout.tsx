@@ -4,6 +4,11 @@ import { getLocale } from "next-intl/server";
 import { brand } from "@/config/brand";
 import { directionOf } from "@/i18n/config";
 import "./globals.css";
+import { Geist } from "next/font/google";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+
 
 // Fonts and the design system land in Phase 2 (redesign prototype).
 export const metadata: Metadata = {
@@ -14,7 +19,7 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children }: LayoutProps<"/">) {
   const locale = await getLocale();
   return (
-    <html lang={locale} dir={directionOf(locale)} className="h-full antialiased">
+    <html lang={locale} dir={directionOf(locale)} className={cn("h-full antialiased", "font-sans", geist.variable)}>
       <body className="flex min-h-full flex-col">
         <NextIntlClientProvider>{children}</NextIntlClientProvider>
       </body>

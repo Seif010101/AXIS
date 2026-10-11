@@ -213,3 +213,19 @@ export const userSettings = mysqlTable("user_settings", {
   tutorPersonality: varchar("tutor_personality", { length: 20 }).notNull().default("friend"),
   updatedAt: updatedAt(),
 });
+
+// Personal notebook pages (students and teachers). Private to their owner.
+export const notes = mysqlTable(
+  "notes",
+  {
+    id: pk(),
+    userId: id("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    title: varchar("title", { length: 200 }).notNull().default(""),
+    content: longtext("content").notNull(),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+  },
+  (t) => [index("notes_user_idx").on(t.userId, t.updatedAt)],
+);

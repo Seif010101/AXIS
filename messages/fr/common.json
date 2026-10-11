@@ -1,0 +1,85 @@
+{
+  "app": {
+    "name": "{brand}",
+    "tagline": "Plateforme d'apprentissage intelligente"
+  },
+  "roles": {
+    "owner": "Propriétaire",
+    "manager": "Responsable",
+    "admin": "Administrateur scolaire",
+    "teacher": "Enseignant",
+    "student": "Élève"
+  },
+  "actions": {
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "add": "Ajouter",
+    "create": "Créer",
+    "search": "Rechercher",
+    "send": "Envoyer",
+    "back": "Retour",
+    "confirm": "Confirmer",
+    "close": "Fermer",
+    "upload": "Téléverser",
+    "download": "Télécharger",
+    "copy": "Copier",
+    "copied": "Copié",
+    "refresh": "Actualiser",
+    "retry": "Réessayer",
+    "submit": "Soumettre",
+    "view": "Voir",
+    "reset": "Réinitialiser",
+    "generate": "Générer",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "continue": "Continuer",
+    "start": "Commencer",
+    "signOut": "Se déconnecter",
+    "clear": "Effacer",
+    "filter": "Filtrer",
+    "seeAll": "Tout voir"
+  },
+  "states": {
+    "loading": "Chargement…",
+    "saving": "Enregistrement…",
+    "saved": "Enregistré",
+    "generating": "Génération…",
+    "uploading": "Téléversement…",
+    "empty": "Rien ici pour l'instant",
+    "noResults": "Aucun résultat"
+  },
+  "status": {
+    "active": "Actif",
+    "inactive": "Inactif",
+    "pending": "En attente",
+    "resolved": "Résolu"
+  },
+  "fields": {
+    "name": "Nom",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "school": "École",
+    "grade": "Niveau",
+    "section": "Classe",
+    "subject": "Matière",
+    "date": "Date"
+  },
+  "errors": {
+    "UNAUTHENTICATED": "Ta session a expiré. Reconnecte-toi.",
+    "FORBIDDEN": "Tu n'as pas l'autorisation de faire cela.",
+    "NO_SCHOOL": "Ton compte n'est lié à aucune école.",
+    "TWO_FACTOR_REQUIRED": "Configure d'abord la validation en deux étapes.",
+    "PASSWORD_CHANGE_REQUIRED": "Change d'abord ton mot de passe temporaire.",
+    "STEP_UP_REQUIRED": "Saisis le code de ton authentificateur pour continuer.",
+    "NOT_FOUND": "Introuvable.",
+    "CONFLICT": "Cela existe déjà.",
+    "VALIDATION": "Vérifie les champs saisis.",
+    "RATE_LIMITED": "Trop de tentatives. Patiente un peu puis réessaie.",
+    "AI_NOT_CONFIGURED": "Le service d'IA n'est pas disponible pour le moment.",
+    "STORAGE_NOT_CONFIGURED": "Le stockage de fichiers n'est pas disponible pour le moment.",
+    "INTERNAL": "Une erreur s'est produite. Réessaie.",
+    "NETWORK": "Connexion impossible. Vérifie ta connexion Internet."
+  }
+}

@@ -6,3 +6,4 @@ drizzle
 AGENTS.md
 CLAUDE.md
 src/server/db/migrations.generated.json
+.worktrees

@@ -1,26 +1,30 @@
 import { brand } from "@/config/brand";
 import type { Locale } from "./config";
+import { namespaces, type Namespace } from "./namespaces";
 
-type Messages = Record<string, string>;
+export interface MessageTree {
+  [key: string]: string | MessageTree;
+}
 
-const loaders: Record<Locale, () => Promise<{ default: Messages }>> = {
-  ar: () => import("../../messages/ar.json"),
-  en: () => import("../../messages/en.json"),
-  zh: () => import("../../messages/zh.json"),
-  de: () => import("../../messages/de.json"),
-  es: () => import("../../messages/es.json"),
-  fr: () => import("../../messages/fr.json"),
-};
+async function loadNamespace(locale: Locale, namespace: Namespace): Promise<MessageTree> {
+  const loaded = (await import(`../../messages/${locale}/${namespace}.json`)) as { default: MessageTree };
+  return loaded.default;
+}
 
 // Resolves the {brand} token before next-intl parses the ICU messages,
 // so callers never have to pass the product name as a value.
-export function withBrand(messages: Messages, brandName: string = brand.name): Messages {
+export function withBrand<T extends MessageTree>(messages: T, brandName: string = brand.name): T {
   return Object.fromEntries(
-    Object.entries(messages).map(([key, value]) => [key, value.replaceAll("{brand}", brandName)]),
-  );
+    Object.entries(messages).map(([key, value]) => [
+      key,
+      typeof value === "string" ? value.replaceAll("{brand}", brandName) : withBrand(value, brandName),
+    ]),
+  ) as T;
 }
 
-export async function loadMessages(locale: Locale): Promise<Messages> {
-  const { default: messages } = await loaders[locale]();
-  return withBrand(messages);
+export async function loadMessages(locale: Locale): Promise<Record<Namespace, MessageTree>> {
+  const entries = await Promise.all(
+    namespaces.map(async (namespace) => [namespace, await loadNamespace(locale, namespace)] as const),
+  );
+  return withBrand(Object.fromEntries(entries) as Record<Namespace, MessageTree>);
 }

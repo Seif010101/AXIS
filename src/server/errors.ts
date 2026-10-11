@@ -1,4 +1,4 @@
-// Error contract for the /api/v1 routes: { code, message }. The client maps `code` to a
+// Error contract for route handlers and server actions: { code, message }. The client maps `code` to a
 // localized string; `message` is an English fallback for logs and developers.
 export const ERROR_STATUS = {
   UNAUTHENTICATED: 401,
@@ -12,6 +12,7 @@ export const ERROR_STATUS = {
   VALIDATION: 422,
   RATE_LIMITED: 429,
   AI_NOT_CONFIGURED: 503,
+  STORAGE_NOT_CONFIGURED: 503,
   INTERNAL: 500,
 } as const;
 

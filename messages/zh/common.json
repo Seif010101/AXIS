@@ -1,0 +1,85 @@
+{
+  "app": {
+    "name": "{brand}",
+    "tagline": "智能学习平台"
+  },
+  "roles": {
+    "owner": "平台所有者",
+    "manager": "经理",
+    "admin": "学校管理员",
+    "teacher": "教师",
+    "student": "学生"
+  },
+  "actions": {
+    "save": "保存",
+    "cancel": "取消",
+    "delete": "删除",
+    "edit": "编辑",
+    "add": "添加",
+    "create": "创建",
+    "search": "搜索",
+    "send": "发送",
+    "back": "返回",
+    "confirm": "确认",
+    "close": "关闭",
+    "upload": "上传",
+    "download": "下载",
+    "copy": "复制",
+    "copied": "已复制",
+    "refresh": "刷新",
+    "retry": "重试",
+    "submit": "提交",
+    "view": "查看",
+    "reset": "重置",
+    "generate": "生成",
+    "next": "下一步",
+    "previous": "上一步",
+    "continue": "继续",
+    "start": "开始",
+    "signOut": "退出登录",
+    "clear": "清除",
+    "filter": "筛选",
+    "seeAll": "查看全部"
+  },
+  "states": {
+    "loading": "加载中…",
+    "saving": "保存中…",
+    "saved": "已保存",
+    "generating": "生成中…",
+    "uploading": "上传中…",
+    "empty": "这里还没有内容",
+    "noResults": "没有结果"
+  },
+  "status": {
+    "active": "活跃",
+    "inactive": "已停用",
+    "pending": "待处理",
+    "resolved": "已解决"
+  },
+  "fields": {
+    "name": "姓名",
+    "email": "电子邮箱",
+    "password": "密码",
+    "school": "学校",
+    "grade": "年级",
+    "section": "班级",
+    "subject": "科目",
+    "date": "日期"
+  },
+  "errors": {
+    "UNAUTHENTICATED": "会话已结束，请重新登录。",
+    "FORBIDDEN": "你没有执行此操作的权限。",
+    "NO_SCHOOL": "你的账号未关联学校。",
+    "TWO_FACTOR_REQUIRED": "请先设置两步验证。",
+    "PASSWORD_CHANGE_REQUIRED": "请先修改临时密码。",
+    "STEP_UP_REQUIRED": "请输入验证器代码以继续。",
+    "NOT_FOUND": "未找到该内容。",
+    "CONFLICT": "该内容已存在。",
+    "VALIDATION": "请检查填写的内容。",
+    "RATE_LIMITED": "尝试次数过多，请稍后再试。",
+    "AI_NOT_CONFIGURED": "AI 服务当前不可用。",
+    "STORAGE_NOT_CONFIGURED": "文件存储当前不可用。",
+    "INTERNAL": "出了点问题，请重试。",
+    "NETWORK": "无法连接，请检查网络。"
+  }
+}

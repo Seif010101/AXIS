@@ -103,5 +103,15 @@
     "bps": true,
     "folderMillis": 1790957768117,
     "hash": "cb50892d9375d835a8d76d65c72735693a89dd91e60c8fe45e90a0af4ba73003"
+  },
+  {
+    "sql": [
+      "CREATE TABLE `notes` (\n\t`id` varchar(36) NOT NULL,\n\t`user_id` varchar(36) NOT NULL,\n\t`title` varchar(200) NOT NULL DEFAULT '',\n\t`content` longtext NOT NULL,\n\t`created_at` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),\n\t`updated_at` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),\n\tCONSTRAINT `notes_id` PRIMARY KEY(`id`)\n);\n",
+      "\nALTER TABLE `notes` ADD CONSTRAINT `notes_user_id_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE cascade ON UPDATE no action;",
+      "\nCREATE INDEX `notes_user_idx` ON `notes` (`user_id`,`updated_at`);"
+    ],
+    "bps": true,
+    "folderMillis": 1791747669110,
+    "hash": "834352c989e2a0881c04d4c1f4373aec3c500596d2963a40507ee84691b10689"
   }
 ]

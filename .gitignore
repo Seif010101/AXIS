@@ -49,3 +49,6 @@ next-env.d.ts
 .claude/
 *.log
 Thumbs.db
+
+# parallel feature worktrees (local only)
+/.worktrees/

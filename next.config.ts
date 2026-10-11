@@ -22,6 +22,10 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  experimental: {
+    // forbidden() renders src/app/forbidden.tsx (e.g. a school-only page opened by the owner).
+    authInterrupts: true,
+  },
   turbopack: {
     resolveAlias: { "next-intl/config": I18N_REQUEST_CONFIG },
   },

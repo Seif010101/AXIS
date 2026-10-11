@@ -1,39 +1,61 @@
-import { describe, expect, it } from "vitest";
+import { readdirSync, readFileSync } from "node:fs";
+import path from "node:path";
 import { IntlMessageFormat } from "intl-messageformat";
+import { describe, expect, it } from "vitest";
 import { directionOf, locales } from "@/i18n/config";
-import { withBrand } from "@/i18n/messages";
-import ar from "../../messages/ar.json";
-import de from "../../messages/de.json";
-import en from "../../messages/en.json";
-import es from "../../messages/es.json";
-import fr from "../../messages/fr.json";
-import zh from "../../messages/zh.json";
+import { withBrand, type MessageTree } from "@/i18n/messages";
+import { namespaces } from "@/i18n/namespaces";
 
-const all: Record<string, Record<string, string>> = { ar, en, zh, de, es, fr };
+const MESSAGES_DIR = path.resolve(__dirname, "../../messages");
+
+function read(locale: string, namespace: string): MessageTree {
+  return JSON.parse(readFileSync(path.join(MESSAGES_DIR, locale, `${namespace}.json`), "utf8"));
+}
+
+function flatten(tree: MessageTree, prefix = ""): Record<string, string> {
+  return Object.fromEntries(
+    Object.entries(tree).flatMap(([key, value]) =>
+      typeof value === "string"
+        ? [[`${prefix}${key}`, value]]
+        : Object.entries(flatten(value, `${prefix}${key}.`)),
+    ),
+  );
+}
 
 describe("messages", () => {
-  const reference = Object.keys(ar).sort();
-
-  it.each(locales)("%s has exactly the same keys as ar", (locale) => {
-    expect(Object.keys(all[locale]).sort()).toEqual(reference);
+  it.each(locales)("%s has exactly the registered namespace files", (locale) => {
+    const files = readdirSync(path.join(MESSAGES_DIR, locale)).map((f) => f.replace(/\.json$/, ""));
+    expect(files.sort()).toEqual([...namespaces].sort());
   });
 
-  it.each(locales)("%s messages are valid ICU after brand substitution", (locale) => {
-    for (const [key, value] of Object.entries(withBrand(all[locale], "Brand"))) {
-      expect(() => new IntlMessageFormat(value, locale), key).not.toThrow();
-    }
-  });
+  for (const namespace of namespaces) {
+    const reference = Object.keys(flatten(read("ar", namespace))).sort();
 
-  it("no hard-coded product names remain in message files", () => {
-    for (const messages of Object.values(all)) {
-      for (const value of Object.values(messages)) {
-        expect(value).not.toMatch(/morix|memorix|موريكس|莫瑞克斯/i);
+    it.each(locales)(`${namespace}: %s has exactly the same keys as ar`, (locale) => {
+      expect(Object.keys(flatten(read(locale, namespace))).sort()).toEqual(reference);
+    });
+
+    it.each(locales)(`${namespace}: %s messages are non-empty valid ICU`, (locale) => {
+      for (const [key, value] of Object.entries(flatten(withBrand(read(locale, namespace), "Brand")))) {
+        expect(value.trim(), `${namespace}.${key}`).not.toBe("");
+        expect(() => new IntlMessageFormat(value, locale), `${namespace}.${key}`).not.toThrow();
       }
-    }
-  });
+    });
 
-  it("brand token is substituted", () => {
-    expect(withBrand({ a: "{brand} — x" }, "AXIS")).toEqual({ a: "AXIS — x" });
+    it(`${namespace}: no hard-coded product names`, () => {
+      for (const locale of locales) {
+        for (const value of Object.values(flatten(read(locale, namespace)))) {
+          expect(value).not.toMatch(/morix|memorix|موريكس|莫瑞克斯|\baxis\b/i);
+        }
+      }
+    });
+  }
+
+  it("brand token is substituted in nested trees", () => {
+    expect(withBrand({ a: "{brand} — x", b: { c: "by {brand}" } }, "AXIS")).toEqual({
+      a: "AXIS — x",
+      b: { c: "by AXIS" },
+    });
   });
 });
 
