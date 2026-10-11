@@ -1,44 +1,51 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-venv/
-env/
-.venv/
-*.egg-info/
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# Env files
-.env
-.env.local
-.env.*.local
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
 
-# Node
-node_modules/
-dist/
-dist-ssr/
-*.local
-.vite/
+# testing
+/coverage
 
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
 .DS_Store
-Thumbs.db
+*.pem
 
-# Logs
-*.log
+# debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.pnpm-debug.log*
 
-# Build
-build/
+# env files (only the example is committed)
+.env*
+!.env.example
+
+# playwright
+/test-results/
+/playwright-report/
+
+# vercel
+.vercel
+
+# typescript
 *.tsbuildinfo
-backend/.env
+next-env.d.ts
 
-# Claude Code
+# local tooling
 .claude/
+*.log
+Thumbs.db
