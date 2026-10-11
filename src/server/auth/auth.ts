@@ -22,9 +22,11 @@ export const auth = betterAuth({
     // Brand-neutral so the product rename doesn't sign everyone out.
     cookiePrefix: "app",
     database: { generateId: () => crypto.randomUUID() },
-    // TODO(deploy): check which client-IP header Hostinger's proxy sets and configure
-    // ipAddress.ipAddressHeaders / trustedProxies. Without it, a multi-hop
-    // X-Forwarded-For makes every client share one rate-limit bucket.
+    // Hostinger's proxy overwrites X-Real-IP with the connecting address (verified: a
+    // client-sent value is replaced) while X-Forwarded-For arrives as a multi-hop chain that
+    // Better Auth rightly refuses. X-Forwarded-For stays as a single-value fallback for
+    // local runs and tests.
+    ipAddress: { ipAddressHeaders: ["x-real-ip", "x-forwarded-for"] },
   },
 
   // Users can't edit their own profile through Better Auth: name is set by staff and the

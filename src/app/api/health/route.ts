@@ -5,25 +5,7 @@ import { db } from "@/server/db";
 // answers; never returns configuration or error details.
 export const dynamic = "force-dynamic";
 
-// TEMPORARY (remove once advanced.ipAddress is configured): echoes the caller's own
-// forwarding headers so we can see how the hosting proxy reports client addresses.
-const FORWARDING_HEADERS = [
-  "x-forwarded-for",
-  "x-real-ip",
-  "cf-connecting-ip",
-  "true-client-ip",
-  "x-client-ip",
-  "forwarded",
-  "via",
-];
-
-export async function GET(request: Request) {
-  if (new URL(request.url).searchParams.get("diag") === "ip") {
-    return Response.json(
-      Object.fromEntries(FORWARDING_HEADERS.map((name) => [name, request.headers.get(name)])),
-      { headers: { "cache-control": "no-store" } },
-    );
-  }
+export async function GET() {
   let database: "ok" | "unavailable" = "ok";
   try {
     await db.execute(sql`SELECT 1`);
