@@ -7,14 +7,14 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build --webpack && node scripts/copy-migrations.mjs",
+    "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --project unit",
     "format": "prettier --write .",
     "test:api": "vitest run --project api",
-    "db:generate": "drizzle-kit generate",
+    "db:generate": "drizzle-kit generate && node scripts/bundle-migrations.mjs",
     "db:migrate": "node --env-file-if-exists=.env.local node_modules/drizzle-kit/bin.cjs migrate",
     "create-owner": "node --env-file-if-exists=.env.local --conditions=react-server --import tsx scripts/create-owner.ts"
   },
