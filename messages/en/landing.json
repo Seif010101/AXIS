@@ -1,1 +1,201 @@
-{}
+{
+  "meta": {
+    "title": "The smart learning platform for schools",
+    "description": "{brand} brings an AI tutor for students, an AI studio for teachers and clear insights for school leaders together in one secure platform, in six languages."
+  },
+  "header": {
+    "nav": "Main",
+    "features": "Features",
+    "how": "How it works",
+    "faq": "Questions",
+    "about": "About",
+    "signIn": "Sign in",
+    "dashboard": "Go to dashboard",
+    "home": "{brand} home"
+  },
+  "hero": {
+    "eyebrow": "The learning platform for modern schools",
+    "title": "Every student's progress, <highlight>measured with precision.</highlight>",
+    "subtitle": "{brand} brings an AI tutor for students, an AI studio for teachers and clear insights for school leaders together in one secure place.",
+    "primary": "Sign in",
+    "secondary": "See how it works",
+    "note": "Accounts are created by your school, so there's nothing to sign up for.",
+    "visual": {
+      "label": "An illustration of the {brand} dashboard",
+      "tutor": "AI tutor",
+      "tutorMessage": "Let's solve it together, one step at a time.",
+      "progress": "Progress",
+      "stars": "Stars",
+      "streak": "Streak",
+      "goals": "Goals",
+      "secure": "Two-step verification"
+    }
+  },
+  "audiences": {
+    "eyebrow": "Built for everyone at school",
+    "title": "One platform, three points of view",
+    "description": "Students, teachers and school leaders each get tools made for their day, all connected to the same picture of learning.",
+    "students": {
+      "label": "For students",
+      "title": "Learning that feels personal",
+      "description": "Help at any hour, explained in your language and at your level, with a little friendly competition to keep you going."
+    },
+    "teachers": {
+      "label": "For teachers",
+      "title": "More time for teaching",
+      "description": "Prepare in minutes what used to take an evening, and see at a glance who needs your help."
+    },
+    "schools": {
+      "label": "For schools",
+      "title": "The whole picture, safely",
+      "description": "Run classes, people and content from one place, with the security a school's data deserves."
+    },
+    "features": {
+      "tutor": {
+        "title": "AI tutor",
+        "description": "Ask about any lesson and get step-by-step explanations in the style you prefer."
+      },
+      "games": {
+        "title": "Learning games",
+        "description": "Practise with quick games and quizzes built around what you're studying."
+      },
+      "challenges": {
+        "title": "Challenges and stars",
+        "description": "Take on daily challenges, earn stars, keep your streak and climb your class leaderboard."
+      },
+      "studio": {
+        "title": "AI studio",
+        "description": "Draft lessons, worksheets and question sets with AI, then edit them to fit your class."
+      },
+      "homework": {
+        "title": "Homework and worksheets",
+        "description": "Assign work to your classes, collect submissions and give feedback in one place."
+      },
+      "tests": {
+        "title": "Tests",
+        "description": "Build tests, grade objective questions automatically and review results by class."
+      },
+      "management": {
+        "title": "School management",
+        "description": "Classes, teachers and students in one place, with bulk import from a spreadsheet."
+      },
+      "insights": {
+        "title": "Insights",
+        "description": "Follow progress and engagement across classes and act early where it matters."
+      },
+      "security": {
+        "title": "Security by design",
+        "description": "Two-step verification for staff, strict separation between schools and a fresh code for sensitive actions."
+      }
+    }
+  },
+  "how": {
+    "eyebrow": "How it works",
+    "title": "Up and running in four steps",
+    "steps": {
+      "accounts": {
+        "title": "Your school sets up accounts",
+        "description": "Administrators add classes, teachers and students, or import them from a spreadsheet."
+      },
+      "signIn": {
+        "title": "Everyone signs in securely",
+        "description": "Each person has their own account. Staff confirm with a code from an authenticator app."
+      },
+      "learn": {
+        "title": "Teach and learn",
+        "description": "Teachers assign homework and tests; students learn with their tutor, games and challenges."
+      },
+      "insights": {
+        "title": "Follow progress",
+        "description": "Teachers and leaders see how learning is going and step in early."
+      }
+    }
+  },
+  "languages": {
+    "eyebrow": "Six languages",
+    "title": "Speaks your school's languages",
+    "description": "Arabic with full right-to-left support, plus English, Chinese, German, Spanish and French. Everyone chooses their own language, and it follows them to every device."
+  },
+  "faq": {
+    "eyebrow": "Questions",
+    "title": "What schools ask us",
+    "items": {
+      "accounts": {
+        "question": "How do I get an account?",
+        "answer": "Your school creates it. Administrators add students and teachers or import them from a spreadsheet, and each person receives their own sign-in. There's no public sign-up."
+      },
+      "password": {
+        "question": "I forgot my password. What now?",
+        "answer": "Ask your school's administration. They can give you a temporary password, and you'll choose a new one the next time you sign in."
+      },
+      "security": {
+        "question": "How is our data protected?",
+        "answer": "Each school sees only its own data. Passwords are stored as one-way hashes, staff accounts use two-step verification, and sensitive actions ask for a fresh code from the authenticator app."
+      },
+      "ai": {
+        "question": "What does the AI tutor do?",
+        "answer": "It explains lessons step by step in the student's language, at the level and in the style they choose in their settings. Teachers stay in charge of homework and tests."
+      },
+      "devices": {
+        "question": "Does it work on phones?",
+        "answer": "Yes. {brand} runs in any modern browser on phones, tablets and computers, with nothing to install."
+      },
+      "languages": {
+        "question": "Which languages are available?",
+        "answer": "Arabic, English, Chinese, German, Spanish and French. Each person picks their own language, and can change it at any time."
+      }
+    }
+  },
+  "cta": {
+    "title": "Ready when your school is",
+    "description": "Sign in with the account your school gave you.",
+    "button": "Sign in"
+  },
+  "footer": {
+    "tagline": "The smart learning platform for schools.",
+    "links": "Links",
+    "home": "Home",
+    "about": "About",
+    "signIn": "Sign in",
+    "rights": "© {year} {brand}. All rights reserved."
+  },
+  "about": {
+    "meta": {
+      "title": "About",
+      "description": "Why we built {brand}, and the principles behind it."
+    },
+    "eyebrow": "About {brand}",
+    "title": "Clear direction for every learner",
+    "intro": "{brand} is a learning platform built for schools: one place where students learn with an AI tutor, teachers prepare and assign work, and school leaders see how learning is going.",
+    "approach": {
+      "title": "Measure, then grow",
+      "body": "Every learner has a starting point and a direction. We help students and teachers see where they stand and where they are heading, with precision and room to grow."
+    },
+    "principles": {
+      "title": "What guides us",
+      "items": {
+        "precision": {
+          "title": "Precision",
+          "description": "Clear information that helps people decide, without noise."
+        },
+        "growth": {
+          "title": "Growth",
+          "description": "Small steps every day, made visible so they're worth celebrating."
+        },
+        "privacy": {
+          "title": "Privacy and safety",
+          "description": "Each school's data stays its own, protected by strong sign-in and careful defaults."
+        },
+        "inclusion": {
+          "title": "For everyone",
+          "description": "Six languages, right-to-left support and an interface that works on any device."
+        }
+      }
+    },
+    "cta": {
+      "title": "Part of a school that uses {brand}?",
+      "description": "Sign in with the account your school gave you.",
+      "button": "Sign in"
+    }
+  }
+}

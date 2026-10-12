@@ -1,1 +1,76 @@
-{}
+{
+  "skipToContent": "Aller au contenu",
+  "sidebar": {
+    "label": "Navigation principale",
+    "toggle": "Afficher ou masquer la barre latérale",
+    "home": "Accueil"
+  },
+  "topbar": {
+    "notifications": "Notifications",
+    "breadcrumb": "Vous êtes ici"
+  },
+  "locale": {
+    "label": "Langue"
+  },
+  "theme": {
+    "label": "Apparence",
+    "light": "Clair",
+    "dark": "Sombre",
+    "system": "Comme l’appareil"
+  },
+  "userMenu": {
+    "label": "Menu du compte",
+    "settings": "Paramètres",
+    "signOut": "Se déconnecter",
+    "signOutFailed": "Impossible de vous déconnecter. Veuillez réessayer."
+  },
+  "comingSoon": {
+    "badge": "Bientôt disponible",
+    "description": "Nous préparons cette page. Elle arrivera dans une prochaine mise à jour.",
+    "home": "Retour à l’accueil"
+  },
+  "stepUp": {
+    "title": "Confirmez votre identité",
+    "description": "Cette action est sensible. Saisissez le code à 6 chiffres de votre application d’authentification pour continuer.",
+    "needsTwoFactor": "Cette action nécessite d’abord d’activer la validation en deux étapes sur votre compte.",
+    "codeLabel": "Code d’authentification",
+    "verify": "Confirmer",
+    "invalid": "Ce code est incorrect ou a déjà été utilisé. Attendez le code suivant et réessayez.",
+    "tooMany": "Trop de codes incorrects. Patientez quelques minutes puis réessayez.",
+    "setUp": "Activer la validation en deux étapes"
+  },
+  "copy": {
+    "failed": "Impossible de copier. Copiez le texte manuellement."
+  },
+  "dataTable": {
+    "search": "Rechercher…",
+    "actions": "Actions",
+    "pagination": "Pages",
+    "showing": "{from}–{to} sur {total}",
+    "page": "{page} / {pages}"
+  },
+  "errors": {
+    "notFound": {
+      "title": "Page introuvable",
+      "description": "Le lien a peut-être changé ou la page a été supprimée. Vérifiez l’adresse ou revenez à l’accueil.",
+      "home": "Retour à l’accueil"
+    },
+    "forbidden": {
+      "title": "Vous ne pouvez pas ouvrir cette page",
+      "description": "Cette page n’est pas disponible pour votre compte. Si vous pensez qu’il s’agit d’une erreur, contactez l’administration de votre établissement.",
+      "home": "Retour à l’accueil"
+    },
+    "error": {
+      "title": "Un problème est survenu",
+      "description": "Nous avons rencontré un problème en chargeant cette page. Réessayez dans un instant.",
+      "retry": "Réessayer",
+      "home": "Retour à l’accueil",
+      "reference": "Référence de l’erreur : {digest}"
+    },
+    "global": {
+      "title": "La plateforme n’a pas pu se charger",
+      "description": "Un imprévu s’est produit. Réessayez dans un instant.",
+      "retry": "Réessayer"
+    }
+  }
+}

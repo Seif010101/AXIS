@@ -1,1 +1,181 @@
-{}
+{
+  "metaTitle": "Ajustes",
+  "title": "Ajustes",
+  "description": "Gestiona tu perfil, el aspecto de {brand} y la seguridad de tu cuenta.",
+  "tabs": {
+    "label": "Secciones de ajustes",
+    "profile": "Perfil",
+    "appearance": "Apariencia",
+    "language": "Idioma",
+    "notifications": "Notificaciones",
+    "learning": "Aprendizaje",
+    "security": "Seguridad"
+  },
+  "profile": {
+    "title": "Tu cuenta",
+    "description": "Tu centro gestiona estos datos. Para cambiar tu nombre o tu correo, contacta con la administración de tu centro.",
+    "noSchool": "Sin centro asignado",
+    "avatar": {
+      "title": "Avatar",
+      "description": "Elige la imagen que aparece junto a tu nombre en todo {brand}.",
+      "label": "Avatares",
+      "initials": "Iniciales",
+      "saved": "Tu avatar se ha actualizado.",
+      "presets": {
+        "aurora": "Aurora",
+        "ocean": "Océano",
+        "sunset": "Atardecer",
+        "forest": "Bosque",
+        "berry": "Baya",
+        "citrus": "Cítrico",
+        "lagoon": "Laguna",
+        "dusk": "Crepúsculo",
+        "ember": "Brasa",
+        "mint": "Menta",
+        "orchid": "Orquídea",
+        "nebula": "Nebulosa"
+      }
+    }
+  },
+  "appearance": {
+    "title": "Tema",
+    "description": "Elige cómo se ve {brand} en este dispositivo.",
+    "label": "Tema",
+    "options": {
+      "light": "Luminoso y nítido, para el día y espacios bien iluminados.",
+      "dark": "Descansa la vista por la noche y con poca luz.",
+      "system": "Sigue automáticamente el modo claro u oscuro de tu dispositivo."
+    }
+  },
+  "language": {
+    "title": "Idioma de la interfaz",
+    "description": "Los menús, botones y mensajes aparecen en este idioma. Se guarda en tu cuenta, así que te acompaña en todos tus dispositivos.",
+    "label": "Idiomas"
+  },
+  "notifications": {
+    "title": "Notificaciones",
+    "description": "Decide si {brand} te mantiene al día.",
+    "inApp": "Notificaciones en la plataforma",
+    "inAppDescription": "Las nuevas tareas, pruebas, anuncios y respuestas aparecen bajo la campana, arriba en la página.",
+    "enabled": "Las notificaciones están activadas.",
+    "disabled": "Las notificaciones están desactivadas."
+  },
+  "learning": {
+    "title": "Preferencias de aprendizaje",
+    "description": "Tu tutor con IA las usa para explicarte las cosas de la forma que mejor te funciona.",
+    "difficulty": {
+      "label": "Nivel de explicación",
+      "easy": {
+        "title": "Sencillo",
+        "description": "Pasos cortos y muchos ejemplos."
+      },
+      "medium": {
+        "title": "Equilibrado",
+        "description": "Explicaciones claras para tu curso."
+      },
+      "hard": {
+        "title": "Exigente",
+        "description": "Más profundidad y preguntas más difíciles."
+      }
+    },
+    "personality": {
+      "label": "Personalidad del tutor",
+      "friend": {
+        "title": "Amigo divertido",
+        "description": "Cercano, con bromas y ejemplos de la vida diaria."
+      },
+      "strict": {
+        "title": "Profesor estricto",
+        "description": "Formal y preciso, centrado en reglas y conceptos."
+      },
+      "coach": {
+        "title": "Entrenador motivador",
+        "description": "Entusiasta y alentador, siempre te anima."
+      },
+      "scientist": {
+        "title": "Científico curioso",
+        "description": "Le encanta explorar, hace preguntas abiertas y conecta las ideas con la ciencia."
+      }
+    },
+    "hobbies": {
+      "label": "Aficiones e intereses",
+      "description": "Tu tutor los usa en sus ejemplos. Añade hasta {max}.",
+      "placeholder": "Por ejemplo: fútbol, dibujo, el espacio",
+      "add": "Añadir",
+      "remove": "Quitar {hobby}",
+      "empty": "Todavía no hay aficiones.",
+      "limit": "Puedes añadir hasta {max} aficiones.",
+      "tooLong": "Cada afición debe tener menos de {max} caracteres.",
+      "duplicate": "Esa afición ya está en tu lista."
+    },
+    "save": "Guardar preferencias",
+    "saved": "Tus preferencias de aprendizaje se han guardado."
+  },
+  "security": {
+    "password": {
+      "title": "Contraseña",
+      "description": "Usa una contraseña segura que no utilices en ningún otro sitio.",
+      "submit": "Actualizar contraseña",
+      "changed": "Tu contraseña se ha cambiado."
+    },
+    "twoFactor": {
+      "title": "Verificación en dos pasos",
+      "description": "Un código de tu app de autenticación en cada inicio de sesión.",
+      "status": {
+        "on": "Activada",
+        "off": "Desactivada",
+        "pending": "Sin terminar"
+      },
+      "requiredNote": "Tu rol la exige, así que no se puede desactivar.",
+      "onNote": "Tu cuenta pide un código de tu móvil en cada inicio de sesión.",
+      "offNote": "Añade una segunda capa de protección: aunque alguien tenga tu contraseña, no podrá entrar sin tu móvil.",
+      "pendingNote": "Empezaste la configuración pero no confirmaste ningún código. Termínala para activar la protección.",
+      "enable": "Activar",
+      "finish": "Terminar configuración",
+      "disable": "Desactivar",
+      "disableTitle": "¿Desactivar la verificación en dos pasos?",
+      "disableDescription": "Tu cuenta quedará protegida solo por tu contraseña. Escríbela para confirmar.",
+      "disabled": "La verificación en dos pasos está desactivada."
+    },
+    "backupCodes": {
+      "title": "Códigos de respaldo",
+      "description": "Códigos de un solo uso para entrar cuando no tengas el móvil contigo.",
+      "regenerate": "Crear códigos nuevos",
+      "regenerateTitle": "Crear códigos de respaldo nuevos",
+      "regenerateDescription": "Tus códigos de respaldo actuales dejarán de funcionar. Escribe tu contraseña para continuar.",
+      "create": "Crear códigos",
+      "readyTitle": "Tus nuevos códigos de respaldo",
+      "readyDescription": "Guárdalos ahora: no se volverán a mostrar.",
+      "confirmSaved": "He guardado mis nuevos códigos de respaldo",
+      "done": "Listo",
+      "created": "Se han creado nuevos códigos de respaldo."
+    },
+    "passwordLabel": "Contraseña",
+    "errors": {
+      "wrongPassword": "La contraseña no es correcta.",
+      "tooManyAttempts": "Demasiados intentos fallidos. Vuelve a intentarlo en 15 minutos.",
+      "unknown": "No ha funcionado. Inténtalo de nuevo.",
+      "network": "No se puede conectar con el servidor. Revisa tu conexión e inténtalo de nuevo."
+    },
+    "sessions": {
+      "title": "Dispositivos con sesión iniciada",
+      "description": "Dispositivos que ahora mismo pueden abrir tu cuenta.",
+      "current": "Este dispositivo",
+      "unknownDevice": "Dispositivo desconocido",
+      "device": "{browser} en {os}",
+      "lastActive": "Activo {time}",
+      "signedIn": "Sesión iniciada el {date}",
+      "ip": "Dirección IP {ip}",
+      "revoke": "Cerrar sesión",
+      "revokeLabel": "Cerrar sesión en {device}",
+      "revokeTitle": "¿Cerrar sesión en este dispositivo?",
+      "revokeDescription": "Quien lo use tendrá que volver a iniciar sesión.",
+      "revoked": "Se ha cerrado la sesión en el dispositivo.",
+      "revokeOthers": "Cerrar sesión en otros dispositivos",
+      "revokeOthersTitle": "¿Cerrar sesión en todos los demás dispositivos?",
+      "revokeOthersDescription": "Se cerrará la sesión en todos los dispositivos excepto este, y necesitarán tu contraseña de nuevo.",
+      "revokedOthers": "{count, plural, =0 {No había otros dispositivos con sesión iniciada.} one {Se cerró la sesión en # dispositivo.} other {Se cerró la sesión en # dispositivos.}}",
+      "onlyThis": "Solo este dispositivo tiene la sesión iniciada."
+    }
+  }
+}

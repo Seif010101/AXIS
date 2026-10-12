@@ -1,1 +1,76 @@
-{}
+{
+  "skipToContent": "Zum Inhalt springen",
+  "sidebar": {
+    "label": "Hauptnavigation",
+    "toggle": "Seitenleiste ein- oder ausblenden",
+    "home": "Startseite"
+  },
+  "topbar": {
+    "notifications": "Benachrichtigungen",
+    "breadcrumb": "Aktueller Ort"
+  },
+  "locale": {
+    "label": "Sprache"
+  },
+  "theme": {
+    "label": "Darstellung",
+    "light": "Hell",
+    "dark": "Dunkel",
+    "system": "Wie Gerät"
+  },
+  "userMenu": {
+    "label": "Kontomenü",
+    "settings": "Einstellungen",
+    "signOut": "Abmelden",
+    "signOutFailed": "Abmelden fehlgeschlagen. Bitte versuche es erneut."
+  },
+  "comingSoon": {
+    "badge": "Demnächst",
+    "description": "Wir bereiten diese Seite gerade vor. Sie kommt mit einem der nächsten Updates.",
+    "home": "Zurück zur Startseite"
+  },
+  "stepUp": {
+    "title": "Bestätige, dass du es bist",
+    "description": "Das ist eine sensible Aktion. Gib den 6-stelligen Code aus deiner Authenticator-App ein, um fortzufahren.",
+    "needsTwoFactor": "Für diese Aktion muss zuerst die Zwei-Schritt-Verifizierung für dein Konto aktiviert sein.",
+    "codeLabel": "Authenticator-Code",
+    "verify": "Bestätigen",
+    "invalid": "Der Code ist falsch oder wurde bereits verwendet. Warte auf den nächsten Code und versuche es erneut.",
+    "tooMany": "Zu viele falsche Codes. Warte ein paar Minuten und versuche es erneut.",
+    "setUp": "Zwei-Schritt-Verifizierung einrichten"
+  },
+  "copy": {
+    "failed": "Kopieren fehlgeschlagen. Bitte kopiere den Text manuell."
+  },
+  "dataTable": {
+    "search": "Suchen…",
+    "actions": "Aktionen",
+    "pagination": "Seiten",
+    "showing": "{from}–{to} von {total}",
+    "page": "{page} / {pages}"
+  },
+  "errors": {
+    "notFound": {
+      "title": "Seite nicht gefunden",
+      "description": "Der Link hat sich vielleicht geändert oder die Seite wurde entfernt. Prüfe die Adresse oder kehre zur Startseite zurück.",
+      "home": "Zurück zur Startseite"
+    },
+    "forbidden": {
+      "title": "Du kannst diese Seite nicht öffnen",
+      "description": "Diese Seite ist für dein Konto nicht verfügbar. Wenn du das für einen Fehler hältst, wende dich an die Schulverwaltung.",
+      "home": "Zurück zur Startseite"
+    },
+    "error": {
+      "title": "Etwas ist schiefgelaufen",
+      "description": "Beim Laden dieser Seite ist ein Problem aufgetreten. Bitte versuche es gleich noch einmal.",
+      "retry": "Erneut versuchen",
+      "home": "Zurück zur Startseite",
+      "reference": "Fehlerreferenz: {digest}"
+    },
+    "global": {
+      "title": "Die Plattform konnte nicht geladen werden",
+      "description": "Etwas Unerwartetes ist passiert. Bitte versuche es gleich noch einmal.",
+      "retry": "Erneut versuchen"
+    }
+  }
+}

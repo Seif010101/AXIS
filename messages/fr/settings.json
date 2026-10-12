@@ -1,1 +1,181 @@
-{}
+{
+  "metaTitle": "Paramètres",
+  "title": "Paramètres",
+  "description": "Gérez votre profil, l'apparence de {brand} et la sécurité de votre compte.",
+  "tabs": {
+    "label": "Sections des paramètres",
+    "profile": "Profil",
+    "appearance": "Apparence",
+    "language": "Langue",
+    "notifications": "Notifications",
+    "learning": "Apprentissage",
+    "security": "Sécurité"
+  },
+  "profile": {
+    "title": "Votre compte",
+    "description": "Votre établissement gère ces informations. Pour modifier votre nom ou votre e-mail, contactez son administration.",
+    "noSchool": "Rattaché à aucun établissement",
+    "avatar": {
+      "title": "Avatar",
+      "description": "Choisissez l'image affichée à côté de votre nom partout dans {brand}.",
+      "label": "Avatars",
+      "initials": "Initiales",
+      "saved": "Votre avatar a été mis à jour.",
+      "presets": {
+        "aurora": "Aurore",
+        "ocean": "Océan",
+        "sunset": "Couchant",
+        "forest": "Forêt",
+        "berry": "Baie",
+        "citrus": "Agrume",
+        "lagoon": "Lagon",
+        "dusk": "Crépuscule",
+        "ember": "Braise",
+        "mint": "Menthe",
+        "orchid": "Orchidée",
+        "nebula": "Nébuleuse"
+      }
+    }
+  },
+  "appearance": {
+    "title": "Thème",
+    "description": "Choisissez l'apparence de {brand} sur cet appareil.",
+    "label": "Thème",
+    "options": {
+      "light": "Lumineux et net, pour la journée et les pièces bien éclairées.",
+      "dark": "Reposant pour les yeux le soir et en faible lumière.",
+      "system": "Suit automatiquement le mode clair ou sombre de votre appareil."
+    }
+  },
+  "language": {
+    "title": "Langue de l'interface",
+    "description": "Les menus, boutons et messages s'affichent dans cette langue. Elle est enregistrée dans votre compte et vous suit sur tous vos appareils.",
+    "label": "Langues"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "description": "Choisissez si {brand} vous tient informé.",
+    "inApp": "Notifications dans la plateforme",
+    "inAppDescription": "Les nouveaux devoirs, tests, annonces et réponses apparaissent sous la cloche, en haut de la page.",
+    "enabled": "Les notifications sont activées.",
+    "disabled": "Les notifications sont désactivées."
+  },
+  "learning": {
+    "title": "Préférences d'apprentissage",
+    "description": "Votre tuteur IA s'en sert pour vous expliquer les choses de la façon qui vous convient le mieux.",
+    "difficulty": {
+      "label": "Niveau d'explication",
+      "easy": {
+        "title": "Simple",
+        "description": "Des étapes courtes et beaucoup d'exemples."
+      },
+      "medium": {
+        "title": "Équilibré",
+        "description": "Des explications claires adaptées à votre niveau."
+      },
+      "hard": {
+        "title": "Exigeant",
+        "description": "Plus de profondeur et des questions plus difficiles."
+      }
+    },
+    "personality": {
+      "label": "Personnalité du tuteur",
+      "friend": {
+        "title": "Ami joyeux",
+        "description": "Sympathique, avec de l'humour et des exemples du quotidien."
+      },
+      "strict": {
+        "title": "Professeur exigeant",
+        "description": "Formel et précis, centré sur les règles et les notions."
+      },
+      "coach": {
+        "title": "Coach motivant",
+        "description": "Énergique et encourageant, il vous pousse toujours à avancer."
+      },
+      "scientist": {
+        "title": "Scientifique curieux",
+        "description": "Adore explorer, pose des questions ouvertes et relie les idées à la science."
+      }
+    },
+    "hobbies": {
+      "label": "Loisirs et centres d'intérêt",
+      "description": "Votre tuteur les utilise dans ses exemples. Ajoutez-en jusqu'à {max}.",
+      "placeholder": "Par exemple : football, dessin, espace",
+      "add": "Ajouter",
+      "remove": "Retirer {hobby}",
+      "empty": "Aucun loisir pour l'instant.",
+      "limit": "Vous pouvez ajouter jusqu'à {max} loisirs.",
+      "tooLong": "Chaque loisir doit faire moins de {max} caractères.",
+      "duplicate": "Ce loisir figure déjà dans votre liste."
+    },
+    "save": "Enregistrer les préférences",
+    "saved": "Vos préférences d'apprentissage ont été enregistrées."
+  },
+  "security": {
+    "password": {
+      "title": "Mot de passe",
+      "description": "Utilisez un mot de passe robuste que vous n'utilisez sur aucun autre site.",
+      "submit": "Mettre à jour le mot de passe",
+      "changed": "Votre mot de passe a été modifié."
+    },
+    "twoFactor": {
+      "title": "Validation en deux étapes",
+      "description": "Un code de votre application d'authentification à chaque connexion.",
+      "status": {
+        "on": "Activée",
+        "off": "Désactivée",
+        "pending": "Inachevée"
+      },
+      "requiredNote": "Votre rôle l'exige : elle ne peut pas être désactivée.",
+      "onNote": "Votre compte demande un code de votre téléphone à chaque connexion.",
+      "offNote": "Ajoutez une deuxième protection : même avec votre mot de passe, personne ne peut se connecter sans votre téléphone.",
+      "pendingNote": "Vous avez commencé la configuration sans confirmer de code. Terminez-la pour activer la protection.",
+      "enable": "Activer",
+      "finish": "Terminer la configuration",
+      "disable": "Désactiver",
+      "disableTitle": "Désactiver la validation en deux étapes ?",
+      "disableDescription": "Votre compte ne sera plus protégé que par votre mot de passe. Saisissez-le pour confirmer.",
+      "disabled": "La validation en deux étapes est désactivée."
+    },
+    "backupCodes": {
+      "title": "Codes de secours",
+      "description": "Des codes à usage unique pour vous connecter quand vous n'avez pas votre téléphone.",
+      "regenerate": "Créer de nouveaux codes",
+      "regenerateTitle": "Créer de nouveaux codes de secours",
+      "regenerateDescription": "Vos codes de secours actuels ne fonctionneront plus. Saisissez votre mot de passe pour continuer.",
+      "create": "Créer les codes",
+      "readyTitle": "Vos nouveaux codes de secours",
+      "readyDescription": "Enregistrez-les maintenant : ils ne seront plus affichés.",
+      "confirmSaved": "J'ai enregistré mes nouveaux codes de secours",
+      "done": "Terminé",
+      "created": "De nouveaux codes de secours ont été créés."
+    },
+    "passwordLabel": "Mot de passe",
+    "errors": {
+      "wrongPassword": "Le mot de passe est incorrect.",
+      "tooManyAttempts": "Trop de tentatives erronées. Réessayez dans 15 minutes.",
+      "unknown": "Cela n'a pas fonctionné. Veuillez réessayer.",
+      "network": "Impossible de joindre le serveur. Vérifiez votre connexion et réessayez."
+    },
+    "sessions": {
+      "title": "Appareils connectés",
+      "description": "Les appareils qui peuvent ouvrir votre compte en ce moment.",
+      "current": "Cet appareil",
+      "unknownDevice": "Appareil inconnu",
+      "device": "{browser} sur {os}",
+      "lastActive": "Actif {time}",
+      "signedIn": "Connecté le {date}",
+      "ip": "Adresse IP {ip}",
+      "revoke": "Déconnecter",
+      "revokeLabel": "Déconnecter {device}",
+      "revokeTitle": "Déconnecter cet appareil ?",
+      "revokeDescription": "La personne qui l'utilise devra se reconnecter.",
+      "revoked": "L'appareil a été déconnecté.",
+      "revokeOthers": "Déconnecter les autres appareils",
+      "revokeOthersTitle": "Déconnecter tous les autres appareils ?",
+      "revokeOthersDescription": "Tous les appareils sauf celui-ci seront déconnectés et auront de nouveau besoin de votre mot de passe.",
+      "revokedOthers": "{count, plural, =0 {Aucun autre appareil n'était connecté.} one {# appareil a été déconnecté.} other {# appareils ont été déconnectés.}}",
+      "onlyThis": "Seul cet appareil est connecté."
+    }
+  }
+}

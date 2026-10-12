@@ -1,1 +1,181 @@
-{}
+{
+  "metaTitle": "Einstellungen",
+  "title": "Einstellungen",
+  "description": "Verwalte dein Profil, das Aussehen von {brand} und die Sicherheit deines Kontos.",
+  "tabs": {
+    "label": "Bereiche der Einstellungen",
+    "profile": "Profil",
+    "appearance": "Darstellung",
+    "language": "Sprache",
+    "notifications": "Benachrichtigungen",
+    "learning": "Lernen",
+    "security": "Sicherheit"
+  },
+  "profile": {
+    "title": "Dein Konto",
+    "description": "Diese Angaben verwaltet deine Schule. Wende dich an die Schulverwaltung, um deinen Namen oder deine E-Mail-Adresse zu ändern.",
+    "noSchool": "Keiner Schule zugeordnet",
+    "avatar": {
+      "title": "Avatar",
+      "description": "Wähle das Bild, das überall in {brand} neben deinem Namen erscheint.",
+      "label": "Avatare",
+      "initials": "Initialen",
+      "saved": "Dein Avatar wurde aktualisiert.",
+      "presets": {
+        "aurora": "Polarlicht",
+        "ocean": "Ozean",
+        "sunset": "Sonnenuntergang",
+        "forest": "Wald",
+        "berry": "Beere",
+        "citrus": "Zitrus",
+        "lagoon": "Lagune",
+        "dusk": "Dämmerung",
+        "ember": "Glut",
+        "mint": "Minze",
+        "orchid": "Orchidee",
+        "nebula": "Nebel"
+      }
+    }
+  },
+  "appearance": {
+    "title": "Farbschema",
+    "description": "Wähle, wie {brand} auf diesem Gerät aussieht.",
+    "label": "Farbschema",
+    "options": {
+      "light": "Hell und klar, für tagsüber und gut beleuchtete Räume.",
+      "dark": "Angenehm für die Augen am Abend und bei wenig Licht.",
+      "system": "Folgt automatisch der hellen oder dunklen Einstellung deines Geräts."
+    }
+  },
+  "language": {
+    "title": "Sprache der Oberfläche",
+    "description": "Menüs, Schaltflächen und Meldungen erscheinen in dieser Sprache. Sie wird in deinem Konto gespeichert und gilt so auf allen deinen Geräten.",
+    "label": "Sprachen"
+  },
+  "notifications": {
+    "title": "Benachrichtigungen",
+    "description": "Lege fest, ob {brand} dich auf dem Laufenden hält.",
+    "inApp": "Benachrichtigungen in der App",
+    "inAppDescription": "Neue Hausaufgaben, Tests, Ankündigungen und Antworten erscheinen unter der Glocke oben auf der Seite.",
+    "enabled": "Benachrichtigungen sind eingeschaltet.",
+    "disabled": "Benachrichtigungen sind ausgeschaltet."
+  },
+  "learning": {
+    "title": "Lernvorlieben",
+    "description": "Dein KI-Tutor nutzt sie, um dir Dinge so zu erklären, wie es am besten zu dir passt.",
+    "difficulty": {
+      "label": "Erklärungsniveau",
+      "easy": {
+        "title": "Einfach",
+        "description": "Kurze Schritte und viele Beispiele."
+      },
+      "medium": {
+        "title": "Ausgewogen",
+        "description": "Klare Erklärungen passend zu deiner Klassenstufe."
+      },
+      "hard": {
+        "title": "Anspruchsvoll",
+        "description": "Mehr Tiefe und schwierigere Fragen."
+      }
+    },
+    "personality": {
+      "label": "Persönlichkeit des Tutors",
+      "friend": {
+        "title": "Fröhlicher Freund",
+        "description": "Freundlich, mit Witzen und Beispielen aus dem Alltag."
+      },
+      "strict": {
+        "title": "Strenger Lehrer",
+        "description": "Förmlich und genau, mit Fokus auf Regeln und Konzepte."
+      },
+      "coach": {
+        "title": "Motivierender Coach",
+        "description": "Voller Energie und ermutigend, feuert dich immer an."
+      },
+      "scientist": {
+        "title": "Neugieriger Forscher",
+        "description": "Entdeckt gern, stellt offene Fragen und verbindet Ideen mit der Wissenschaft."
+      }
+    },
+    "hobbies": {
+      "label": "Hobbys und Interessen",
+      "description": "Dein Tutor nutzt sie für Beispiele. Füge bis zu {max} hinzu.",
+      "placeholder": "Zum Beispiel: Fußball, Zeichnen, Weltraum",
+      "add": "Hinzufügen",
+      "remove": "{hobby} entfernen",
+      "empty": "Noch keine Hobbys.",
+      "limit": "Du kannst bis zu {max} Hobbys hinzufügen.",
+      "tooLong": "Jedes Hobby darf höchstens {max} Zeichen lang sein.",
+      "duplicate": "Dieses Hobby steht schon auf deiner Liste."
+    },
+    "save": "Vorlieben speichern",
+    "saved": "Deine Lernvorlieben wurden gespeichert."
+  },
+  "security": {
+    "password": {
+      "title": "Passwort",
+      "description": "Verwende ein starkes Passwort, das du auf keiner anderen Website nutzt.",
+      "submit": "Passwort aktualisieren",
+      "changed": "Dein Passwort wurde geändert."
+    },
+    "twoFactor": {
+      "title": "Zwei-Schritt-Verifizierung",
+      "description": "Ein Code aus deiner Authenticator-App bei jeder Anmeldung.",
+      "status": {
+        "on": "Aktiv",
+        "off": "Aus",
+        "pending": "Nicht abgeschlossen"
+      },
+      "requiredNote": "Deine Rolle erfordert sie, daher kann sie nicht ausgeschaltet werden.",
+      "onNote": "Dein Konto verlangt bei jeder Anmeldung einen Code von deinem Handy.",
+      "offNote": "Füge eine zweite Schutzebene hinzu: Selbst mit deinem Passwort kann sich ohne dein Handy niemand anmelden.",
+      "pendingNote": "Du hast die Einrichtung begonnen, aber noch keinen Code bestätigt. Schließe sie ab, um den Schutz zu aktivieren.",
+      "enable": "Einschalten",
+      "finish": "Einrichtung abschließen",
+      "disable": "Ausschalten",
+      "disableTitle": "Zwei-Schritt-Verifizierung ausschalten?",
+      "disableDescription": "Dein Konto ist dann nur noch durch dein Passwort geschützt. Gib zur Bestätigung dein Passwort ein.",
+      "disabled": "Die Zwei-Schritt-Verifizierung ist ausgeschaltet."
+    },
+    "backupCodes": {
+      "title": "Backup-Codes",
+      "description": "Einmal-Codes für die Anmeldung, wenn du dein Handy nicht dabeihast.",
+      "regenerate": "Neue Codes erstellen",
+      "regenerateTitle": "Neue Backup-Codes erstellen",
+      "regenerateDescription": "Deine aktuellen Backup-Codes funktionieren danach nicht mehr. Gib zum Fortfahren dein Passwort ein.",
+      "create": "Codes erstellen",
+      "readyTitle": "Deine neuen Backup-Codes",
+      "readyDescription": "Speichere sie jetzt: Sie werden nicht noch einmal angezeigt.",
+      "confirmSaved": "Ich habe meine neuen Backup-Codes gespeichert",
+      "done": "Fertig",
+      "created": "Neue Backup-Codes wurden erstellt."
+    },
+    "passwordLabel": "Passwort",
+    "errors": {
+      "wrongPassword": "Das Passwort ist falsch.",
+      "tooManyAttempts": "Zu viele Fehlversuche. Versuche es in 15 Minuten erneut.",
+      "unknown": "Das hat nicht geklappt. Bitte versuche es erneut.",
+      "network": "Der Server ist nicht erreichbar. Prüfe deine Verbindung und versuche es erneut."
+    },
+    "sessions": {
+      "title": "Angemeldete Geräte",
+      "description": "Geräte, die gerade auf dein Konto zugreifen können.",
+      "current": "Dieses Gerät",
+      "unknownDevice": "Unbekanntes Gerät",
+      "device": "{browser} unter {os}",
+      "lastActive": "Aktiv {time}",
+      "signedIn": "Angemeldet am {date}",
+      "ip": "IP-Adresse {ip}",
+      "revoke": "Abmelden",
+      "revokeLabel": "{device} abmelden",
+      "revokeTitle": "Dieses Gerät abmelden?",
+      "revokeDescription": "Wer es benutzt, muss sich erneut anmelden.",
+      "revoked": "Das Gerät wurde abgemeldet.",
+      "revokeOthers": "Andere Geräte abmelden",
+      "revokeOthersTitle": "Alle anderen Geräte abmelden?",
+      "revokeOthersDescription": "Alle Geräte außer diesem werden abgemeldet und brauchen erneut dein Passwort.",
+      "revokedOthers": "{count, plural, =0 {Es waren keine anderen Geräte angemeldet.} one {# Gerät wurde abgemeldet.} other {# Geräte wurden abgemeldet.}}",
+      "onlyThis": "Nur dieses Gerät ist angemeldet."
+    }
+  }
+}

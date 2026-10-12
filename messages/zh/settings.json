@@ -1,1 +1,181 @@
-{}
+{
+  "metaTitle": "设置",
+  "title": "设置",
+  "description": "管理你的个人资料、{brand} 的外观以及账户安全。",
+  "tabs": {
+    "label": "设置分区",
+    "profile": "个人资料",
+    "appearance": "外观",
+    "language": "语言",
+    "notifications": "通知",
+    "learning": "学习",
+    "security": "安全"
+  },
+  "profile": {
+    "title": "你的账户",
+    "description": "这些信息由学校管理。如需修改姓名或邮箱，请联系学校管理人员。",
+    "noSchool": "未关联学校",
+    "avatar": {
+      "title": "头像",
+      "description": "选择在 {brand} 中显示在你名字旁边的图像。",
+      "label": "头像",
+      "initials": "姓名首字母",
+      "saved": "头像已更新。",
+      "presets": {
+        "aurora": "极光",
+        "ocean": "海洋",
+        "sunset": "日落",
+        "forest": "森林",
+        "berry": "浆果",
+        "citrus": "柑橘",
+        "lagoon": "泻湖",
+        "dusk": "黄昏",
+        "ember": "余烬",
+        "mint": "薄荷",
+        "orchid": "兰花",
+        "nebula": "星云"
+      }
+    }
+  },
+  "appearance": {
+    "title": "主题",
+    "description": "选择 {brand} 在此设备上的外观。",
+    "label": "主题",
+    "options": {
+      "light": "明亮清晰，适合白天和光线充足的环境。",
+      "dark": "夜间和弱光下更护眼。",
+      "system": "自动跟随设备的浅色或深色设置。"
+    }
+  },
+  "language": {
+    "title": "界面语言",
+    "description": "菜单、按钮和提示都会以此语言显示。该设置保存在你的账户中，在所有设备上都会生效。",
+    "label": "语言"
+  },
+  "notifications": {
+    "title": "通知",
+    "description": "决定 {brand} 是否向你推送最新动态。",
+    "inApp": "站内通知",
+    "inAppDescription": "新的作业、测验、公告和回复会显示在页面顶部的铃铛下。",
+    "enabled": "通知已开启。",
+    "disabled": "通知已关闭。"
+  },
+  "learning": {
+    "title": "学习偏好",
+    "description": "AI 辅导老师会根据这些偏好，用最适合你的方式讲解。",
+    "difficulty": {
+      "label": "讲解难度",
+      "easy": {
+        "title": "简单",
+        "description": "步骤简短，例子丰富。"
+      },
+      "medium": {
+        "title": "适中",
+        "description": "符合你年级水平的清晰讲解。"
+      },
+      "hard": {
+        "title": "进阶",
+        "description": "讲得更深入，题目更有挑战。"
+      }
+    },
+    "personality": {
+      "label": "辅导老师风格",
+      "friend": {
+        "title": "开朗的朋友",
+        "description": "亲切友好，爱讲笑话，善用生活中的例子。"
+      },
+      "strict": {
+        "title": "严格的老师",
+        "description": "正式严谨，注重规则和概念。"
+      },
+      "coach": {
+        "title": "激励型教练",
+        "description": "充满活力，总是给你加油鼓劲。"
+      },
+      "scientist": {
+        "title": "好奇的科学家",
+        "description": "热爱探索，善于提出开放式问题，并把知识与科学联系起来。"
+      }
+    },
+    "hobbies": {
+      "label": "爱好与兴趣",
+      "description": "辅导老师会在举例时用到它们。最多添加 {max} 个。",
+      "placeholder": "例如：足球、绘画、太空",
+      "add": "添加",
+      "remove": "移除 {hobby}",
+      "empty": "还没有添加爱好。",
+      "limit": "最多只能添加 {max} 个爱好。",
+      "tooLong": "每个爱好请控制在 {max} 个字符以内。",
+      "duplicate": "这个爱好已经在列表中了。"
+    },
+    "save": "保存偏好",
+    "saved": "学习偏好已保存。"
+  },
+  "security": {
+    "password": {
+      "title": "密码",
+      "description": "请使用一个强密码，并且不要在其他网站上使用。",
+      "submit": "更新密码",
+      "changed": "密码已修改。"
+    },
+    "twoFactor": {
+      "title": "两步验证",
+      "description": "每次登录时输入身份验证器应用中的验证码。",
+      "status": {
+        "on": "已开启",
+        "off": "未开启",
+        "pending": "未完成"
+      },
+      "requiredNote": "你的角色要求开启两步验证，因此无法关闭。",
+      "onNote": "每次登录时，你的账户都会要求输入手机上的验证码。",
+      "offNote": "再加一层保护：即使别人知道你的密码，没有你的手机也无法登录。",
+      "pendingNote": "你已开始设置，但尚未验证任何验证码。完成设置即可开启保护。",
+      "enable": "开启",
+      "finish": "完成设置",
+      "disable": "关闭",
+      "disableTitle": "要关闭两步验证吗？",
+      "disableDescription": "关闭后，你的账户将只受密码保护。请输入密码以确认。",
+      "disabled": "两步验证已关闭。"
+    },
+    "backupCodes": {
+      "title": "备用验证码",
+      "description": "手机不在身边时用于登录的一次性验证码。",
+      "regenerate": "生成新验证码",
+      "regenerateTitle": "生成新的备用验证码",
+      "regenerateDescription": "当前的备用验证码将失效。请输入密码以继续。",
+      "create": "生成验证码",
+      "readyTitle": "你的新备用验证码",
+      "readyDescription": "请立即保存：它们不会再次显示。",
+      "confirmSaved": "我已保存新的备用验证码",
+      "done": "完成",
+      "created": "已生成新的备用验证码。"
+    },
+    "passwordLabel": "密码",
+    "errors": {
+      "wrongPassword": "密码不正确。",
+      "tooManyAttempts": "错误次数过多，请 15 分钟后再试。",
+      "unknown": "操作未成功，请重试。",
+      "network": "无法连接服务器。请检查网络后重试。"
+    },
+    "sessions": {
+      "title": "已登录的设备",
+      "description": "当前可以访问你账户的设备。",
+      "current": "本设备",
+      "unknownDevice": "未知设备",
+      "device": "{os} 上的 {browser}",
+      "lastActive": "{time}活跃",
+      "signedIn": "登录于 {date}",
+      "ip": "IP 地址 {ip}",
+      "revoke": "退出登录",
+      "revokeLabel": "退出 {device} 的登录",
+      "revokeTitle": "要让这台设备退出登录吗？",
+      "revokeDescription": "使用这台设备的人需要重新登录。",
+      "revoked": "该设备已退出登录。",
+      "revokeOthers": "退出其他设备",
+      "revokeOthersTitle": "要让其他所有设备退出登录吗？",
+      "revokeOthersDescription": "除本设备外，所有设备都将退出登录，并需要重新输入你的密码。",
+      "revokedOthers": "{count, plural, =0 {没有其他已登录的设备。} other {已让 # 台设备退出登录。}}",
+      "onlyThis": "只有本设备处于登录状态。"
+    }
+  }
+}

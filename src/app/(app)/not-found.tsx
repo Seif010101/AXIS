@@ -1,0 +1,28 @@
+import { Home } from "lucide-react";
+import Link from "next/link";
+import { getTranslations } from "next-intl/server";
+import { ErrorView } from "@/components/shell/error-view";
+import { Button } from "@/components/ui/button";
+import { getSessionContext } from "@/server/auth/session";
+import { homePath } from "@/server/policy/roles";
+
+// notFound() from a signed-in page renders here, inside the shell.
+export default async function AppNotFound() {
+  const t = await getTranslations("shell.errors.notFound");
+  const context = await getSessionContext();
+  return (
+    <ErrorView
+      code="404"
+      title={t("title")}
+      description={t("description")}
+      actions={
+        <Button asChild size="lg">
+          <Link href={context ? homePath(context.user.role) : "/"}>
+            <Home data-icon="inline-start" aria-hidden />
+            {t("home")}
+          </Link>
+        </Button>
+      }
+    />
+  );
+}

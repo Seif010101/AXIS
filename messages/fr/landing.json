@@ -1,1 +1,201 @@
-{}
+{
+  "meta": {
+    "title": "La plateforme d'apprentissage intelligente pour les établissements scolaires",
+    "description": "{brand} réunit un tuteur IA pour les élèves, un studio IA pour les enseignants et des indicateurs clairs pour les directions sur une seule plateforme sécurisée, en six langues."
+  },
+  "header": {
+    "nav": "Principal",
+    "features": "Fonctionnalités",
+    "how": "Fonctionnement",
+    "faq": "Questions",
+    "about": "À propos",
+    "signIn": "Se connecter",
+    "dashboard": "Accéder au tableau de bord",
+    "home": "Accueil de {brand}"
+  },
+  "hero": {
+    "eyebrow": "La plateforme d'apprentissage des écoles modernes",
+    "title": "Les progrès de chaque élève, <highlight>mesurés avec précision.</highlight>",
+    "subtitle": "{brand} réunit un tuteur IA pour les élèves, un studio IA pour les enseignants et des indicateurs clairs pour les directions, dans un seul espace sécurisé.",
+    "primary": "Se connecter",
+    "secondary": "Voir le fonctionnement",
+    "note": "Les comptes sont créés par votre établissement : aucune inscription n'est nécessaire.",
+    "visual": {
+      "label": "Illustration du tableau de bord de {brand}",
+      "tutor": "Tuteur IA",
+      "tutorMessage": "Résolvons-le ensemble, étape par étape.",
+      "progress": "Progrès",
+      "stars": "Étoiles",
+      "streak": "Série",
+      "goals": "Objectifs",
+      "secure": "Validation en deux étapes"
+    }
+  },
+  "audiences": {
+    "eyebrow": "Pensée pour tout l'établissement",
+    "title": "Une plateforme, trois points de vue",
+    "description": "Élèves, enseignants et directions disposent d'outils conçus pour leur quotidien, tous reliés à une même vision de l'apprentissage.",
+    "students": {
+      "label": "Pour les élèves",
+      "title": "Un apprentissage personnalisé",
+      "description": "De l'aide à toute heure, dans votre langue et à votre niveau, avec un peu de compétition amicale pour garder le rythme."
+    },
+    "teachers": {
+      "label": "Pour les enseignants",
+      "title": "Plus de temps pour enseigner",
+      "description": "Préparez en quelques minutes ce qui prenait une soirée, et voyez d'un coup d'œil qui a besoin de vous."
+    },
+    "schools": {
+      "label": "Pour les établissements",
+      "title": "Une vue d'ensemble, en toute sécurité",
+      "description": "Gérez classes, personnes et contenus depuis un seul endroit, avec la sécurité que méritent les données d'un établissement."
+    },
+    "features": {
+      "tutor": {
+        "title": "Tuteur IA",
+        "description": "Posez vos questions sur n'importe quelle leçon et obtenez des explications pas à pas, dans le style de votre choix."
+      },
+      "games": {
+        "title": "Jeux éducatifs",
+        "description": "Entraînez-vous avec des jeux et quiz rapides conçus autour de ce que vous étudiez."
+      },
+      "challenges": {
+        "title": "Défis et étoiles",
+        "description": "Relevez des défis quotidiens, gagnez des étoiles, gardez votre série et grimpez dans le classement de la classe."
+      },
+      "studio": {
+        "title": "Studio IA",
+        "description": "Préparez leçons, fiches d'exercices et banques de questions avec l'IA, puis adaptez-les à votre classe."
+      },
+      "homework": {
+        "title": "Devoirs et fiches",
+        "description": "Donnez du travail à vos classes, récupérez les rendus et faites vos retours au même endroit."
+      },
+      "tests": {
+        "title": "Évaluations",
+        "description": "Créez des évaluations, corrigez automatiquement les questions fermées et consultez les résultats par classe."
+      },
+      "management": {
+        "title": "Gestion de l'établissement",
+        "description": "Classes, enseignants et élèves au même endroit, avec import en masse depuis un tableur."
+      },
+      "insights": {
+        "title": "Indicateurs",
+        "description": "Suivez les progrès et l'engagement de toutes les classes et agissez tôt là où c'est utile."
+      },
+      "security": {
+        "title": "Sécurité dès la conception",
+        "description": "Validation en deux étapes pour le personnel, séparation stricte entre établissements et un nouveau code pour les actions sensibles."
+      }
+    }
+  },
+  "how": {
+    "eyebrow": "Fonctionnement",
+    "title": "Opérationnel en quatre étapes",
+    "steps": {
+      "accounts": {
+        "title": "Votre établissement crée les comptes",
+        "description": "L'administration ajoute classes, enseignants et élèves, ou les importe depuis un tableur."
+      },
+      "signIn": {
+        "title": "Chacun se connecte en sécurité",
+        "description": "Chaque personne a son propre compte. Le personnel confirme avec un code d'application d'authentification."
+      },
+      "learn": {
+        "title": "Enseigner et apprendre",
+        "description": "Les enseignants donnent devoirs et évaluations ; les élèves apprennent avec leur tuteur, des jeux et des défis."
+      },
+      "insights": {
+        "title": "Suivre les progrès",
+        "description": "Enseignants et directions voient où en est l'apprentissage et interviennent tôt."
+      }
+    }
+  },
+  "languages": {
+    "eyebrow": "Six langues",
+    "title": "Parle les langues de votre établissement",
+    "description": "L'arabe avec une prise en charge complète de la droite vers la gauche, ainsi que l'anglais, le chinois, l'allemand, l'espagnol et le français. Chacun choisit sa langue, qui le suit sur tous ses appareils."
+  },
+  "faq": {
+    "eyebrow": "Questions",
+    "title": "Ce que les établissements nous demandent",
+    "items": {
+      "accounts": {
+        "question": "Comment obtenir un compte ?",
+        "answer": "C'est votre établissement qui le crée. L'administration ajoute élèves et enseignants ou les importe depuis un tableur, et chacun reçoit ses propres identifiants. Il n'y a pas d'inscription publique."
+      },
+      "password": {
+        "question": "J'ai oublié mon mot de passe. Que faire ?",
+        "answer": "Adressez-vous à l'administration de votre établissement. Elle peut vous fournir un mot de passe temporaire, et vous en choisirez un nouveau à votre prochaine connexion."
+      },
+      "security": {
+        "question": "Comment nos données sont-elles protégées ?",
+        "answer": "Chaque établissement ne voit que ses propres données. Les mots de passe sont stockés sous forme de hachages irréversibles, les comptes du personnel utilisent la validation en deux étapes et les actions sensibles demandent un nouveau code de l'application d'authentification."
+      },
+      "ai": {
+        "question": "Que fait le tuteur IA ?",
+        "answer": "Il explique les leçons pas à pas dans la langue de l'élève, au niveau et dans le style choisis dans ses paramètres. Les enseignants gardent la main sur les devoirs et les évaluations."
+      },
+      "devices": {
+        "question": "Est-ce que ça fonctionne sur téléphone ?",
+        "answer": "Oui. {brand} fonctionne dans tout navigateur récent, sur téléphone, tablette et ordinateur, sans rien installer."
+      },
+      "languages": {
+        "question": "Quelles langues sont disponibles ?",
+        "answer": "L'arabe, l'anglais, le chinois, l'allemand, l'espagnol et le français. Chacun choisit sa langue et peut la changer à tout moment."
+      }
+    }
+  },
+  "cta": {
+    "title": "Prêts quand votre établissement l'est",
+    "description": "Connectez-vous avec le compte fourni par votre établissement.",
+    "button": "Se connecter"
+  },
+  "footer": {
+    "tagline": "La plateforme d'apprentissage intelligente pour les établissements scolaires.",
+    "links": "Liens",
+    "home": "Accueil",
+    "about": "À propos",
+    "signIn": "Se connecter",
+    "rights": "© {year} {brand}. Tous droits réservés."
+  },
+  "about": {
+    "meta": {
+      "title": "À propos",
+      "description": "Pourquoi nous avons créé {brand}, et les principes qui le guident."
+    },
+    "eyebrow": "À propos de {brand}",
+    "title": "Un cap clair pour chaque élève",
+    "intro": "{brand} est une plateforme d'apprentissage conçue pour les établissements scolaires : un seul espace où les élèves apprennent avec un tuteur IA, où les enseignants préparent et distribuent le travail, et où les directions voient où en est l'apprentissage.",
+    "approach": {
+      "title": "Mesurer, puis progresser",
+      "body": "Chaque élève a un point de départ et une direction. Nous aidons élèves et enseignants à voir où ils en sont et où ils vont, avec précision et de la place pour grandir."
+    },
+    "principles": {
+      "title": "Ce qui nous guide",
+      "items": {
+        "precision": {
+          "title": "Précision",
+          "description": "Des informations claires qui aident à décider, sans bruit."
+        },
+        "growth": {
+          "title": "Progression",
+          "description": "De petits pas chaque jour, rendus visibles pour qu'on puisse les célébrer."
+        },
+        "privacy": {
+          "title": "Confidentialité et sécurité",
+          "description": "Les données de chaque établissement lui appartiennent, protégées par une connexion solide et des réglages réfléchis."
+        },
+        "inclusion": {
+          "title": "Pour tous",
+          "description": "Six langues, la prise en charge de la droite vers la gauche et une interface qui fonctionne sur tout appareil."
+        }
+      }
+    },
+    "cta": {
+      "title": "Votre établissement utilise {brand} ?",
+      "description": "Connectez-vous avec le compte fourni par votre établissement.",
+      "button": "Se connecter"
+    }
+  }
+}

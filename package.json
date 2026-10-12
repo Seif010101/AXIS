@@ -16,7 +16,8 @@
     "test:api": "vitest run --project api",
     "db:generate": "drizzle-kit generate && node scripts/bundle-migrations.mjs",
     "db:migrate": "node --env-file-if-exists=.env.local node_modules/drizzle-kit/bin.cjs migrate",
-    "create-owner": "node --env-file-if-exists=.env.local --conditions=react-server --import tsx scripts/create-owner.ts"
+    "create-owner": "node --env-file-if-exists=.env.local --conditions=react-server --import tsx scripts/create-owner.ts",
+    "seed:dev": "node --env-file-if-exists=.env.local --conditions=react-server --import tsx scripts/seed-dev.ts"
   },
   "dependencies": {
     "@ai-sdk/google": "^4.0.93",
