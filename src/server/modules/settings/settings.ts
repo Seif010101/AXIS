@@ -8,6 +8,7 @@ import {
   DIFFICULTIES,
   HOBBIES_MAX,
   HOBBY_MAX_LENGTH,
+  isOneOf,
   TUTOR_PERSONALITIES,
   type AvatarPreset,
   type Difficulty,
@@ -82,7 +83,7 @@ const DEFAULTS: Omit<Preferences, "language"> = {
 };
 
 const pick = <T extends string>(allowed: readonly T[], value: unknown, fallback: T): T =>
-  typeof value === "string" && (allowed as readonly string[]).includes(value) ? (value as T) : fallback;
+  isOneOf(allowed, value) ? value : fallback;
 
 /** The saved language, or null when the user never saved preferences. */
 export async function getSavedLanguage(userId: string): Promise<Locale | null> {

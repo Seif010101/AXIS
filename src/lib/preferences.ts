@@ -21,7 +21,7 @@ export type AvatarPreset = (typeof AVATAR_PRESETS)[number];
 export const AVATAR_PREFIX = "preset:";
 
 export function isAvatarPreset(value: unknown): value is AvatarPreset {
-  return typeof value === "string" && (AVATAR_PRESETS as readonly string[]).includes(value);
+  return isOneOf(AVATAR_PRESETS, value);
 }
 
 /** The preset id stored in users.image, or null for anything else (URL, empty, unknown id). */
