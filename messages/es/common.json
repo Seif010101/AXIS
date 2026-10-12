@@ -81,5 +81,36 @@
     "STORAGE_NOT_CONFIGURED": "El almacenamiento de archivos no está disponible ahora.",
     "INTERNAL": "Algo salió mal. Inténtalo de nuevo.",
     "NETWORK": "No se puede conectar. Revisa tu conexión."
+  },
+  "upload": {
+    "dropzone": "Arrastra y suelta un archivo aquí o elígelo desde tu dispositivo",
+    "choose": "Elegir archivo",
+    "hint": "Tipos permitidos: {types} · Hasta {size}",
+    "hintSize": "Hasta {size}",
+    "started": "Subiendo el archivo…",
+    "uploading": "Subiendo… {percent}",
+    "processing": "Procesando el archivo…",
+    "done": "Archivo subido",
+    "progress": "Progreso de la subida",
+    "cancel": "Cancelar subida",
+    "remove": "Quitar archivo",
+    "retry": "Reintentar",
+    "replace": "Elegir otro archivo",
+    "errors": {
+      "tooLarge": "El archivo supera el tamaño permitido ({size}).",
+      "type": "Este tipo de archivo no está permitido. Tipos permitidos: {types}.",
+      "empty": "El archivo está vacío.",
+      "multiple": "Elige solo un archivo.",
+      "failed": "No se pudo subir el archivo. Inténtalo de nuevo.",
+      "network": "Se perdió la conexión durante la subida. Revisa tu internet e inténtalo de nuevo.",
+      "aborted": "Subida cancelada."
+    }
+  },
+  "content": {
+    "table": "Tabla, desplázate horizontalmente para ver más columnas",
+    "newTab": "(se abre en una pestaña nueva)",
+    "image": "Imagen",
+    "footnotes": "Notas al pie",
+    "footnoteBack": "Volver a la referencia {number}"
   }
 }

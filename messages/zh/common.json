@@ -81,5 +81,36 @@
     "STORAGE_NOT_CONFIGURED": "文件存储当前不可用。",
     "INTERNAL": "出了点问题，请重试。",
     "NETWORK": "无法连接，请检查网络。"
+  },
+  "upload": {
+    "dropzone": "将文件拖放到此处，或从设备中选择",
+    "choose": "选择文件",
+    "hint": "允许的类型：{types} · 最大 {size}",
+    "hintSize": "最大 {size}",
+    "started": "正在上传文件…",
+    "uploading": "正在上传… {percent}",
+    "processing": "正在处理文件…",
+    "done": "文件已上传",
+    "progress": "上传进度",
+    "cancel": "取消上传",
+    "remove": "移除文件",
+    "retry": "重试",
+    "replace": "选择其他文件",
+    "errors": {
+      "tooLarge": "文件超过大小限制（{size}）。",
+      "type": "不允许此文件类型。允许的类型：{types}。",
+      "empty": "文件为空。",
+      "multiple": "请只选择一个文件。",
+      "failed": "文件上传失败，请重试。",
+      "network": "上传过程中连接中断。请检查网络后重试。",
+      "aborted": "已取消上传。"
+    }
+  },
+  "content": {
+    "table": "表格，可横向滚动查看更多列",
+    "newTab": "（在新标签页中打开）",
+    "image": "图片",
+    "footnotes": "脚注",
+    "footnoteBack": "返回引用 {number}"
   }
 }

@@ -81,5 +81,36 @@
     "STORAGE_NOT_CONFIGURED": "File storage isn't available right now.",
     "INTERNAL": "Something went wrong. Please try again.",
     "NETWORK": "Can't connect. Check your internet connection."
+  },
+  "upload": {
+    "dropzone": "Drag and drop a file here, or choose one from your device",
+    "choose": "Choose file",
+    "hint": "Allowed types: {types} · Up to {size}",
+    "hintSize": "Up to {size}",
+    "started": "Uploading the file…",
+    "uploading": "Uploading… {percent}",
+    "processing": "Processing the file…",
+    "done": "File uploaded",
+    "progress": "Upload progress",
+    "cancel": "Cancel upload",
+    "remove": "Remove file",
+    "retry": "Try again",
+    "replace": "Choose another file",
+    "errors": {
+      "tooLarge": "The file is larger than the limit ({size}).",
+      "type": "This file type isn't allowed. Allowed types: {types}.",
+      "empty": "The file is empty.",
+      "multiple": "Choose only one file.",
+      "failed": "The file couldn't be uploaded. Please try again.",
+      "network": "The connection dropped during the upload. Check your internet and try again.",
+      "aborted": "Upload canceled."
+    }
+  },
+  "content": {
+    "table": "Table, scroll sideways to see more columns",
+    "newTab": "(opens in a new tab)",
+    "image": "Image",
+    "footnotes": "Footnotes",
+    "footnoteBack": "Back to reference {number}"
   }
 }
