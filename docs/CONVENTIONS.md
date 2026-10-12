@@ -186,6 +186,17 @@ text-right`. Icons that point a direction (arrows, chevrons) get `rtl:rotate-180
 - When the provider key is missing, features fail with `AI_NOT_CONFIGURED` and the UI shows
   `common.errors.AI_NOT_CONFIGURED` instead of crashing.
 
+## 7b. Stars, streaks and "days"
+
+- Stars only through `awardStars(userId, kind, { amount?, at?, executor? })` from
+  `@/server/services/stars`, called **after** the server has verified the achievement.
+  Kinds and daily caps live in `STAR_RULES` there (adding a kind is a foundation change).
+  Pass the surrounding transaction as `executor` when the award belongs to a larger write.
+- `awardStars` also counts the day toward the streak; activities that earn no stars but
+  should count call `recordActivity(userId)`.
+- A "day" is the schools' local day: use `localDay()` (time zone `APP_TIME_ZONE`), never
+  `new Date().toISOString().slice(0, 10)`.
+
 ## 8. Security checklist (legacy bugs that must never come back)
 
 - Plaintext or retrievable passwords anywhere (DB, API, logs, exports). New passwords are shown

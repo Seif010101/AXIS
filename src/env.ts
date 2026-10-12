@@ -18,6 +18,20 @@ const schema = z.object({
   // Accounts are generated as <prefix><id>@<domain>; the domain may change (see brand rename).
   ALLOWED_EMAIL_DOMAIN: z.string().regex(/^[a-z0-9.-]+\.[a-z]{2,}$/i),
 
+  // The schools' local time zone: decides where a "day" starts for streaks, daily
+  // challenges and daily star caps.
+  APP_TIME_ZONE: z
+    .string()
+    .refine((tz) => {
+      try {
+        new Intl.DateTimeFormat("en", { timeZone: tz });
+        return true;
+      } catch {
+        return false;
+      }
+    }, "APP_TIME_ZONE must be an IANA time zone such as Asia/Dubai")
+    .default("Asia/Dubai"),
+
   // Signs short-lived library-proxy tickets (replaces putting the session token in URLs).
   PROXY_TICKET_SECRET: z.string().min(32),
 
