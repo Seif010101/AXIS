@@ -1,1 +1,181 @@
-{}
+{
+  "metaTitle": "Settings",
+  "title": "Settings",
+  "description": "Manage your profile, how {brand} looks and your account security.",
+  "tabs": {
+    "label": "Settings sections",
+    "profile": "Profile",
+    "appearance": "Appearance",
+    "language": "Language",
+    "notifications": "Notifications",
+    "learning": "Learning",
+    "security": "Security"
+  },
+  "profile": {
+    "title": "Your account",
+    "description": "Your school manages these details. To change your name or email, contact your school's administration.",
+    "noSchool": "Not linked to a school",
+    "avatar": {
+      "title": "Avatar",
+      "description": "Choose the picture shown next to your name across {brand}.",
+      "label": "Avatars",
+      "initials": "Initials",
+      "saved": "Your avatar was updated.",
+      "presets": {
+        "aurora": "Aurora",
+        "ocean": "Ocean",
+        "sunset": "Sunset",
+        "forest": "Forest",
+        "berry": "Berry",
+        "citrus": "Citrus",
+        "lagoon": "Lagoon",
+        "dusk": "Dusk",
+        "ember": "Ember",
+        "mint": "Mint",
+        "orchid": "Orchid",
+        "nebula": "Nebula"
+      }
+    }
+  },
+  "appearance": {
+    "title": "Theme",
+    "description": "Choose how {brand} looks on this device.",
+    "label": "Theme",
+    "options": {
+      "light": "Bright and clear, for daytime and well-lit rooms.",
+      "dark": "Easy on the eyes in the evening and in dim light.",
+      "system": "Follows your device's light or dark setting automatically."
+    }
+  },
+  "language": {
+    "title": "Interface language",
+    "description": "Menus, buttons and messages appear in this language. It's saved to your account, so it follows you to every device.",
+    "label": "Languages"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "description": "Decide whether {brand} keeps you updated.",
+    "inApp": "In-app notifications",
+    "inAppDescription": "New homework, tests, announcements and replies appear under the bell at the top of the page.",
+    "enabled": "Notifications are on.",
+    "disabled": "Notifications are off."
+  },
+  "learning": {
+    "title": "Learning preferences",
+    "description": "Your AI tutor uses these to explain things in the way that suits you best.",
+    "difficulty": {
+      "label": "Explanation level",
+      "easy": {
+        "title": "Simple",
+        "description": "Short steps and lots of examples."
+      },
+      "medium": {
+        "title": "Balanced",
+        "description": "Clear explanations at your grade level."
+      },
+      "hard": {
+        "title": "Challenging",
+        "description": "More depth and harder questions."
+      }
+    },
+    "personality": {
+      "label": "Tutor personality",
+      "friend": {
+        "title": "Cheerful friend",
+        "description": "Friendly, with jokes and everyday examples."
+      },
+      "strict": {
+        "title": "Strict teacher",
+        "description": "Formal and precise, focused on rules and concepts."
+      },
+      "coach": {
+        "title": "Motivating coach",
+        "description": "Energetic and encouraging, always cheering you on."
+      },
+      "scientist": {
+        "title": "Curious scientist",
+        "description": "Loves exploring, asks open questions and links ideas to science."
+      }
+    },
+    "hobbies": {
+      "label": "Hobbies and interests",
+      "description": "Your tutor uses them in examples. Add up to {max}.",
+      "placeholder": "For example: football, drawing, space",
+      "add": "Add",
+      "remove": "Remove {hobby}",
+      "empty": "No hobbies yet.",
+      "limit": "You can add up to {max} hobbies.",
+      "tooLong": "Keep each hobby under {max} characters.",
+      "duplicate": "That hobby is already on your list."
+    },
+    "save": "Save preferences",
+    "saved": "Your learning preferences were saved."
+  },
+  "security": {
+    "password": {
+      "title": "Password",
+      "description": "Use a strong password that you don't use on any other site.",
+      "submit": "Update password",
+      "changed": "Your password was changed."
+    },
+    "twoFactor": {
+      "title": "Two-step verification",
+      "description": "A code from your authenticator app at every sign-in.",
+      "status": {
+        "on": "On",
+        "off": "Off",
+        "pending": "Not finished"
+      },
+      "requiredNote": "Your role requires it, so it can't be turned off.",
+      "onNote": "Your account asks for a code from your phone at every sign-in.",
+      "offNote": "Add a second layer of protection: even with your password, nobody can sign in without your phone.",
+      "pendingNote": "You started the setup but never confirmed a code. Finish it to turn protection on.",
+      "enable": "Turn on",
+      "finish": "Finish setup",
+      "disable": "Turn off",
+      "disableTitle": "Turn off two-step verification?",
+      "disableDescription": "Your account will be protected by your password only. Enter your password to confirm.",
+      "disabled": "Two-step verification is off."
+    },
+    "backupCodes": {
+      "title": "Backup codes",
+      "description": "One-time codes for signing in when your phone isn't with you.",
+      "regenerate": "Create new codes",
+      "regenerateTitle": "Create new backup codes",
+      "regenerateDescription": "Your current backup codes will stop working. Enter your password to continue.",
+      "create": "Create codes",
+      "readyTitle": "Your new backup codes",
+      "readyDescription": "Save them now: they won't be shown again.",
+      "confirmSaved": "I've saved my new backup codes",
+      "done": "Done",
+      "created": "New backup codes created."
+    },
+    "passwordLabel": "Password",
+    "errors": {
+      "wrongPassword": "The password is incorrect.",
+      "tooManyAttempts": "Too many wrong attempts. Try again in 15 minutes.",
+      "unknown": "That didn't work. Please try again.",
+      "network": "Can't reach the server. Check your connection and try again."
+    },
+    "sessions": {
+      "title": "Signed-in devices",
+      "description": "Devices that can open your account right now.",
+      "current": "This device",
+      "unknownDevice": "Unknown device",
+      "device": "{browser} on {os}",
+      "lastActive": "Active {time}",
+      "signedIn": "Signed in on {date}",
+      "ip": "IP address {ip}",
+      "revoke": "Sign out",
+      "revokeLabel": "Sign out {device}",
+      "revokeTitle": "Sign out this device?",
+      "revokeDescription": "Whoever uses it will have to sign in again.",
+      "revoked": "The device was signed out.",
+      "revokeOthers": "Sign out other devices",
+      "revokeOthersTitle": "Sign out all other devices?",
+      "revokeOthersDescription": "Every device except this one will be signed out and will need your password again.",
+      "revokedOthers": "{count, plural, =0 {No other devices were signed in.} one {# device was signed out.} other {# devices were signed out.}}",
+      "onlyThis": "Only this device is signed in."
+    }
+  }
+}

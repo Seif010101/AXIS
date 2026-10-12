@@ -40,3 +40,27 @@ export type TutorPersonality = (typeof TUTOR_PERSONALITIES)[number];
 
 export const HOBBIES_MAX = 10;
 export const HOBBY_MAX_LENGTH = 40;
+
+/** Narrows a string (e.g. a radio group value) to one of the allowed values. */
+export function isOneOf<T extends string>(allowed: readonly T[], value: unknown): value is T {
+  return typeof value === "string" && (allowed as readonly string[]).includes(value);
+}
+
+export type AddHobbyResult =
+  | { ok: true; hobbies: string[] }
+  | { ok: false; reason: "empty" | "tooLong" | "duplicate" | "limit" };
+
+/**
+ * Adds a hobby typed by the student, with the server's rules (trimmed, at most
+ * HOBBY_MAX_LENGTH characters, unique ignoring case, at most HOBBIES_MAX entries).
+ */
+export function addHobby(hobbies: readonly string[], raw: string): AddHobbyResult {
+  const hobby = raw.trim().replace(/\s+/g, " ");
+  if (!hobby) return { ok: false, reason: "empty" };
+  if (hobby.length > HOBBY_MAX_LENGTH) return { ok: false, reason: "tooLong" };
+  if (hobbies.some((item) => item.toLocaleLowerCase() === hobby.toLocaleLowerCase())) {
+    return { ok: false, reason: "duplicate" };
+  }
+  if (hobbies.length >= HOBBIES_MAX) return { ok: false, reason: "limit" };
+  return { ok: true, hobbies: [...hobbies, hobby] };
+}
