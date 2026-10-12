@@ -87,6 +87,7 @@
     "choose": "Choose file",
     "hint": "Allowed types: {types} · Up to {size}",
     "hintSize": "Up to {size}",
+    "started": "Uploading the file…",
     "uploading": "Uploading… {percent}",
     "processing": "Processing the file…",
     "done": "File uploaded",
@@ -108,6 +109,8 @@
   "content": {
     "table": "Table, scroll sideways to see more columns",
     "newTab": "(opens in a new tab)",
-    "image": "Image"
+    "image": "Image",
+    "footnotes": "Footnotes",
+    "footnoteBack": "Back to reference {number}"
   }
 }

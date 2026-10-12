@@ -1,7 +1,7 @@
 import "katex/dist/katex.min.css";
 import { useTranslations } from "next-intl";
-import { memo, useMemo } from "react";
-import ReactMarkdown, { type Components, type UrlTransform } from "react-markdown";
+import { memo, useId, useMemo } from "react";
+import ReactMarkdown, { type Components, type Options, type UrlTransform } from "react-markdown";
 import rehypeKatex from "rehype-katex";
 import rehypeSanitize, { defaultSchema, type Options as SanitizeSchema } from "rehype-sanitize";
 import remarkGfm from "remark-gfm";
@@ -15,9 +15,15 @@ import { cn } from "@/lib/utils";
 // then are the math nodes the sanitizer kept turned into KaTeX markup (KaTeX runs with
 // `trust: false`, so \href and \html* commands are disabled). Links may only be http(s),
 // mailto or in-page anchors; images only https.
+//
+// GFM footnotes: remark-rehype gives every footnote id a prefix that is unique per rendered
+// instance (several AI replies on one page can each have a [^1]), so the sanitizer must not
+// add its own "user-content-" prefix on top (that broke every footnote link). This is safe:
+// raw HTML is skipped, so the only ids in the tree are the footnote ids remark-rehype made.
 
 const schema: SanitizeSchema = {
   ...defaultSchema,
+  clobberPrefix: "",
   attributes: {
     ...defaultSchema.attributes,
     // Keep code languages and the classes remark-math puts on math (for rehype-katex).
@@ -59,30 +65,49 @@ type Size = "sm" | "base";
 
 type Translate = ReturnType<typeof useTranslations<"common">>;
 
-function buildComponents(t: Translate, size: Size, images: boolean): Components {
+/** The fixed id remark-rehype gives the footnotes label (`aria-describedby` of each reference). */
+const FOOTNOTE_LABEL_ID = "footnote-label";
+
+function buildComponents(t: Translate, size: Size, images: boolean, scope: string): Components {
   const heading = size === "sm" ? ["text-lg", "text-base", "text-base"] : ["text-2xl", "text-xl", "text-lg"];
+  // remark-rehype doesn't prefix the label id, so it is scoped here to stay unique on the page.
+  const scoped = (id: string | undefined) => (id === FOOTNOTE_LABEL_ID ? `${scope}${id}` : id);
   return {
-    h1: (props) => (
-      <h2 dir="auto" {...domProps(props)} className={cn("mt-6 mb-3 font-heading font-bold", heading[0])} />
+    // Incoming classes are kept: the footnotes label arrives as an h2 with `sr-only`.
+    h1: ({ className, ...props }) => (
+      <h2
+        dir="auto"
+        {...domProps(props)}
+        className={cn("mt-6 mb-3 font-heading font-bold", heading[0], className)}
+      />
     ),
-    h2: (props) => (
+    h2: ({ className, id, ...props }) => (
       <h3
         dir="auto"
         {...domProps(props)}
-        className={cn("mt-5 mb-2 font-heading font-semibold", heading[1])}
+        id={scoped(id)}
+        className={cn("mt-5 mb-2 font-heading font-semibold", heading[1], className)}
       />
     ),
-    h3: (props) => (
+    h3: ({ className, ...props }) => (
       <h4
         dir="auto"
         {...domProps(props)}
-        className={cn("mt-4 mb-2 font-heading font-semibold", heading[2])}
+        className={cn("mt-4 mb-2 font-heading font-semibold", heading[2], className)}
       />
     ),
-    h4: (props) => <h5 dir="auto" {...domProps(props)} className="mt-4 mb-2 font-semibold" />,
-    h5: (props) => <h6 dir="auto" {...domProps(props)} className="mt-3 mb-1 font-semibold" />,
-    h6: (props) => (
-      <h6 dir="auto" {...domProps(props)} className="mt-3 mb-1 font-medium text-muted-foreground" />
+    h4: ({ className, ...props }) => (
+      <h5 dir="auto" {...domProps(props)} className={cn("mt-4 mb-2 font-semibold", className)} />
+    ),
+    h5: ({ className, ...props }) => (
+      <h6 dir="auto" {...domProps(props)} className={cn("mt-3 mb-1 font-semibold", className)} />
+    ),
+    h6: ({ className, ...props }) => (
+      <h6
+        dir="auto"
+        {...domProps(props)}
+        className={cn("mt-3 mb-1 font-medium text-muted-foreground", className)}
+      />
     ),
     p: (props) => <p dir="auto" {...domProps(props)} className="my-3 leading-relaxed" />,
     ul: (props) => (
@@ -111,19 +136,35 @@ function buildComponents(t: Translate, size: Size, images: boolean): Components 
       />
     ),
     hr: () => <hr className="my-6 border-border" />,
-    a: ({ node, href, children }) => {
-      void node;
+    section: ({ className, ...props }) => (
+      <section
+        {...domProps(props)}
+        className={cn(
+          className,
+          className?.includes("footnotes") &&
+            "mt-8 border-t border-border pt-2 text-sm text-muted-foreground",
+        )}
+      />
+    ),
+    // The sanitizer already limited the attributes; the footnote ones (id, aria-label,
+    // aria-describedby, data-footnote-*) are kept so references and back-links work.
+    a: (props) => {
+      const { href, children, className, ...rest } = domProps(props);
       if (!href) return <span>{children}</span>;
-      const anchorClass = "font-medium text-primary underline underline-offset-4 hover:no-underline";
+      const anchor = {
+        ...rest,
+        "aria-describedby": scoped(rest["aria-describedby"]),
+        className: cn("font-medium text-primary underline underline-offset-4 hover:no-underline", className),
+      };
       if (href.startsWith("#")) {
         return (
-          <a href={href} className={anchorClass}>
+          <a {...anchor} href={href}>
             {children}
           </a>
         );
       }
       return (
-        <a href={href} target="_blank" rel="noopener noreferrer" className={anchorClass}>
+        <a {...anchor} href={href} target="_blank" rel="noopener noreferrer">
           {children}
           <span className="sr-only"> {t("content.newTab")}</span>
         </a>
@@ -198,8 +239,22 @@ export interface MarkdownProps {
 
 function MarkdownImpl({ children, className, size = "base", images = true }: MarkdownProps) {
   const t = useTranslations("common");
+  // Per-instance prefix for footnote ids (useId is the same in the server and client render).
+  const scope = `md${useId().replace(/[^\w-]/g, "")}-`;
   // Stable component identities, so streaming updates don't remount the rendered tree.
-  const components = useMemo(() => buildComponents(t, size, images), [t, size, images]);
+  const components = useMemo(() => buildComponents(t, size, images, scope), [t, size, images, scope]);
+  const footnotes = useMemo<Options["remarkRehypeOptions"]>(
+    () => ({
+      clobberPrefix: scope,
+      footnoteLabel: t("content.footnotes"),
+      footnoteBackLabel: (referenceIndex, rereferenceIndex) =>
+        t("content.footnoteBack", {
+          number:
+            rereferenceIndex > 1 ? `${referenceIndex + 1}-${rereferenceIndex}` : String(referenceIndex + 1),
+        }),
+    }),
+    [t, scope],
+  );
   return (
     <div
       className={cn(
@@ -212,6 +267,7 @@ function MarkdownImpl({ children, className, size = "base", images = true }: Mar
       <ReactMarkdown
         skipHtml
         remarkPlugins={[remarkGfm, remarkMath]}
+        remarkRehypeOptions={footnotes}
         rehypePlugins={[
           [rehypeSanitize, schema],
           [

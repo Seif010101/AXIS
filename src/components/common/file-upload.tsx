@@ -63,6 +63,27 @@ type UploadState =
   | { status: "done"; file: File }
   | { status: "failed"; file: File; reason: FailureReason };
 
+/** Where an upload stands. */
+export type UploadStatus = UploadState["status"];
+
+/**
+ * What the polite live region announces for a status (a key of common.upload), or null.
+ * Only changes of state are announced, never the percentage: progress events fire many times
+ * a second and would flood screen readers (the progress bar exposes the live value, and
+ * errors are announced separately through role="alert").
+ */
+export function announcementKey(status: UploadStatus): "started" | "processing" | "done" | null {
+  switch (status) {
+    case "uploading":
+      return "started";
+    case "processing":
+    case "done":
+      return status;
+    default:
+      return null;
+  }
+}
+
 class UploadFailure extends Error {
   constructor(readonly reason: FailureReason) {
     super(reason);
@@ -283,6 +304,7 @@ export function FileUpload(props: FileUploadProps) {
           ? t("upload.done")
           : "";
 
+  const announcement = announcementKey(state.status);
   const file = "file" in state ? state.file : null;
 
   return (
@@ -396,7 +418,7 @@ export function FileUpload(props: FileUploadProps) {
       )}
 
       <p role="status" aria-live="polite" className="sr-only">
-        {statusText}
+        {announcement && t(`upload.${announcement}`)}
       </p>
       {errorText && (
         <p role="alert" className="flex items-center gap-1.5 text-sm text-destructive">

@@ -87,6 +87,7 @@
     "choose": "Datei auswählen",
     "hint": "Erlaubte Typen: {types} · Bis zu {size}",
     "hintSize": "Bis zu {size}",
+    "started": "Datei wird hochgeladen…",
     "uploading": "Wird hochgeladen… {percent}",
     "processing": "Datei wird verarbeitet…",
     "done": "Datei hochgeladen",
@@ -108,6 +109,8 @@
   "content": {
     "table": "Tabelle, seitlich scrollen, um weitere Spalten zu sehen",
     "newTab": "(öffnet in einem neuen Tab)",
-    "image": "Bild"
+    "image": "Bild",
+    "footnotes": "Fußnoten",
+    "footnoteBack": "Zurück zum Verweis {number}"
   }
 }

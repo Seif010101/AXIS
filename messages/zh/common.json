@@ -87,6 +87,7 @@
     "choose": "选择文件",
     "hint": "允许的类型：{types} · 最大 {size}",
     "hintSize": "最大 {size}",
+    "started": "正在上传文件…",
     "uploading": "正在上传… {percent}",
     "processing": "正在处理文件…",
     "done": "文件已上传",
@@ -108,6 +109,8 @@
   "content": {
     "table": "表格，可横向滚动查看更多列",
     "newTab": "（在新标签页中打开）",
-    "image": "图片"
+    "image": "图片",
+    "footnotes": "脚注",
+    "footnoteBack": "返回引用 {number}"
   }
 }

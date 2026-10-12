@@ -3,13 +3,18 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { jsx } from "react/jsx-runtime";
 import { describe, expect, it } from "vitest";
 import {
+  announcementKey,
   checkFile,
   DEFAULT_UPLOAD_MAX_BYTES,
   FileUpload,
   type FileUploadProps,
 } from "@/components/common/file-upload";
 import arCommon from "../../messages/ar/common.json";
+import deCommon from "../../messages/de/common.json";
 import enCommon from "../../messages/en/common.json";
+import esCommon from "../../messages/es/common.json";
+import frCommon from "../../messages/fr/common.json";
+import zhCommon from "../../messages/zh/common.json";
 
 function render(props: FileUploadProps, locale: "ar" | "en" = "en"): string {
   const common = locale === "ar" ? arCommon : enCommon;
@@ -64,6 +69,23 @@ describe("FileUpload", () => {
     expect(html).toContain(arCommon.upload.dropzone);
     expect(html).toContain(arCommon.upload.choose);
     expect(html).not.toMatch(/\b(ml|mr|pl|pr|left|right)-[\d[]|\btext-(left|right)\b/);
+  });
+
+  it("announces only changes of state to screen readers, never each progress tick", () => {
+    expect(announcementKey("idle")).toBeNull();
+    expect(announcementKey("invalid")).toBeNull(); // errors use role="alert"
+    expect(announcementKey("failed")).toBeNull();
+    expect(announcementKey("uploading")).toBe("started");
+    expect(announcementKey("processing")).toBe("processing");
+    expect(announcementKey("done")).toBe("done");
+    // While uploading, the live region's text has no percentage in any locale, so it stays
+    // the same through every progress event and is announced once.
+    for (const common of [arCommon, enCommon, zhCommon, deCommon, esCommon, frCommon]) {
+      expect(common.upload.started).not.toMatch(/[{%٪]/);
+      expect(common.upload.started).not.toBe(common.upload.uploading);
+    }
+    // Before a file is picked the live region is present and silent.
+    expect(render({ onFile })).toContain('<p role="status" aria-live="polite" class="sr-only"></p>');
   });
 
   it("can be disabled and given a custom title", () => {

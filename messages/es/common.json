@@ -87,6 +87,7 @@
     "choose": "Elegir archivo",
     "hint": "Tipos permitidos: {types} · Hasta {size}",
     "hintSize": "Hasta {size}",
+    "started": "Subiendo el archivo…",
     "uploading": "Subiendo… {percent}",
     "processing": "Procesando el archivo…",
     "done": "Archivo subido",
@@ -108,6 +109,8 @@
   "content": {
     "table": "Tabla, desplázate horizontalmente para ver más columnas",
     "newTab": "(se abre en una pestaña nueva)",
-    "image": "Imagen"
+    "image": "Imagen",
+    "footnotes": "Notas al pie",
+    "footnoteBack": "Volver a la referencia {number}"
   }
 }

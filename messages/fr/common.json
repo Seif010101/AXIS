@@ -87,6 +87,7 @@
     "choose": "Choisir un fichier",
     "hint": "Types autorisés : {types} · Jusqu’à {size}",
     "hintSize": "Jusqu’à {size}",
+    "started": "Envoi du fichier en cours…",
     "uploading": "Envoi en cours… {percent}",
     "processing": "Traitement du fichier…",
     "done": "Fichier envoyé",
@@ -108,6 +109,8 @@
   "content": {
     "table": "Tableau, fais défiler horizontalement pour voir plus de colonnes",
     "newTab": "(s’ouvre dans un nouvel onglet)",
-    "image": "Image"
+    "image": "Image",
+    "footnotes": "Notes de bas de page",
+    "footnoteBack": "Revenir à la référence {number}"
   }
 }

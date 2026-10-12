@@ -7,11 +7,18 @@ import common from "../../messages/ar/common.json";
 
 // Test files are .ts, so elements are built with jsx() (what compiled JSX calls).
 function render(source: string, props: Omit<MarkdownProps, "children"> = {}): string {
-  const markdown = jsx(Markdown, { ...props, children: source });
+  return renderAll([source], props);
+}
+
+/** Renders several Markdown blocks on one page (like a chat with several replies). */
+function renderAll(sources: string[], props: Omit<MarkdownProps, "children"> = {}): string {
+  const blocks = sources.map((source, index) => jsx(Markdown, { ...props, children: source }, index));
   return renderToStaticMarkup(
-    jsx(NextIntlClientProvider, { locale: "ar", messages: { common }, children: markdown }),
+    jsx(NextIntlClientProvider, { locale: "ar", messages: { common }, children: blocks }),
   );
 }
+
+const values = (html: string, pattern: RegExp) => [...html.matchAll(pattern)].map((match) => match[1]);
 
 describe("Markdown", () => {
   it("drops raw HTML, scripts and event handlers", () => {
@@ -56,7 +63,8 @@ describe("Markdown", () => {
     expect(html).toContain('href="https://example.com/a?b=1" target="_blank" rel="noopener noreferrer"');
     expect(html).toContain('href="mailto:teacher@school.test" target="_blank" rel="noopener noreferrer"');
     expect(html).toContain(common.content.newTab);
-    expect(html).toMatch(/<a href="#[^"]*fn-1"[^>]*>note<\/a>/);
+    // In-page anchors stay in the same tab.
+    expect(html).toMatch(/<a (?![^>]*target=)[^>]*href="#fn-1"[^>]*>note<\/a>/);
   });
 
   it("only renders https images, without leaking the referrer", () => {
@@ -115,5 +123,42 @@ describe("Markdown", () => {
   it("keeps GFM task lists as disabled checkboxes", () => {
     const html = render("- [x] done\n- [ ] todo");
     expect(html).toMatch(/<input[^>]*type="checkbox"[^>]*disabled/);
+  });
+
+  it("renders footnotes with working links and translated, screen-reader-only labels", () => {
+    const html = render("Text[^1] and again[^1], see also[^note].\n\n[^1]: First.\n\n[^note]: Second.");
+    const ids = values(html, /\sid="([^"]+)"/g);
+    const anchors = values(html, /href="#([^"]+)"/g);
+
+    // Three references and a back-link for each of them; every link lands on an element.
+    expect(anchors).toHaveLength(6);
+    for (const target of anchors) expect(ids).toContain(target);
+    expect(html).not.toContain("user-content-user-content");
+    const describedBy = values(html, /aria-describedby="([^"]+)"/g);
+    expect(describedBy).toHaveLength(3);
+    for (const label of describedBy) expect(ids).toContain(label);
+
+    // The section label is translated and visually hidden; no English default text is left.
+    expect(html).not.toMatch(/Footnotes|Back to reference|Back to content/);
+    expect(html).toMatch(
+      new RegExp(
+        `<h3(?=[^>]*\\sid=")(?=[^>]*class="[^"]*\\bsr-only\\b)[^>]*>${common.content.footnotes}</h3>`,
+      ),
+    );
+
+    // Back-links keep their footnote attributes and get a translated accessible name.
+    const back = (number: string) => common.content.footnoteBack.replace("{number}", number);
+    expect(html).toMatch(new RegExp(`<a(?=[^>]*data-footnote-backref)[^>]*aria-label="${back("1")}"`));
+    expect(html).toContain(`aria-label="${back("1-2")}"`);
+    expect(html).toContain(`aria-label="${back("2")}"`);
+    expect(html).toMatch(/<a(?=[^>]*data-footnote-ref)(?=[^>]*\sid=")[^>]*href="#/);
+  });
+
+  it("keeps footnote ids unique when several replies are on one page", () => {
+    const html = renderAll(["A[^1]\n\n[^1]: one", "B[^1]\n\n[^1]: two"]);
+    const ids = values(html, /\sid="([^"]+)"/g);
+    expect(ids).toHaveLength(6); // per reply: the reference, the footnote and the label
+    expect(new Set(ids).size).toBe(ids.length);
+    for (const target of values(html, /href="#([^"]+)"/g)) expect(ids).toContain(target);
   });
 });
