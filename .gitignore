@@ -52,3 +52,6 @@ Thumbs.db
 
 # parallel feature worktrees (local only)
 /.worktrees/
+
+# dev seed credentials (npm run seed:dev)
+.dev-accounts.local.json
