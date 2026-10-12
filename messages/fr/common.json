@@ -81,5 +81,33 @@
     "STORAGE_NOT_CONFIGURED": "Le stockage de fichiers n'est pas disponible pour le moment.",
     "INTERNAL": "Une erreur s'est produite. Réessaie.",
     "NETWORK": "Connexion impossible. Vérifie ta connexion Internet."
+  },
+  "upload": {
+    "dropzone": "Glissez-déposez un fichier ici ou choisissez-le sur votre appareil",
+    "choose": "Choisir un fichier",
+    "hint": "Types autorisés : {types} · Jusqu’à {size}",
+    "hintSize": "Jusqu’à {size}",
+    "uploading": "Envoi en cours… {percent}",
+    "processing": "Traitement du fichier…",
+    "done": "Fichier envoyé",
+    "progress": "Progression de l’envoi",
+    "cancel": "Annuler l’envoi",
+    "remove": "Retirer le fichier",
+    "retry": "Réessayer",
+    "replace": "Choisir un autre fichier",
+    "errors": {
+      "tooLarge": "Le fichier dépasse la taille autorisée ({size}).",
+      "type": "Ce type de fichier n’est pas autorisé. Types autorisés : {types}.",
+      "empty": "Le fichier est vide.",
+      "multiple": "Choisissez un seul fichier.",
+      "failed": "Impossible d’envoyer le fichier. Veuillez réessayer.",
+      "network": "La connexion a été interrompue pendant l’envoi. Vérifiez votre connexion internet et réessayez.",
+      "aborted": "Envoi annulé."
+    }
+  },
+  "content": {
+    "table": "Tableau, faites défiler horizontalement pour voir plus de colonnes",
+    "newTab": "(s’ouvre dans un nouvel onglet)",
+    "image": "Image"
   }
 }

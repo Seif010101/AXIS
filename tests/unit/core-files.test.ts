@@ -57,7 +57,7 @@ function pptx() {
 }
 
 /** A minimal valid one-page PDF showing `text`, with a correct xref table. */
-function pdf(text: string): Uint8Array {
+function pdf(text: string): Uint8Array<ArrayBuffer> {
   const stream = `BT /F1 18 Tf 20 100 Td (${text}) Tj ET`;
   const objects = [
     "<< /Type /Catalog /Pages 2 0 R >>",
