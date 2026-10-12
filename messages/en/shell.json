@@ -1,1 +1,76 @@
-{}
+{
+  "skipToContent": "Skip to content",
+  "sidebar": {
+    "label": "Main navigation",
+    "toggle": "Show or hide the sidebar",
+    "home": "Home"
+  },
+  "topbar": {
+    "notifications": "Notifications",
+    "breadcrumb": "You are here"
+  },
+  "locale": {
+    "label": "Language"
+  },
+  "theme": {
+    "label": "Appearance",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "Match device"
+  },
+  "userMenu": {
+    "label": "Account menu",
+    "settings": "Settings",
+    "signOut": "Sign out",
+    "signOutFailed": "Couldn't sign you out. Please try again."
+  },
+  "comingSoon": {
+    "badge": "Coming soon",
+    "description": "We're getting this page ready. It will arrive in an upcoming update.",
+    "home": "Back to home"
+  },
+  "stepUp": {
+    "title": "Confirm it's you",
+    "description": "This is a sensitive action. Enter the 6-digit code from your authenticator app to continue.",
+    "needsTwoFactor": "This action requires two-step verification to be turned on for your account first.",
+    "codeLabel": "Authenticator code",
+    "verify": "Confirm",
+    "invalid": "That code is wrong or was already used. Wait for the next code and try again.",
+    "tooMany": "Too many wrong codes. Wait a few minutes and try again.",
+    "setUp": "Set up two-step verification"
+  },
+  "copy": {
+    "failed": "Couldn't copy. Please copy the text manually."
+  },
+  "dataTable": {
+    "search": "Search…",
+    "actions": "Actions",
+    "pagination": "Pages",
+    "showing": "{from}–{to} of {total}",
+    "page": "{page} / {pages}"
+  },
+  "errors": {
+    "notFound": {
+      "title": "Page not found",
+      "description": "The link may have changed or the page was removed. Check the address or head back home.",
+      "home": "Back to home"
+    },
+    "forbidden": {
+      "title": "You can't open this page",
+      "description": "This page isn't available to your account. If you think that's a mistake, contact your school's administration.",
+      "home": "Back to home"
+    },
+    "error": {
+      "title": "Something went wrong",
+      "description": "We hit a problem while loading this page. Please try again in a moment.",
+      "retry": "Try again",
+      "home": "Back to home",
+      "reference": "Error reference: {digest}"
+    },
+    "global": {
+      "title": "The platform couldn't load",
+      "description": "Something unexpected happened. Please try again in a moment.",
+      "retry": "Try again"
+    }
+  }
+}

@@ -1,1 +1,76 @@
-{}
+{
+  "skipToContent": "Saltar al contenido",
+  "sidebar": {
+    "label": "Navegación principal",
+    "toggle": "Mostrar u ocultar la barra lateral",
+    "home": "Inicio"
+  },
+  "topbar": {
+    "notifications": "Notificaciones",
+    "breadcrumb": "Estás aquí"
+  },
+  "locale": {
+    "label": "Idioma"
+  },
+  "theme": {
+    "label": "Apariencia",
+    "light": "Claro",
+    "dark": "Oscuro",
+    "system": "Según el dispositivo"
+  },
+  "userMenu": {
+    "label": "Menú de la cuenta",
+    "settings": "Configuración",
+    "signOut": "Cerrar sesión",
+    "signOutFailed": "No se pudo cerrar la sesión. Inténtalo de nuevo."
+  },
+  "comingSoon": {
+    "badge": "Próximamente",
+    "description": "Estamos preparando esta página. Llegará en una próxima actualización.",
+    "home": "Volver al inicio"
+  },
+  "stepUp": {
+    "title": "Confirma que eres tú",
+    "description": "Esta es una acción delicada. Introduce el código de 6 dígitos de tu app de autenticación para continuar.",
+    "needsTwoFactor": "Esta acción requiere que primero actives la verificación en dos pasos en tu cuenta.",
+    "codeLabel": "Código de autenticación",
+    "verify": "Confirmar",
+    "invalid": "El código no es correcto o ya se usó. Espera al siguiente código e inténtalo de nuevo.",
+    "tooMany": "Demasiados códigos incorrectos. Espera unos minutos e inténtalo de nuevo.",
+    "setUp": "Activar la verificación en dos pasos"
+  },
+  "copy": {
+    "failed": "No se pudo copiar. Copia el texto manualmente."
+  },
+  "dataTable": {
+    "search": "Buscar…",
+    "actions": "Acciones",
+    "pagination": "Páginas",
+    "showing": "{from}–{to} de {total}",
+    "page": "{page} / {pages}"
+  },
+  "errors": {
+    "notFound": {
+      "title": "Página no encontrada",
+      "description": "Puede que el enlace haya cambiado o que la página se haya eliminado. Revisa la dirección o vuelve al inicio.",
+      "home": "Volver al inicio"
+    },
+    "forbidden": {
+      "title": "No puedes abrir esta página",
+      "description": "Esta página no está disponible para tu cuenta. Si crees que es un error, contacta con la administración de tu centro.",
+      "home": "Volver al inicio"
+    },
+    "error": {
+      "title": "Algo salió mal",
+      "description": "Tuvimos un problema al cargar esta página. Inténtalo de nuevo en un momento.",
+      "retry": "Reintentar",
+      "home": "Volver al inicio",
+      "reference": "Referencia del error: {digest}"
+    },
+    "global": {
+      "title": "No se pudo cargar la plataforma",
+      "description": "Ocurrió algo inesperado. Inténtalo de nuevo en un momento.",
+      "retry": "Reintentar"
+    }
+  }
+}
