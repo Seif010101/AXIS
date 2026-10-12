@@ -40,6 +40,9 @@ const schema = z.object({
   AI_MODEL_FAST: z.string().default("gemini-3.5-flash-lite"),
   AI_MODEL_SMART: z.string().default("gemini-3.8-flash"),
   AI_MODEL_IMAGE: z.string().default("gemini-3.1-flash-image"),
+  // "mock" swaps Gemini for a built-in deterministic fake (local development without a key).
+  // It is never the default: it only applies when this variable is set explicitly.
+  AI_PROVIDER: z.enum(["google", "mock"]).default("google"),
 
   // File storage: Backblaze B2 (S3-compatible). Optional until book uploads are used.
   B2_KEY_ID: z.string().optional(),
