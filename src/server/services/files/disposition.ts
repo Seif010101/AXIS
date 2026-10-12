@@ -11,12 +11,19 @@ function encodeRfc5987(value: string): string {
   );
 }
 
+/** The first `max` UTF-16 units of `text`, without leaving half a surrogate pair at the end. */
+function cutAt(text: string, max: number): string {
+  const code = text.charCodeAt(max - 1);
+  return text.slice(0, code >= 0xd800 && code <= 0xdbff ? max - 1 : max);
+}
+
 /**
  * Removes path separators, control characters and characters Windows forbids, trims dots
- * and spaces, and caps the length. Keeps letters of every script (Arabic included).
+ * and spaces, and caps the length. Keeps letters of every script (Arabic included). Lone
+ * surrogates (malformed names) become U+FFFD, so the result is always encodable.
  */
 export function sanitizeFileName(fileName: string, fallback = "file"): string {
-  const cleaned = (fileName.normalize("NFC").split(/[\\/]/).pop() ?? "")
+  const cleaned = (fileName.toWellFormed().normalize("NFC").split(/[\\/]/).pop() ?? "")
     .replace(/[\u0000-\u001f\u007f<>:"|?*]/g, "_")
     .replace(/\s+/g, " ")
     .trim()
@@ -25,7 +32,7 @@ export function sanitizeFileName(fileName: string, fallback = "file"): string {
   if (cleaned.length <= 180) return cleaned;
   const dot = cleaned.lastIndexOf(".");
   const extension = dot > 0 && cleaned.length - dot <= 11 ? cleaned.slice(dot) : "";
-  return cleaned.slice(0, 180 - extension.length) + extension;
+  return cutAt(cleaned, 180 - extension.length) + extension;
 }
 
 /** An ASCII-only rendering of a file name for old clients (non-ASCII becomes "_"). */

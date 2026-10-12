@@ -232,10 +232,12 @@ export async function readObject(key: string, maxBytes: number): Promise<Uint8Ar
   try {
     const result = await client.send(new GetObjectCommand({ Bucket: bucket, Key: key }));
     if (!result.Body) throw new AppError("NOT_FOUND", "File not found");
+    const body = result.Body.transformToWebStream();
     if ((result.ContentLength ?? 0) > maxBytes) {
+      await body.cancel(); // close the connection instead of leaving the body unread
       throw new AppError("VALIDATION", "File is too large", { maxBytes });
     }
-    const reader = result.Body.transformToWebStream().getReader();
+    const reader = body.getReader();
     const chunks: Uint8Array[] = [];
     let total = 0;
     for (;;) {

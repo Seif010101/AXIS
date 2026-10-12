@@ -83,7 +83,7 @@
     "NETWORK": "Keine Verbindung. Prüfe deine Internetverbindung."
   },
   "upload": {
-    "dropzone": "Datei hierher ziehen und ablegen oder vom Gerät auswählen",
+    "dropzone": "Ziehe eine Datei hierher oder wähle sie auf deinem Gerät aus",
     "choose": "Datei auswählen",
     "hint": "Erlaubte Typen: {types} · Bis zu {size}",
     "hintSize": "Bis zu {size}",
@@ -99,8 +99,8 @@
       "tooLarge": "Die Datei ist größer als erlaubt ({size}).",
       "type": "Dieser Dateityp ist nicht erlaubt. Erlaubte Typen: {types}.",
       "empty": "Die Datei ist leer.",
-      "multiple": "Bitte nur eine Datei auswählen.",
-      "failed": "Die Datei konnte nicht hochgeladen werden. Bitte erneut versuchen.",
+      "multiple": "Wähle bitte nur eine Datei aus.",
+      "failed": "Die Datei konnte nicht hochgeladen werden. Bitte versuche es erneut.",
       "network": "Die Verbindung wurde während des Uploads unterbrochen. Prüfe deine Internetverbindung und versuche es erneut.",
       "aborted": "Upload abgebrochen."
     }

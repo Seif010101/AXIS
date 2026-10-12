@@ -8,7 +8,9 @@ import common from "../../messages/ar/common.json";
 // Test files are .ts, so elements are built with jsx() (what compiled JSX calls).
 function render(source: string, props: Omit<MarkdownProps, "children"> = {}): string {
   const markdown = jsx(Markdown, { ...props, children: source });
-  return renderToStaticMarkup(jsx(NextIntlClientProvider, { locale: "ar", messages: { common }, children: markdown }));
+  return renderToStaticMarkup(
+    jsx(NextIntlClientProvider, { locale: "ar", messages: { common }, children: markdown }),
+  );
 }
 
 describe("Markdown", () => {
@@ -48,7 +50,9 @@ describe("Markdown", () => {
   });
 
   it("opens safe links in a new tab without opener or referrer", () => {
-    const html = render("[docs](https://example.com/a?b=1) and [mail](mailto:teacher@school.test) and [note](#fn-1)");
+    const html = render(
+      "[docs](https://example.com/a?b=1) and [mail](mailto:teacher@school.test) and [note](#fn-1)",
+    );
     expect(html).toContain('href="https://example.com/a?b=1" target="_blank" rel="noopener noreferrer"');
     expect(html).toContain('href="mailto:teacher@school.test" target="_blank" rel="noopener noreferrer"');
     expect(html).toContain(common.content.newTab);
@@ -56,7 +60,9 @@ describe("Markdown", () => {
   });
 
   it("only renders https images, without leaking the referrer", () => {
-    const html = render("![safe](https://cdn.test/a.png) ![insecure](http://cdn.test/b.png) ![data](data:image/png;base64,AAAA)");
+    const html = render(
+      "![safe](https://cdn.test/a.png) ![insecure](http://cdn.test/b.png) ![data](data:image/png;base64,AAAA)",
+    );
     expect(html).toContain('src="https://cdn.test/a.png"');
     expect(html).toMatch(/referrerPolicy="no-referrer"/i);
     expect(html).not.toContain("http://cdn.test/b.png");
@@ -87,13 +93,20 @@ describe("Markdown", () => {
     expect(html).toMatch(/<p dir="auto"/);
     expect(html).toMatch(/<li dir="auto"/);
     expect(html).toMatch(/<blockquote dir="auto"/);
-    expect(html).toMatch(/<pre dir="ltr"/);
+    expect(html).toMatch(/<pre dir="ltr"[^>]*class="[^"]*\[&amp;&gt;code\]:\[direction:ltr\]/);
     expect(html).toMatch(/<code[^>]*class="[^"]*language-js/);
     expect(html).not.toMatch(/\b(ml|mr|pl|pr|left|right)-\d/);
   });
 
   it("renders partial Markdown while a reply is streaming", () => {
-    for (const partial of ["**bold", "```py\nprint(", "| a | b |\n| --", "$$\\frac{1}{", "[link](https://exa", "- item\n- "]) {
+    for (const partial of [
+      "**bold",
+      "```py\nprint(",
+      "| a | b |\n| --",
+      "$$\\frac{1}{",
+      "[link](https://exa",
+      "- item\n- ",
+    ]) {
       expect(() => render(partial)).not.toThrow();
     }
     expect(render("$$\\frac{1}{")).not.toContain("<script");

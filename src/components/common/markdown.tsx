@@ -66,14 +66,24 @@ function buildComponents(t: Translate, size: Size, images: boolean): Components 
       <h2 dir="auto" {...domProps(props)} className={cn("mt-6 mb-3 font-heading font-bold", heading[0])} />
     ),
     h2: (props) => (
-      <h3 dir="auto" {...domProps(props)} className={cn("mt-5 mb-2 font-heading font-semibold", heading[1])} />
+      <h3
+        dir="auto"
+        {...domProps(props)}
+        className={cn("mt-5 mb-2 font-heading font-semibold", heading[1])}
+      />
     ),
     h3: (props) => (
-      <h4 dir="auto" {...domProps(props)} className={cn("mt-4 mb-2 font-heading font-semibold", heading[2])} />
+      <h4
+        dir="auto"
+        {...domProps(props)}
+        className={cn("mt-4 mb-2 font-heading font-semibold", heading[2])}
+      />
     ),
     h4: (props) => <h5 dir="auto" {...domProps(props)} className="mt-4 mb-2 font-semibold" />,
     h5: (props) => <h6 dir="auto" {...domProps(props)} className="mt-3 mb-1 font-semibold" />,
-    h6: (props) => <h6 dir="auto" {...domProps(props)} className="mt-3 mb-1 font-medium text-muted-foreground" />,
+    h6: (props) => (
+      <h6 dir="auto" {...domProps(props)} className="mt-3 mb-1 font-medium text-muted-foreground" />
+    ),
     p: (props) => <p dir="auto" {...domProps(props)} className="my-3 leading-relaxed" />,
     ul: (props) => (
       <ul
@@ -86,14 +96,18 @@ function buildComponents(t: Translate, size: Size, images: boolean): Components 
       />
     ),
     ol: (props) => (
-      <ol dir="auto" {...domProps(props)} className="my-3 list-decimal space-y-1 ps-6 marker:text-muted-foreground" />
+      <ol
+        dir="auto"
+        {...domProps(props)}
+        className="my-3 list-decimal space-y-1 ps-6 marker:text-muted-foreground"
+      />
     ),
     li: (props) => <li dir="auto" {...domProps(props)} className="ps-1 leading-relaxed" />,
     blockquote: (props) => (
       <blockquote
         dir="auto"
         {...domProps(props)}
-        className="my-4 border-s-4 border-border ps-4 text-muted-foreground italic"
+        className="my-4 border-s-4 border-border ps-4 text-muted-foreground"
       />
     ),
     hr: () => <hr className="my-6 border-border" />,
@@ -148,14 +162,19 @@ function buildComponents(t: Translate, size: Size, images: boolean): Components 
         className="border-b border-border px-3 py-2 text-start font-semibold whitespace-nowrap"
       />
     ),
-    td: (props) => <td dir="auto" {...domProps(props)} className="border-b border-border px-3 py-2 align-top" />,
+    td: (props) => (
+      <td dir="auto" {...domProps(props)} className="border-b border-border px-3 py-2 align-top" />
+    ),
+    // Code blocks are always left-to-right (the CSS direction overrides the dir="auto" that
+    // inline code gets below, which would flip a block starting with an Arabic comment).
     pre: (props) => (
       <pre
         dir="ltr"
         {...domProps(props)}
-        className="my-4 overflow-x-auto rounded-lg bg-muted p-4 font-mono text-sm leading-relaxed [&>code]:bg-transparent [&>code]:p-0"
+        className="my-4 overflow-x-auto rounded-lg bg-muted p-4 font-mono text-sm leading-relaxed [&>code]:bg-transparent [&>code]:p-0 [&>code]:[direction:ltr]"
       />
     ),
+    // Inline code picks its own direction, so `x = 1` stays intact inside Arabic text.
     code: (props) => (
       <code
         dir="auto"
@@ -195,7 +214,10 @@ function MarkdownImpl({ children, className, size = "base", images = true }: Mar
         remarkPlugins={[remarkGfm, remarkMath]}
         rehypePlugins={[
           [rehypeSanitize, schema],
-          [rehypeKatex, { trust: false, strict: "ignore", maxSize: 20, maxExpand: 300, output: "htmlAndMathml" }],
+          [
+            rehypeKatex,
+            { trust: false, strict: "ignore", maxSize: 20, maxExpand: 300, output: "htmlAndMathml" },
+          ],
         ]}
         urlTransform={urlTransform}
         components={components}

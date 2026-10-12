@@ -34,7 +34,7 @@ import {
   statObject,
 } from "@/server/services/storage";
 
-function bodyOf(chunks: Uint8Array[]) {
+function bodyOf(chunks: Uint8Array[], onCancel?: () => void) {
   return {
     transformToWebStream: () =>
       new ReadableStream<Uint8Array>({
@@ -42,6 +42,7 @@ function bodyOf(chunks: Uint8Array[]) {
           for (const chunk of chunks) controller.enqueue(chunk);
           controller.close();
         },
+        cancel: onCancel,
       }),
   };
 }
@@ -166,8 +167,10 @@ describe("object operations", () => {
   });
 
   it("refuses objects over the limit, even when the declared length lies", async () => {
-    mockSend(() => ({ ContentLength: 100, Body: bodyOf([new Uint8Array(100)]) }));
+    const cancel = vi.fn();
+    mockSend(() => ({ ContentLength: 100, Body: bodyOf([new Uint8Array(100)], cancel) }));
     expect((await caught(readObject("books/a.pdf", 10))).code).toBe("VALIDATION");
+    expect(cancel).toHaveBeenCalled(); // the unread body is released
     mockSend(() => ({ ContentLength: 2, Body: bodyOf([new Uint8Array(8), new Uint8Array(8)]) }));
     expect((await caught(readObject("books/a.pdf", 10))).code).toBe("VALIDATION");
   });

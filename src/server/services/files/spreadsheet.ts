@@ -12,8 +12,8 @@ export const SHEET_MAX_BYTES = 8 * 1024 * 1024;
 export async function loadWorkbook(bytes: Uint8Array): Promise<ExcelJS.Workbook> {
   await loadZipSafely(bytes);
   const workbook = new ExcelJS.Workbook();
-  const buffer = bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength) as ArrayBuffer;
-  await workbook.xlsx.load(buffer);
+  // ExcelJS types its input as an ArrayBuffer; a copy gives one of exactly the right size.
+  await workbook.xlsx.load(new Uint8Array(bytes).buffer);
   return workbook;
 }
 

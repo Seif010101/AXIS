@@ -69,8 +69,11 @@ export interface CachedJsonOptions<T> {
   ttlSeconds: number;
   /** Computes the value on a miss. Must return plain JSON (no Dates, Maps, undefined). */
   producer: () => Promise<T>;
-  /** Validates cached content when it is read back; a mismatch is treated as a miss. */
-  schema?: z.ZodType<T>;
+  /**
+   * Validates cached content when it is read back (stored JSON is never trusted blindly);
+   * a mismatch, e.g. after the shape changed in a deploy, is treated as a miss.
+   */
+  schema: z.ZodType<T>;
 }
 
 /**
@@ -100,13 +103,13 @@ export async function cachedJson<T>(options: CachedJsonOptions<T>): Promise<T> {
     .where(and(eq(cache.cacheKey, key), gt(cache.expiresAt, now)))
     .limit(1);
   if (hit) {
-    const parsed = options.schema ? options.schema.safeParse(hit.content) : null;
-    if (!parsed || parsed.success) {
+    const parsed = options.schema.safeParse(hit.content);
+    if (parsed.success) {
       await db
         .update(cache)
         .set({ hitCount: sql`${cache.hitCount} + 1` })
         .where(eq(cache.id, hit.id));
-      return parsed ? parsed.data : (hit.content as T);
+      return parsed.data;
     }
   }
 

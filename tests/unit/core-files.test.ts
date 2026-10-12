@@ -9,6 +9,7 @@ import {
   normalizeHeader,
   readFormFile,
   readSheet,
+  sanitizeFileName,
   toCsv,
   truncateText,
 } from "@/server/services/files";
@@ -311,6 +312,15 @@ describe("contentDisposition", () => {
     expect(value).not.toMatch(/[\r\n]/);
     expect(value).not.toContain("..");
     expect(value.match(/"/g)).toHaveLength(2);
+  });
+
+  it("never throws on malformed or very long names", () => {
+    expect(contentDisposition("bad\uD800name.pdf")).toContain("filename*=UTF-8''bad%EF%BF%BDname.pdf");
+    const long = `${"a".repeat(175)}${"😀".repeat(10)}.pdf`;
+    const value = contentDisposition(long);
+    expect(value).toMatch(/\.pdf$/);
+    expect(sanitizeFileName(long)).toBe(`${"a".repeat(175)}.pdf`); // the cut never splits an emoji
+    expect(sanitizeFileName(long).isWellFormed()).toBe(true);
   });
 });
 

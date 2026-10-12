@@ -468,8 +468,9 @@ describe("AI service", () => {
     it("runs the producer once per key until the entry expires", async () => {
       let calls = 0;
       const producer = async () => ({ summary: `run ${++calls}` });
+      const summarySchema = z.object({ summary: z.string() });
       const read = (keyParts: string[]) =>
-        cachedJson({ kind: "test.summary", keyParts, ttlSeconds: 60, producer });
+        cachedJson({ kind: "test.summary", keyParts, ttlSeconds: 60, schema: summarySchema, producer });
 
       expect(await read(["book-1", "v1"])).toEqual({ summary: "run 1" });
       expect(await read(["book-1", "v1"])).toEqual({ summary: "run 1" });
@@ -489,7 +490,13 @@ describe("AI service", () => {
 
     it("treats content that fails the schema as a miss and does not cache errors", async () => {
       const kind = "test.validated";
-      await cachedJson({ kind, keyParts: ["k"], ttlSeconds: 60, producer: async () => ({ old: true }) });
+      await cachedJson({
+        kind,
+        keyParts: ["k"],
+        ttlSeconds: 60,
+        schema: z.object({ old: z.boolean() }),
+        producer: async () => ({ old: true }),
+      });
       const fresh = await cachedJson({
         kind,
         keyParts: ["k"],
@@ -504,6 +511,7 @@ describe("AI service", () => {
           kind,
           keyParts: ["failing"],
           ttlSeconds: 60,
+          schema: z.object({ value: z.number() }),
           producer: async () => {
             throw new Error("boom");
           },

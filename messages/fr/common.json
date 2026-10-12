@@ -83,7 +83,7 @@
     "NETWORK": "Connexion impossible. Vérifie ta connexion Internet."
   },
   "upload": {
-    "dropzone": "Glissez-déposez un fichier ici ou choisissez-le sur votre appareil",
+    "dropzone": "Glisse-dépose un fichier ici ou choisis-le sur ton appareil",
     "choose": "Choisir un fichier",
     "hint": "Types autorisés : {types} · Jusqu’à {size}",
     "hintSize": "Jusqu’à {size}",
@@ -99,14 +99,14 @@
       "tooLarge": "Le fichier dépasse la taille autorisée ({size}).",
       "type": "Ce type de fichier n’est pas autorisé. Types autorisés : {types}.",
       "empty": "Le fichier est vide.",
-      "multiple": "Choisissez un seul fichier.",
-      "failed": "Impossible d’envoyer le fichier. Veuillez réessayer.",
-      "network": "La connexion a été interrompue pendant l’envoi. Vérifiez votre connexion internet et réessayez.",
+      "multiple": "Choisis un seul fichier.",
+      "failed": "Impossible d’envoyer le fichier. Réessaie.",
+      "network": "La connexion a été interrompue pendant l’envoi. Vérifie ta connexion Internet et réessaie.",
       "aborted": "Envoi annulé."
     }
   },
   "content": {
-    "table": "Tableau, faites défiler horizontalement pour voir plus de colonnes",
+    "table": "Tableau, fais défiler horizontalement pour voir plus de colonnes",
     "newTab": "(s’ouvre dans un nouvel onglet)",
     "image": "Image"
   }

@@ -51,7 +51,8 @@ interface PresignedModeProps extends FileUploadBaseProps {
 
 export type FileUploadProps = ActionModeProps | PresignedModeProps;
 
-type InvalidReason = "tooLarge" | "type" | "empty" | "multiple";
+/** Why a picked file was refused before uploading (keys of common.upload.errors). */
+export type InvalidReason = "tooLarge" | "type" | "empty" | "multiple";
 type FailureReason = "failed" | "network" | "aborted";
 
 type UploadState =
@@ -68,7 +69,7 @@ class UploadFailure extends Error {
   }
 }
 
-function matchesAccept(file: File, accept: readonly string[]): boolean {
+function matchesAccept(file: Pick<File, "name" | "type">, accept: readonly string[]): boolean {
   if (accept.length === 0) return true;
   const name = file.name.toLowerCase();
   const type = file.type.toLowerCase();
@@ -78,6 +79,20 @@ function matchesAccept(file: File, accept: readonly string[]): boolean {
     if (entry.endsWith("/*")) return type.startsWith(entry.slice(0, -1));
     return type === entry;
   });
+}
+
+/**
+ * The client-side checks run on a picked file: not empty, within `maxBytes`, allowed by
+ * `accept`. Returns the reason it is refused, or null. The server must check again.
+ */
+export function checkFile(
+  file: Pick<File, "name" | "type" | "size">,
+  accept: readonly string[],
+  maxBytes: number,
+): InvalidReason | null {
+  if (file.size === 0) return "empty";
+  if (file.size > maxBytes) return "tooLarge";
+  return matchesAccept(file, accept) ? null : "type";
 }
 
 function typeName(rule: string): string {
@@ -101,7 +116,8 @@ function putFile(
     xhr.upload.onprogress = (event) => {
       if (event.lengthComputable && event.total > 0) onProgress(event.loaded / event.total);
     };
-    xhr.onload = () => (xhr.status >= 200 && xhr.status < 300 ? resolve() : reject(new UploadFailure("failed")));
+    xhr.onload = () =>
+      xhr.status >= 200 && xhr.status < 300 ? resolve() : reject(new UploadFailure("failed"));
     xhr.onerror = () => reject(new UploadFailure("network"));
     xhr.ontimeout = () => reject(new UploadFailure("network"));
     xhr.onabort = () => reject(new UploadFailure("aborted"));
@@ -126,7 +142,14 @@ function putFile(
  *   onUploaded={(file) => confirmUpload({ key })} />
  */
 export function FileUpload(props: FileUploadProps) {
-  const { accept = [], maxBytes = DEFAULT_UPLOAD_MAX_BYTES, disabled = false, label, typesLabel, className } = props;
+  const {
+    accept = [],
+    maxBytes = DEFAULT_UPLOAD_MAX_BYTES,
+    disabled = false,
+    label,
+    typesLabel,
+    className,
+  } = props;
   const t = useTranslations("common");
   const format = useFormatter();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -186,7 +209,11 @@ export function FileUpload(props: FileUploadProps) {
     } catch (error) {
       xhrRef.current = null;
       if (current()) {
-        setState({ status: "failed", file, reason: error instanceof UploadFailure ? error.reason : "failed" });
+        setState({
+          status: "failed",
+          file,
+          reason: error instanceof UploadFailure ? error.reason : "failed",
+        });
       }
     }
   }
@@ -195,9 +222,8 @@ export function FileUpload(props: FileUploadProps) {
     if (disabled || busy || !files || files.length === 0) return;
     if (files.length > 1) return setState({ status: "invalid", reason: "multiple" });
     const file = files[0];
-    if (file.size === 0) return setState({ status: "invalid", reason: "empty" });
-    if (file.size > maxBytes) return setState({ status: "invalid", reason: "tooLarge" });
-    if (!matchesAccept(file, accept)) return setState({ status: "invalid", reason: "type" });
+    const reason = checkFile(file, accept, maxBytes);
+    if (reason) return setState({ status: "invalid", reason });
     void upload(file);
   }
 
@@ -322,7 +348,9 @@ export function FileUpload(props: FileUploadProps) {
             )}
             {statusText && (
               <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                {state.status === "processing" && <Spinner aria-hidden="true" role="presentation" className="size-3" />}
+                {state.status === "processing" && (
+                  <Spinner aria-hidden="true" role="presentation" className="size-3" />
+                )}
                 {state.status === "done" && <CircleCheck aria-hidden className="size-3.5 text-primary" />}
                 {statusText}
               </span>
@@ -330,7 +358,13 @@ export function FileUpload(props: FileUploadProps) {
           </div>
           <div className="flex shrink-0 items-center gap-1">
             {state.status === "uploading" && (
-              <Button type="button" variant="ghost" size="icon-sm" aria-label={t("upload.cancel")} onClick={cancel}>
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon-sm"
+                aria-label={t("upload.cancel")}
+                onClick={cancel}
+              >
                 <X />
               </Button>
             )}
@@ -347,7 +381,13 @@ export function FileUpload(props: FileUploadProps) {
               </Button>
             )}
             {(state.status === "failed" || state.status === "done") && (
-              <Button type="button" variant="ghost" size="icon-sm" aria-label={t("upload.remove")} onClick={reset}>
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon-sm"
+                aria-label={t("upload.remove")}
+                onClick={reset}
+              >
                 <X />
               </Button>
             )}
