@@ -1,1 +1,201 @@
-{}
+{
+  "meta": {
+    "title": "La plataforma de aprendizaje inteligente para centros educativos",
+    "description": "{brand} reúne un tutor con IA para el alumnado, un estudio de IA para el profesorado y datos claros para la dirección en una sola plataforma segura, en seis idiomas."
+  },
+  "header": {
+    "nav": "Principal",
+    "features": "Funciones",
+    "how": "Cómo funciona",
+    "faq": "Preguntas",
+    "about": "Acerca de",
+    "signIn": "Iniciar sesión",
+    "dashboard": "Ir al panel",
+    "home": "Inicio de {brand}"
+  },
+  "hero": {
+    "eyebrow": "La plataforma de aprendizaje para centros modernos",
+    "title": "El progreso de cada alumno, <highlight>medido con precisión.</highlight>",
+    "subtitle": "{brand} reúne un tutor con IA para el alumnado, un estudio de IA para el profesorado y datos claros para la dirección en un único lugar seguro.",
+    "primary": "Iniciar sesión",
+    "secondary": "Ver cómo funciona",
+    "note": "Tu centro crea las cuentas, así que no tienes que registrarte.",
+    "visual": {
+      "label": "Ilustración del panel de {brand}",
+      "tutor": "Tutor con IA",
+      "tutorMessage": "Resolvámoslo juntos, paso a paso.",
+      "progress": "Progreso",
+      "stars": "Estrellas",
+      "streak": "Racha",
+      "goals": "Metas",
+      "secure": "Verificación en dos pasos"
+    }
+  },
+  "audiences": {
+    "eyebrow": "Pensada para todo el centro",
+    "title": "Una plataforma, tres puntos de vista",
+    "description": "Alumnado, profesorado y dirección tienen herramientas hechas para su día a día, todas conectadas a la misma imagen del aprendizaje.",
+    "students": {
+      "label": "Para el alumnado",
+      "title": "Un aprendizaje a tu medida",
+      "description": "Ayuda a cualquier hora, en tu idioma y a tu nivel, con un poco de competición amistosa para no perder el ritmo."
+    },
+    "teachers": {
+      "label": "Para el profesorado",
+      "title": "Más tiempo para enseñar",
+      "description": "Prepara en minutos lo que antes te llevaba una tarde y ve de un vistazo quién necesita tu ayuda."
+    },
+    "schools": {
+      "label": "Para los centros",
+      "title": "La visión completa, con seguridad",
+      "description": "Gestiona clases, personas y contenidos desde un solo lugar, con la seguridad que merecen los datos de un centro."
+    },
+    "features": {
+      "tutor": {
+        "title": "Tutor con IA",
+        "description": "Pregunta sobre cualquier lección y recibe explicaciones paso a paso en el estilo que prefieras."
+      },
+      "games": {
+        "title": "Juegos educativos",
+        "description": "Practica con juegos y cuestionarios rápidos basados en lo que estás estudiando."
+      },
+      "challenges": {
+        "title": "Retos y estrellas",
+        "description": "Supera retos diarios, gana estrellas, mantén tu racha y sube en la clasificación de tu clase."
+      },
+      "studio": {
+        "title": "Estudio de IA",
+        "description": "Crea borradores de lecciones, fichas y bancos de preguntas con IA, y adáptalos a tu clase."
+      },
+      "homework": {
+        "title": "Tareas y fichas",
+        "description": "Asigna trabajo a tus clases, recoge las entregas y da tu opinión en un solo lugar."
+      },
+      "tests": {
+        "title": "Pruebas",
+        "description": "Crea pruebas, corrige automáticamente las preguntas cerradas y revisa los resultados por clase."
+      },
+      "management": {
+        "title": "Gestión del centro",
+        "description": "Clases, profesorado y alumnado en un solo lugar, con importación masiva desde una hoja de cálculo."
+      },
+      "insights": {
+        "title": "Datos y tendencias",
+        "description": "Sigue el progreso y la participación de todas las clases y actúa a tiempo donde importa."
+      },
+      "security": {
+        "title": "Seguridad desde el diseño",
+        "description": "Verificación en dos pasos para el personal, separación estricta entre centros y un código nuevo para las acciones delicadas."
+      }
+    }
+  },
+  "how": {
+    "eyebrow": "Cómo funciona",
+    "title": "En marcha en cuatro pasos",
+    "steps": {
+      "accounts": {
+        "title": "Tu centro crea las cuentas",
+        "description": "La administración añade clases, profesorado y alumnado, o los importa desde una hoja de cálculo."
+      },
+      "signIn": {
+        "title": "Todos inician sesión con seguridad",
+        "description": "Cada persona tiene su propia cuenta. El personal confirma con un código de una app de autenticación."
+      },
+      "learn": {
+        "title": "Enseñar y aprender",
+        "description": "El profesorado asigna tareas y pruebas; el alumnado aprende con su tutor, juegos y retos."
+      },
+      "insights": {
+        "title": "Seguir el progreso",
+        "description": "Profesorado y dirección ven cómo avanza el aprendizaje e intervienen a tiempo."
+      }
+    }
+  },
+  "languages": {
+    "eyebrow": "Seis idiomas",
+    "title": "Habla los idiomas de tu centro",
+    "description": "Árabe con soporte completo de derecha a izquierda, además de inglés, chino, alemán, español y francés. Cada persona elige su idioma, y la acompaña en todos sus dispositivos."
+  },
+  "faq": {
+    "eyebrow": "Preguntas",
+    "title": "Lo que nos preguntan los centros",
+    "items": {
+      "accounts": {
+        "question": "¿Cómo consigo una cuenta?",
+        "answer": "La crea tu centro. La administración añade alumnado y profesorado o los importa desde una hoja de cálculo, y cada persona recibe su propio acceso. No hay registro público."
+      },
+      "password": {
+        "question": "He olvidado mi contraseña. ¿Qué hago?",
+        "answer": "Pide ayuda a la administración de tu centro. Pueden darte una contraseña temporal y elegirás una nueva la próxima vez que inicies sesión."
+      },
+      "security": {
+        "question": "¿Cómo se protegen nuestros datos?",
+        "answer": "Cada centro solo ve sus propios datos. Las contraseñas se guardan como hashes irreversibles, las cuentas del personal usan verificación en dos pasos y las acciones delicadas piden un código nuevo de la app de autenticación."
+      },
+      "ai": {
+        "question": "¿Qué hace el tutor con IA?",
+        "answer": "Explica las lecciones paso a paso en el idioma del alumno, al nivel y con el estilo que elija en sus ajustes. El profesorado sigue al mando de las tareas y las pruebas."
+      },
+      "devices": {
+        "question": "¿Funciona en el móvil?",
+        "answer": "Sí. {brand} funciona en cualquier navegador moderno en móviles, tabletas y ordenadores, sin instalar nada."
+      },
+      "languages": {
+        "question": "¿Qué idiomas hay disponibles?",
+        "answer": "Árabe, inglés, chino, alemán, español y francés. Cada persona elige su idioma y puede cambiarlo cuando quiera."
+      }
+    }
+  },
+  "cta": {
+    "title": "Listos cuando tu centro lo esté",
+    "description": "Inicia sesión con la cuenta que te dio tu centro.",
+    "button": "Iniciar sesión"
+  },
+  "footer": {
+    "tagline": "La plataforma de aprendizaje inteligente para centros educativos.",
+    "links": "Enlaces",
+    "home": "Inicio",
+    "about": "Acerca de",
+    "signIn": "Iniciar sesión",
+    "rights": "© {year} {brand}. Todos los derechos reservados."
+  },
+  "about": {
+    "meta": {
+      "title": "Acerca de",
+      "description": "Por qué creamos {brand} y los principios que lo guían."
+    },
+    "eyebrow": "Acerca de {brand}",
+    "title": "Una dirección clara para cada estudiante",
+    "intro": "{brand} es una plataforma de aprendizaje creada para centros educativos: un lugar donde el alumnado aprende con un tutor con IA, el profesorado prepara y asigna trabajo, y la dirección ve cómo avanza el aprendizaje.",
+    "approach": {
+      "title": "Medir para crecer",
+      "body": "Cada estudiante tiene un punto de partida y una dirección. Ayudamos a alumnos y docentes a ver dónde están y hacia dónde van, con precisión y con espacio para crecer."
+    },
+    "principles": {
+      "title": "Lo que nos guía",
+      "items": {
+        "precision": {
+          "title": "Precisión",
+          "description": "Información clara que ayuda a decidir, sin ruido."
+        },
+        "growth": {
+          "title": "Crecimiento",
+          "description": "Pequeños pasos cada día, visibles para que merezca la pena celebrarlos."
+        },
+        "privacy": {
+          "title": "Privacidad y seguridad",
+          "description": "Los datos de cada centro siguen siendo suyos, protegidos por un acceso robusto y valores predeterminados cuidados."
+        },
+        "inclusion": {
+          "title": "Para todos",
+          "description": "Seis idiomas, soporte de derecha a izquierda y una interfaz que funciona en cualquier dispositivo."
+        }
+      }
+    },
+    "cta": {
+      "title": "¿Tu centro usa {brand}?",
+      "description": "Inicia sesión con la cuenta que te dio tu centro.",
+      "button": "Iniciar sesión"
+    }
+  }
+}

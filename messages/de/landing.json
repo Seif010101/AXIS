@@ -1,1 +1,201 @@
-{}
+{
+  "meta": {
+    "title": "Die smarte Lernplattform für Schulen",
+    "description": "{brand} vereint einen KI-Tutor für Schülerinnen und Schüler, ein KI-Studio für Lehrkräfte und klare Einblicke für Schulleitungen auf einer sicheren Plattform – in sechs Sprachen."
+  },
+  "header": {
+    "nav": "Hauptmenü",
+    "features": "Funktionen",
+    "how": "So funktioniert's",
+    "faq": "Fragen",
+    "about": "Über uns",
+    "signIn": "Anmelden",
+    "dashboard": "Zum Dashboard",
+    "home": "{brand} Startseite"
+  },
+  "hero": {
+    "eyebrow": "Die Lernplattform für moderne Schulen",
+    "title": "Der Fortschritt jedes Kindes, <highlight>präzise gemessen.</highlight>",
+    "subtitle": "{brand} vereint einen KI-Tutor für Schülerinnen und Schüler, ein KI-Studio für Lehrkräfte und klare Einblicke für Schulleitungen an einem sicheren Ort.",
+    "primary": "Anmelden",
+    "secondary": "So funktioniert's",
+    "note": "Konten werden von deiner Schule angelegt – du musst dich nirgends registrieren.",
+    "visual": {
+      "label": "Illustration des {brand}-Dashboards",
+      "tutor": "KI-Tutor",
+      "tutorMessage": "Lass es uns gemeinsam lösen, Schritt für Schritt.",
+      "progress": "Fortschritt",
+      "stars": "Sterne",
+      "streak": "Serie",
+      "goals": "Ziele",
+      "secure": "Zwei-Schritt-Verifizierung"
+    }
+  },
+  "audiences": {
+    "eyebrow": "Für alle in der Schule gemacht",
+    "title": "Eine Plattform, drei Blickwinkel",
+    "description": "Schülerinnen und Schüler, Lehrkräfte und Schulleitungen erhalten Werkzeuge für ihren Alltag – alle verbunden mit demselben Bild des Lernens.",
+    "students": {
+      "label": "Für Schüler",
+      "title": "Lernen, das zu dir passt",
+      "description": "Hilfe zu jeder Uhrzeit, in deiner Sprache und auf deinem Niveau – mit etwas freundlichem Wettbewerb, der dich dranbleiben lässt."
+    },
+    "teachers": {
+      "label": "Für Lehrkräfte",
+      "title": "Mehr Zeit fürs Unterrichten",
+      "description": "Bereite in Minuten vor, was früher einen ganzen Abend gedauert hat, und sieh auf einen Blick, wer deine Hilfe braucht."
+    },
+    "schools": {
+      "label": "Für Schulen",
+      "title": "Das ganze Bild, sicher",
+      "description": "Verwalte Klassen, Personen und Inhalte an einem Ort – mit der Sicherheit, die Schuldaten verdienen."
+    },
+    "features": {
+      "tutor": {
+        "title": "KI-Tutor",
+        "description": "Frag zu jeder Lektion und erhalte Schritt-für-Schritt-Erklärungen in deinem Lieblingsstil."
+      },
+      "games": {
+        "title": "Lernspiele",
+        "description": "Übe mit kurzen Spielen und Quizzen rund um deinen aktuellen Stoff."
+      },
+      "challenges": {
+        "title": "Challenges und Sterne",
+        "description": "Meistere tägliche Challenges, sammle Sterne, halte deine Serie und klettere in der Klassenrangliste nach oben."
+      },
+      "studio": {
+        "title": "KI-Studio",
+        "description": "Entwirf Unterrichtsstunden, Arbeitsblätter und Fragensammlungen mit KI und passe sie an deine Klasse an."
+      },
+      "homework": {
+        "title": "Hausaufgaben und Arbeitsblätter",
+        "description": "Verteile Aufgaben an deine Klassen, sammle Abgaben ein und gib Feedback – alles an einem Ort."
+      },
+      "tests": {
+        "title": "Tests",
+        "description": "Erstelle Tests, lass geschlossene Fragen automatisch bewerten und sieh dir die Ergebnisse je Klasse an."
+      },
+      "management": {
+        "title": "Schulverwaltung",
+        "description": "Klassen, Lehrkräfte und Schüler an einem Ort, mit Sammelimport aus einer Tabelle."
+      },
+      "insights": {
+        "title": "Einblicke",
+        "description": "Verfolge Fortschritt und Beteiligung über alle Klassen und handle früh, wo es zählt."
+      },
+      "security": {
+        "title": "Sicherheit von Grund auf",
+        "description": "Zwei-Schritt-Verifizierung für das Personal, strikte Trennung zwischen Schulen und ein frischer Code für heikle Aktionen."
+      }
+    }
+  },
+  "how": {
+    "eyebrow": "So funktioniert's",
+    "title": "In vier Schritten startklar",
+    "steps": {
+      "accounts": {
+        "title": "Deine Schule legt die Konten an",
+        "description": "Die Verwaltung fügt Klassen, Lehrkräfte und Schüler hinzu oder importiert sie aus einer Tabelle."
+      },
+      "signIn": {
+        "title": "Alle melden sich sicher an",
+        "description": "Jede Person hat ihr eigenes Konto. Das Personal bestätigt mit einem Code aus einer Authenticator-App."
+      },
+      "learn": {
+        "title": "Unterrichten und lernen",
+        "description": "Lehrkräfte verteilen Hausaufgaben und Tests, Schüler lernen mit ihrem Tutor, Spielen und Challenges."
+      },
+      "insights": {
+        "title": "Fortschritt verfolgen",
+        "description": "Lehrkräfte und Schulleitungen sehen, wie das Lernen läuft, und greifen früh ein."
+      }
+    }
+  },
+  "languages": {
+    "eyebrow": "Sechs Sprachen",
+    "title": "Spricht die Sprachen deiner Schule",
+    "description": "Arabisch mit voller Rechts-nach-links-Unterstützung, dazu Englisch, Chinesisch, Deutsch, Spanisch und Französisch. Jede Person wählt ihre Sprache, und sie gilt auf allen Geräten."
+  },
+  "faq": {
+    "eyebrow": "Fragen",
+    "title": "Was Schulen uns fragen",
+    "items": {
+      "accounts": {
+        "question": "Wie bekomme ich ein Konto?",
+        "answer": "Deine Schule legt es an. Die Verwaltung fügt Schüler und Lehrkräfte hinzu oder importiert sie aus einer Tabelle, und jede Person erhält eigene Zugangsdaten. Eine öffentliche Registrierung gibt es nicht."
+      },
+      "password": {
+        "question": "Ich habe mein Passwort vergessen. Was nun?",
+        "answer": "Wende dich an deine Schulverwaltung. Sie kann dir ein vorläufiges Passwort geben, und bei der nächsten Anmeldung wählst du ein neues."
+      },
+      "security": {
+        "question": "Wie werden unsere Daten geschützt?",
+        "answer": "Jede Schule sieht nur ihre eigenen Daten. Passwörter werden als Einweg-Hashes gespeichert, Konten des Personals nutzen die Zwei-Schritt-Verifizierung, und heikle Aktionen verlangen einen frischen Code aus der Authenticator-App."
+      },
+      "ai": {
+        "question": "Was macht der KI-Tutor?",
+        "answer": "Er erklärt Lektionen Schritt für Schritt in der Sprache der Schülerin oder des Schülers, auf dem Niveau und im Stil, die in den Einstellungen gewählt sind. Hausaufgaben und Tests bleiben in der Hand der Lehrkräfte."
+      },
+      "devices": {
+        "question": "Funktioniert es auf dem Handy?",
+        "answer": "Ja. {brand} läuft in jedem modernen Browser auf Handys, Tablets und Computern – ganz ohne Installation."
+      },
+      "languages": {
+        "question": "Welche Sprachen gibt es?",
+        "answer": "Arabisch, Englisch, Chinesisch, Deutsch, Spanisch und Französisch. Jede Person wählt ihre Sprache und kann sie jederzeit ändern."
+      }
+    }
+  },
+  "cta": {
+    "title": "Bereit, wenn deine Schule es ist",
+    "description": "Melde dich mit dem Konto an, das du von deiner Schule erhalten hast.",
+    "button": "Anmelden"
+  },
+  "footer": {
+    "tagline": "Die smarte Lernplattform für Schulen.",
+    "links": "Links",
+    "home": "Startseite",
+    "about": "Über uns",
+    "signIn": "Anmelden",
+    "rights": "© {year} {brand}. Alle Rechte vorbehalten."
+  },
+  "about": {
+    "meta": {
+      "title": "Über uns",
+      "description": "Warum wir {brand} gebaut haben und welche Grundsätze dahinterstehen."
+    },
+    "eyebrow": "Über {brand}",
+    "title": "Klare Richtung für alle, die lernen",
+    "intro": "{brand} ist eine Lernplattform für Schulen: ein Ort, an dem Schüler mit einem KI-Tutor lernen, Lehrkräfte Aufgaben vorbereiten und verteilen und Schulleitungen sehen, wie das Lernen läuft.",
+    "approach": {
+      "title": "Erst messen, dann wachsen",
+      "body": "Alle, die lernen, haben einen Ausgangspunkt und eine Richtung. Wir helfen Schülern und Lehrkräften zu sehen, wo sie stehen und wohin sie gehen – präzise und mit Raum zum Wachsen."
+    },
+    "principles": {
+      "title": "Was uns leitet",
+      "items": {
+        "precision": {
+          "title": "Präzision",
+          "description": "Klare Informationen, die bei Entscheidungen helfen – ohne Rauschen."
+        },
+        "growth": {
+          "title": "Wachstum",
+          "description": "Kleine Schritte jeden Tag, sichtbar gemacht, damit man sie feiern kann."
+        },
+        "privacy": {
+          "title": "Datenschutz und Sicherheit",
+          "description": "Die Daten jeder Schule bleiben ihre eigenen, geschützt durch sichere Anmeldung und durchdachte Voreinstellungen."
+        },
+        "inclusion": {
+          "title": "Für alle",
+          "description": "Sechs Sprachen, Unterstützung für Rechts-nach-links-Schrift und eine Oberfläche, die auf jedem Gerät funktioniert."
+        }
+      }
+    },
+    "cta": {
+      "title": "Deine Schule nutzt {brand}?",
+      "description": "Melde dich mit dem Konto an, das du von deiner Schule erhalten hast.",
+      "button": "Anmelden"
+    }
+  }
+}
