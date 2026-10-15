@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { getFormatter, getLocale, getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
 import { PageHeader } from "@/components/common/page-header";
-import { describeUserAgent } from "@/lib/format";
+import { describeUserAgent, displayIp } from "@/lib/format";
 import { requirePageSession } from "@/server/auth/page";
 import {
   getPreferences,
@@ -75,7 +75,7 @@ export default async function SettingsPage({
           : (device.browser ?? device.os ?? tSessions("unknownDevice")),
       lastActive: format.relativeTime(session.lastActiveAt, now),
       signedIn: format.dateTime(session.createdAt, { dateStyle: "medium" }),
-      ipAddress: session.ipAddress,
+      ipAddress: displayIp(session.ipAddress),
     };
   });
 

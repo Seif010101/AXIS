@@ -10,6 +10,10 @@ import { useAction } from "@/hooks/use-action";
 import { cn } from "@/lib/utils";
 import { revokeOtherSessionsAction, revokeSessionAction } from "../actions";
 
+// Unicode "left-to-right isolate" and "pop directional isolate".
+const LRI = "\u2066";
+const PDI = "\u2069";
+
 /** One signed-in device, with its texts already formatted by the page. */
 export interface SessionRow {
   id: string;
@@ -76,7 +80,10 @@ export function SessionsCard({ sessions }: { sessions: SessionRow[] }) {
                 <p className="flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-muted-foreground">
                   <span>{t("lastActive", { time: session.lastActive })}</span>
                   <span>{t("signedIn", { date: session.signedIn })}</span>
-                  {session.ipAddress && <span>{t("ip", { ip: session.ipAddress })}</span>}
+                  {session.ipAddress && (
+                    // Isolated so the address keeps its left-to-right order inside Arabic text.
+                    <span>{t("ip", { ip: `${LRI}${session.ipAddress}${PDI}` })}</span>
+                  )}
                 </p>
               </div>
               {!session.current && (

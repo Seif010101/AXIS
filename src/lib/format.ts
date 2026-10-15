@@ -54,3 +54,26 @@ export function describeUserAgent(userAgent: string | null | undefined): DeviceI
     mobile: /Mobi|iPhone|iPod|Android.+Mobile/.test(ua),
   };
 }
+
+/**
+ * A stored IP address in its short, readable form: IPv6 compressed ("::1"), IPv4-mapped
+ * IPv6 shown as IPv4. Null when unknown or unspecified ("::").
+ */
+export function displayIp(ip: string | null | undefined): string | null {
+  const value = ip?.trim();
+  if (!value) return null;
+  if (!value.includes(":")) return value;
+  let host: string;
+  try {
+    host = new URL(`http://[${value}]`).hostname.slice(1, -1);
+  } catch {
+    return value;
+  }
+  const mapped = /^::ffff:([0-9a-f]{1,4}):([0-9a-f]{1,4})$/.exec(host);
+  if (mapped) {
+    const high = parseInt(mapped[1], 16);
+    const low = parseInt(mapped[2], 16);
+    return [high >> 8, high & 255, low >> 8, low & 255].join(".");
+  }
+  return host === "::" ? null : host;
+}

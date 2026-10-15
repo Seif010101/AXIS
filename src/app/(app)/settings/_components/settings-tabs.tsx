@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { SettingsTab } from "./tabs";
 
@@ -18,6 +18,14 @@ export function SettingsTabs({
 }) {
   const t = useTranslations("settings.tabs");
   const [tab, setTab] = useState<string>(initialTab);
+  const listRef = useRef<HTMLDivElement>(null);
+
+  // On phones the tab list scrolls sideways: bring the open tab into view.
+  useEffect(() => {
+    listRef.current
+      ?.querySelector('[data-state="active"]')
+      ?.scrollIntoView({ block: "nearest", inline: "nearest" });
+  }, [tab]);
 
   const change = (value: string) => {
     setTab(value);
@@ -29,8 +37,11 @@ export function SettingsTabs({
   return (
     <Tabs value={tab} onValueChange={change} className="gap-6">
       {/* Scrolls sideways on narrow phones instead of squeezing the labels. */}
-      <div className="-mx-4 overflow-x-auto px-4 sm:mx-0 sm:px-0">
-        <TabsList variant="line" aria-label={t("label")} className="h-10 w-full justify-start border-b sm:w-fit">
+      <div
+        ref={listRef}
+        className="-mx-4 overflow-x-auto px-4 [scrollbar-width:none] sm:mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden"
+      >
+        <TabsList variant="line" aria-label={t("label")} className="h-10 w-max min-w-full justify-start border-b">
           {tabs.map(({ value, label, icon }) => (
             <TabsTrigger key={value} value={value} className="flex-none px-3">
               {icon}

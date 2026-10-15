@@ -30,6 +30,7 @@ const nextConfig: NextConfig = {
     serverActions: { bodySizeLimit: "10mb" },
   },
   turbopack: {
+    root: path.resolve(process.cwd(), "../.."),
     resolveAlias: { "next-intl/config": I18N_REQUEST_CONFIG },
   },
   webpack(config) {

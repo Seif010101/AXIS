@@ -63,18 +63,20 @@ export function TwoFactorForm() {
     setError(null);
   };
 
-  const message = error && t(`errors.${error}`);
-
   return (
     <div className="space-y-5">
       <AuthError>
-        {message}
-        {error === "expired" && (
+        {error && (
           <>
-            {" "}
-            <Link href="/login" className="font-medium underline underline-offset-4">
-              {t("backToLogin")}
-            </Link>
+            {t(`errors.${error}`)}
+            {error === "expired" && (
+              <>
+                {" "}
+                <Link href="/login" className="font-medium underline underline-offset-4">
+                  {t("backToLogin")}
+                </Link>
+              </>
+            )}
           </>
         )}
       </AuthError>

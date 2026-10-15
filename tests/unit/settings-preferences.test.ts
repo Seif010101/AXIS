@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { describeUserAgent, initials } from "@/lib/format";
+import { describeUserAgent, displayIp, initials } from "@/lib/format";
 import {
   AVATAR_PRESETS,
   DIFFICULTIES,
@@ -75,5 +75,15 @@ describe("format helpers", () => {
       ),
     ).toEqual({ browser: "Chrome", os: "Android", mobile: true });
     expect(describeUserAgent(null)).toEqual({ browser: null, os: null, mobile: false });
+  });
+
+  it("shows stored IP addresses in a short form", () => {
+    expect(displayIp("203.0.113.7")).toBe("203.0.113.7");
+    expect(displayIp("0000:0000:0000:0000:0000:0000:0000:0001")).toBe("::1");
+    expect(displayIp("0000:0000:0000:0000:0000:ffff:c0a8:010a")).toBe("192.168.1.10");
+    expect(displayIp("2001:0db8:0000:0000:0000:0000:0000:0042")).toBe("2001:db8::42");
+    expect(displayIp("0000:0000:0000:0000:0000:0000:0000:0000")).toBeNull();
+    expect(displayIp("")).toBeNull();
+    expect(displayIp(null)).toBeNull();
   });
 });

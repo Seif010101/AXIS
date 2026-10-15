@@ -136,7 +136,7 @@ function NewBackupCodes({ codes, email, onDone }: { codes: string[]; email: stri
   const [saved, setSaved] = useState(false);
   return (
     <AlertDialog open>
-      <AlertDialogContent className="sm:max-w-lg">
+      <AlertDialogContent className="max-h-[calc(100svh-2rem)] overflow-y-auto data-[size=default]:max-w-[calc(100%-2rem)] data-[size=default]:sm:max-w-md">
         <AlertDialogHeader>
           <AlertDialogTitle>{t("readyTitle")}</AlertDialogTitle>
           <AlertDialogDescription>{t("readyDescription")}</AlertDialogDescription>

@@ -107,11 +107,11 @@ export function HeroVisual() {
             <div className="grid grid-cols-3 gap-2">
               {STATS.map(({ key, icon: Icon, tone, bar }) => (
                 <div key={key} className="space-y-2 rounded-lg border bg-background/60 p-2 sm:p-2.5">
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:gap-1.5">
                     <span className={cn("flex size-6 shrink-0 items-center justify-center rounded-md", tone)}>
                       <Icon className="size-3.5" />
                     </span>
-                    <span className="truncate text-[0.65rem] font-medium text-muted-foreground sm:text-xs">{t(key)}</span>
+                    <span className="max-w-full truncate text-[0.65rem] font-medium text-muted-foreground sm:text-xs">{t(key)}</span>
                   </div>
                   <span className={cn("block h-2 rounded-full bg-foreground/15", bar)} />
                 </div>
