@@ -2,6 +2,7 @@ import "server-only";
 import { and, count, eq, sql } from "drizzle-orm";
 import { env } from "@/env";
 import { db, schema } from "@/server/db";
+import { isDuplicateKeyError } from "@/server/db/errors";
 
 // Stars and streaks. The server is the only source of truth: features call awardStars()
 // after they have verified the achievement themselves (never on a client's word).
@@ -45,9 +46,6 @@ export function previousDay(day: string): string {
   return date.toISOString().slice(0, 10);
 }
 
-const isDuplicateKey = (error: unknown) =>
-  typeof error === "object" && error !== null && (error as { errno?: number }).errno === 1062;
-
 export interface StarAward {
   /** Stars actually granted (0 when today's cap for this kind is already used up). */
   awarded: number;
@@ -90,7 +88,7 @@ export async function awardStars(
           awarded = amount;
           break;
         } catch (error) {
-          if (!isDuplicateKey(error)) throw error; // a concurrent award took this slot
+          if (!isDuplicateKeyError(error)) throw error; // a concurrent award took this slot
         }
       }
       if (awarded > 0) {
@@ -141,4 +139,11 @@ export async function recordActivity(
       .set({ longestStreak: sql`GREATEST(${users.longestStreak}, ${users.currentStreak})` })
       .where(eq(users.id, userId));
   }
+}
+
+/** The streak as of today: one whose last active day is before yesterday has lapsed (0). */
+export function effectiveStreak(current: number, lastDay: string | null, at: Date = new Date()): number {
+  if (!lastDay) return 0;
+  const today = localDay(at);
+  return lastDay === today || lastDay === previousDay(today) ? current : 0;
 }

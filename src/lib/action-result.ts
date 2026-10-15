@@ -1,4 +1,4 @@
-import type { ActionResult } from "@/server/action";
+import type { ActionDetails, ActionResult } from "@/server/action";
 import type { ErrorCode } from "@/server/errors";
 
 // Client-side helpers around ActionResult (src/server/action.ts). Pure, unit-tested.
@@ -9,6 +9,7 @@ export type ActionFailure = {
   code: ErrorCode | "NETWORK";
   message: string;
   fieldErrors?: Record<string, string[]>;
+  details?: ActionDetails;
 };
 
 export type ActionOutcome<T> = { ok: true; data: T } | ActionFailure;

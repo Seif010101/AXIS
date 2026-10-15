@@ -6,6 +6,7 @@ import { env } from "@/env";
 import { auth } from "@/server/auth/auth";
 import { clearLoginThrottles } from "@/server/auth/throttle";
 import { db } from "@/server/db";
+import { isDuplicateKeyError } from "@/server/db/errors";
 import { users } from "@/server/db/schema";
 import { AppError } from "@/server/errors";
 import type { Role } from "@/server/policy/roles";
@@ -48,9 +49,6 @@ export interface CreatedAccount {
   /** Shown to the creator exactly once. Only its hash is stored. */
   password: string;
 }
-
-const isDuplicateKey = (error: unknown) =>
-  typeof error === "object" && error !== null && (error as { errno?: number }).errno === 1062;
 
 /**
  * Creates a user with a temporary password. Public sign-up is disabled, so this is the
@@ -96,7 +94,7 @@ export async function createAccount(
     userId = user.id;
   } catch (error) {
     // Two concurrent creations of the same email: the loser hits the unique index.
-    if (isDuplicateKey(error)) throw new AppError("CONFLICT", "An account with this email already exists");
+    if (isDuplicateKeyError(error)) throw new AppError("CONFLICT", "An account with this email already exists");
     throw error;
   }
 

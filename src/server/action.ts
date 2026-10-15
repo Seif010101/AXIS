@@ -15,7 +15,27 @@ import { AppError, type ErrorCode } from "@/server/errors";
 
 export type ActionResult<T> =
   | { ok: true; data: T }
-  | { ok: false; code: ErrorCode; message: string; fieldErrors?: Record<string, string[]> };
+  | {
+      ok: false;
+      code: ErrorCode;
+      message: string;
+      fieldErrors?: Record<string, string[]>;
+      /** Safe extra facts from AppError.details (e.g. { reason: "class_in_use", students: 3 }). */
+      details?: ActionDetails;
+    };
+
+export type ActionDetails = Record<string, string | number | boolean>;
+
+// Only primitive values of AppError.details reach the client; `field` also becomes a field
+// error so forms can mark the input (e.g. a duplicate ministry code).
+function publicDetails(error: AppError): { details?: ActionDetails; fieldErrors?: Record<string, string[]> } {
+  if (typeof error.details !== "object" || error.details === null) return {};
+  const details = Object.fromEntries(
+    Object.entries(error.details).filter(([, value]) => ["string", "number", "boolean"].includes(typeof value)),
+  ) as ActionDetails;
+  const field = typeof details.field === "string" ? details.field : undefined;
+  return { details, ...(field ? { fieldErrors: { [field]: [error.code] } } : {}) };
+}
 
 export interface ActionOptions<Schema extends z.ZodType> extends RequireSessionOptions {
   input: Schema;
@@ -44,7 +64,9 @@ export function action<Schema extends z.ZodType, Output>(
       return { ok: true, data: await handler(parsed.data, context) };
     } catch (error) {
       unstable_rethrow(error); // redirect(), notFound(), forbidden() must reach Next.js
-      if (error instanceof AppError) return { ok: false, code: error.code, message: error.message };
+      if (error instanceof AppError) {
+        return { ok: false, code: error.code, message: error.message, ...publicDetails(error) };
+      }
       console.error("[action]", error);
       return { ok: false, code: "INTERNAL", message: "Internal server error" };
     }
