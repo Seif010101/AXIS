@@ -2,7 +2,7 @@
 
 import { Plus, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useEffect, useMemo, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import {
   addAssignmentAction,
   createPersonAction,
@@ -82,18 +82,7 @@ interface FormState {
   schoolId: string;
 }
 
-/** Create an account (one-time password) or edit one (name, ID, class, subject). */
-export function PersonFormDialog({
-  open,
-  onOpenChange,
-  person,
-  roles,
-  classes,
-  schoolId,
-  schools,
-  onCreated,
-}: {
-  open: boolean;
+interface PersonFormProps {
   onOpenChange: (open: boolean) => void;
   /** Edit mode when set. */
   person?: PersonRow;
@@ -106,27 +95,45 @@ export function PersonFormDialog({
   /** School choices for the owner directory (admins need a school). */
   schools?: { id: string; label: string }[];
   onCreated: (credentials: CredentialRow) => void;
-}) {
+}
+
+function initialFormState(person: PersonRow | undefined, roles: readonly AccountRole[]): FormState {
+  if (!person)
+    return {
+      role: roles[0] ?? "student",
+      name: "",
+      ministryId: "",
+      classValue: "",
+      subject: "",
+      schoolId: "",
+    };
+  return {
+    role: person.role,
+    name: person.name,
+    ministryId: person.ministryId ?? "",
+    classValue: person.grade ? encodeClass({ grade: person.grade, section: person.section ?? "" }) : "",
+    subject: person.subject ?? "",
+    schoolId: person.schoolId ?? "",
+  };
+}
+
+/** Create an account (one-time password) or edit one (name, ID, class, subject). */
+export function PersonFormDialog({ open, ...props }: PersonFormProps & { open: boolean }) {
+  return (
+    <Dialog open={open} onOpenChange={props.onOpenChange}>
+      <DialogContent className="sm:max-w-md">
+        {/* Mounted afresh on every open (and per person), so the form starts from their data. */}
+        <PersonForm key={props.person?.id ?? "new"} {...props} />
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function PersonForm({ onOpenChange, person, roles, classes, schoolId, schools, onCreated }: PersonFormProps) {
   const t = useTranslations("schools.person");
   const tRoles = useTranslations("common.roles");
   const tCommon = useTranslations("common.actions");
-  const [state, setState] = useState<FormState>({ role: roles[0] ?? "student", name: "", ministryId: "", classValue: "", subject: "", schoolId: "" });
-
-  useEffect(() => {
-    if (!open) return;
-    setState(
-      person
-        ? {
-            role: person.role,
-            name: person.name,
-            ministryId: person.ministryId ?? "",
-            classValue: person.grade ? encodeClass({ grade: person.grade, section: person.section ?? "" }) : "",
-            subject: person.subject ?? "",
-            schoolId: person.schoolId ?? "",
-          }
-        : { role: roles[0] ?? "student", name: "", ministryId: "", classValue: "", subject: "", schoolId: "" },
-    );
-  }, [open, person, roles]);
+  const [state, setState] = useState<FormState>(() => initialFormState(person, roles));
 
   const create = useAction(createPersonAction, {
     onSuccess: (credentials) => {
@@ -134,10 +141,14 @@ export function PersonFormDialog({
       onCreated(credentials);
     },
   });
-  const update = useAction(updatePersonAction, { successMessage: t("updated"), onSuccess: () => onOpenChange(false) });
+  const update = useAction(updatePersonAction, {
+    successMessage: t("updated"),
+    onSuccess: () => onOpenChange(false),
+  });
   const { pending, fieldErrors } = person ? update : create;
 
-  const set = <K extends keyof FormState>(key: K, value: FormState[K]) => setState((s) => ({ ...s, [key]: value }));
+  const set = <K extends keyof FormState>(key: K, value: FormState[K]) =>
+    setState((s) => ({ ...s, [key]: value }));
   const chosen = state.classValue && state.classValue !== "none" ? decodeClass(state.classValue) : null;
   const needsClass = state.role === "student";
   const needsSchool = !person && !schoolId && state.role !== "manager";
@@ -152,7 +163,12 @@ export function PersonFormDialog({
       subject: state.role === "teacher" ? state.subject : "",
     };
     if (person) void update.execute({ userId: person.id, ...common });
-    else void create.execute({ ...common, role: state.role, schoolId: schoolId ?? (state.schoolId || undefined) });
+    else
+      void create.execute({
+        ...common,
+        role: state.role,
+        schoolId: schoolId ?? (state.schoolId || undefined),
+      });
   };
 
   const error = (field: string) => {
@@ -167,101 +183,118 @@ export function PersonFormDialog({
     pending || state.name.trim().length < 2 || (needsClass && !chosen) || (needsSchool && !state.schoolId);
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
-        <form onSubmit={submit} className="grid gap-6">
-          <DialogHeader>
-            <DialogTitle>{person ? t("editTitle") : t("createTitle")}</DialogTitle>
-            <DialogDescription>{person ? t("editDescription") : t("createDescription")}</DialogDescription>
-          </DialogHeader>
-          <FieldGroup>
-            {!person && roles.length > 1 && (
-              <Field>
-                <FieldLabel htmlFor="person-role">{t("role")}</FieldLabel>
-                <Select value={state.role} onValueChange={(v) => set("role", v as AccountRole)}>
-                  <SelectTrigger id="person-role" className="w-full">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {roles.map((r) => (
-                      <SelectItem key={r} value={r}>
-                        {tRoles(r)}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </Field>
+    <form onSubmit={submit} className="grid gap-6">
+      <DialogHeader>
+        <DialogTitle>{person ? t("editTitle") : t("createTitle")}</DialogTitle>
+        <DialogDescription>{person ? t("editDescription") : t("createDescription")}</DialogDescription>
+      </DialogHeader>
+      <FieldGroup>
+        {!person && roles.length > 1 && (
+          <Field>
+            <FieldLabel htmlFor="person-role">{t("role")}</FieldLabel>
+            <Select value={state.role} onValueChange={(v) => set("role", v as AccountRole)}>
+              <SelectTrigger id="person-role" className="w-full">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {roles.map((r) => (
+                  <SelectItem key={r} value={r}>
+                    {tRoles(r)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </Field>
+        )}
+        <Field data-invalid={Boolean(error("name"))}>
+          <FieldLabel htmlFor="person-name">{t("name")}</FieldLabel>
+          <Input
+            id="person-name"
+            value={state.name}
+            onChange={(e) => set("name", e.target.value)}
+            maxLength={255}
+            required
+            autoComplete="off"
+          />
+          {error("name") && <FieldError>{error("name")}</FieldError>}
+        </Field>
+        <Field data-invalid={Boolean(error("ministryId"))}>
+          <FieldLabel htmlFor="person-id">
+            {t("ministryId")} <span className="font-normal text-muted-foreground">{t("optional")}</span>
+          </FieldLabel>
+          <Input
+            id="person-id"
+            dir="ltr"
+            value={state.ministryId}
+            onChange={(e) => set("ministryId", e.target.value)}
+            maxLength={50}
+            autoComplete="off"
+          />
+          <FieldDescription>{t("ministryIdHint")}</FieldDescription>
+          {error("ministryId") && <FieldError>{error("ministryId")}</FieldError>}
+        </Field>
+        {needsSchool && schools && (
+          <Field>
+            <FieldLabel htmlFor="person-school">{t("school")}</FieldLabel>
+            <Select value={state.schoolId || undefined} onValueChange={(v) => set("schoolId", v)}>
+              <SelectTrigger id="person-school" className="w-full">
+                <SelectValue placeholder={t("chooseSchool")} />
+              </SelectTrigger>
+              <SelectContent>
+                {schools.map((s) => (
+                  <SelectItem key={s.id} value={s.id}>
+                    {s.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </Field>
+        )}
+        {(state.role === "student" || (state.role === "teacher" && !person)) && (
+          <Field data-invalid={Boolean(error("grade"))}>
+            <FieldLabel htmlFor="person-class">
+              {state.role === "student" ? t("class") : t("firstClass")}
+            </FieldLabel>
+            {classes.length === 0 ? (
+              <FieldDescription>{t("noClasses")}</FieldDescription>
+            ) : (
+              <ClassSelect
+                id="person-class"
+                value={state.classValue}
+                onChange={(v) => set("classValue", v)}
+                classes={classes}
+                placeholder={t("chooseClass")}
+                allowNone={state.role === "teacher" ? t("noClassYet") : undefined}
+              />
             )}
-            <Field data-invalid={Boolean(error("name"))}>
-              <FieldLabel htmlFor="person-name">{t("name")}</FieldLabel>
-              <Input id="person-name" value={state.name} onChange={(e) => set("name", e.target.value)} maxLength={255} required autoComplete="off" />
-              {error("name") && <FieldError>{error("name")}</FieldError>}
-            </Field>
-            <Field data-invalid={Boolean(error("ministryId"))}>
-              <FieldLabel htmlFor="person-id">
-                {t("ministryId")} <span className="font-normal text-muted-foreground">{t("optional")}</span>
-              </FieldLabel>
-              <Input id="person-id" dir="ltr" value={state.ministryId} onChange={(e) => set("ministryId", e.target.value)} maxLength={50} autoComplete="off" />
-              <FieldDescription>{t("ministryIdHint")}</FieldDescription>
-              {error("ministryId") && <FieldError>{error("ministryId")}</FieldError>}
-            </Field>
-            {needsSchool && schools && (
-              <Field>
-                <FieldLabel htmlFor="person-school">{t("school")}</FieldLabel>
-                <Select value={state.schoolId || undefined} onValueChange={(v) => set("schoolId", v)}>
-                  <SelectTrigger id="person-school" className="w-full">
-                    <SelectValue placeholder={t("chooseSchool")} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {schools.map((s) => (
-                      <SelectItem key={s.id} value={s.id}>
-                        {s.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </Field>
-            )}
-            {(state.role === "student" || (state.role === "teacher" && !person)) && (
-              <Field data-invalid={Boolean(error("grade"))}>
-                <FieldLabel htmlFor="person-class">{state.role === "student" ? t("class") : t("firstClass")}</FieldLabel>
-                {classes.length === 0 ? (
-                  <FieldDescription>{t("noClasses")}</FieldDescription>
-                ) : (
-                  <ClassSelect
-                    id="person-class"
-                    value={state.classValue}
-                    onChange={(v) => set("classValue", v)}
-                    classes={classes}
-                    placeholder={t("chooseClass")}
-                    allowNone={state.role === "teacher" ? t("noClassYet") : undefined}
-                  />
-                )}
-                {error("grade") && <FieldError>{error("grade")}</FieldError>}
-              </Field>
-            )}
-            {state.role === "teacher" && (
-              <Field>
-                <FieldLabel htmlFor="person-subject">
-                  {t("subject")} <span className="font-normal text-muted-foreground">{t("optional")}</span>
-                </FieldLabel>
-                <Input id="person-subject" value={state.subject} onChange={(e) => set("subject", e.target.value)} maxLength={100} />
-              </Field>
-            )}
-          </FieldGroup>
-          {!person && <p className="text-sm text-muted-foreground">{t("passwordNote")}</p>}
-          <DialogFooter>
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
-              {tCommon("cancel")}
-            </Button>
-            <Button type="submit" disabled={disabled}>
-              {pending && <Spinner />}
-              {person ? tCommon("save") : t("createSubmit")}
-            </Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
+            {error("grade") && <FieldError>{error("grade")}</FieldError>}
+          </Field>
+        )}
+        {state.role === "teacher" && (
+          <Field>
+            <FieldLabel htmlFor="person-subject">
+              {t("subject")} <span className="font-normal text-muted-foreground">{t("optional")}</span>
+            </FieldLabel>
+            <Input
+              id="person-subject"
+              value={state.subject}
+              onChange={(e) => set("subject", e.target.value)}
+              maxLength={100}
+            />
+          </Field>
+        )}
+      </FieldGroup>
+      {!person && <p className="text-sm text-muted-foreground">{t("passwordNote")}</p>}
+      <DialogFooter>
+        <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+          {tCommon("cancel")}
+        </Button>
+        <Button type="submit" disabled={disabled}>
+          {pending && <Spinner />}
+          {person ? tCommon("save") : t("createSubmit")}
+        </Button>
+      </DialogFooter>
+    </form>
   );
 }
 
@@ -300,7 +333,9 @@ export function AssignmentsDialog({
         {teacher && (
           <div className="grid gap-5">
             {teacher.assignments.length === 0 ? (
-              <p className="rounded-lg border border-dashed p-4 text-center text-sm text-muted-foreground">{t("empty")}</p>
+              <p className="rounded-lg border border-dashed p-4 text-center text-sm text-muted-foreground">
+                {t("empty")}
+              </p>
             ) : (
               <ul className="divide-y rounded-lg border">
                 {teacher.assignments.map((a) => (
@@ -332,11 +367,22 @@ export function AssignmentsDialog({
             >
               <Field>
                 <FieldLabel htmlFor="assign-class">{t("class")}</FieldLabel>
-                <ClassSelect id="assign-class" value={classValue} onChange={setClassValue} classes={classes} placeholder={t("chooseClass")} />
+                <ClassSelect
+                  id="assign-class"
+                  value={classValue}
+                  onChange={setClassValue}
+                  classes={classes}
+                  placeholder={t("chooseClass")}
+                />
               </Field>
               <Field>
                 <FieldLabel htmlFor="assign-subject">{t("subject")}</FieldLabel>
-                <Input id="assign-subject" value={subject} onChange={(e) => setSubject(e.target.value)} maxLength={100} />
+                <Input
+                  id="assign-subject"
+                  value={subject}
+                  onChange={(e) => setSubject(e.target.value)}
+                  maxLength={100}
+                />
               </Field>
               <Button type="submit" disabled={!classValue || add.pending}>
                 {add.pending ? <Spinner /> : <Plus aria-hidden />}
@@ -353,24 +399,54 @@ export function AssignmentsDialog({
 // ---------------------------------------------------------------------------
 
 /** Permanent deletion with an impact summary; teachers with content must be deactivated. */
-export function DeletePersonDialog({ person, onOpenChange }: { person: PersonRow | null; onOpenChange: (open: boolean) => void }) {
+export function DeletePersonDialog({
+  person,
+  onOpenChange,
+}: {
+  person: PersonRow | null;
+  onOpenChange: (open: boolean) => void;
+}) {
   const t = useTranslations("schools.deletePerson");
   const tCommon = useTranslations("common.actions");
-  const [impact, setImpact] = useState<PersonImpact | null>(null);
-  const load = useAction(personImpactAction, { onSuccess: setImpact });
-  const remove = useAction(deletePersonAction, { successMessage: t("deleted"), onSuccess: () => onOpenChange(false) });
+  // Tagged with the person it was loaded for, so a stale result never shows for another.
+  const [loaded, setLoaded] = useState<{ userId: string; impact: PersonImpact } | null>(null);
+  const requested = useRef<string | null>(null);
+  const load = useAction(personImpactAction, {
+    onSuccess: (impact) => {
+      if (requested.current) setLoaded({ userId: requested.current, impact });
+    },
+  });
+  const remove = useAction(deletePersonAction, {
+    successMessage: t("deleted"),
+    onSuccess: () => onOpenChange(false),
+  });
   const loadImpact = load.execute;
+  const impact = person && loaded?.userId === person.id ? loaded.impact : null;
 
   useEffect(() => {
-    setImpact(null);
+    requested.current = person?.id ?? null;
     if (person) void loadImpact({ userId: person.id });
   }, [person, loadImpact]);
 
   const authored = impact ? impact.authored.homework + impact.authored.tests + impact.authored.worksheets : 0;
   const lines = useMemo(() => {
     if (!impact) return [];
-    if (impact.role === "teacher") return [t("authored", { homework: impact.authored.homework, tests: impact.authored.tests, worksheets: impact.authored.worksheets })];
-    if (impact.role === "student") return [t("studentData", { submissions: impact.submissions, results: impact.testResults, chats: impact.conversations })];
+    if (impact.role === "teacher")
+      return [
+        t("authored", {
+          homework: impact.authored.homework,
+          tests: impact.authored.tests,
+          worksheets: impact.authored.worksheets,
+        }),
+      ];
+    if (impact.role === "student")
+      return [
+        t("studentData", {
+          submissions: impact.submissions,
+          results: impact.testResults,
+          chats: impact.conversations,
+        }),
+      ];
     return [];
   }, [impact, t]);
 

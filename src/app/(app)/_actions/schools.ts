@@ -5,7 +5,12 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { z } from "zod";
 import { action } from "@/server/action";
 import { AppError } from "@/server/errors";
-import { addClasses, addClassesSchema, deleteClass, deleteClassSchema } from "@/server/modules/schools/classes";
+import {
+  addClasses,
+  addClassesSchema,
+  deleteClass,
+  deleteClassSchema,
+} from "@/server/modules/schools/classes";
 import {
   createSchool,
   deleteSchool,
@@ -20,11 +25,14 @@ import { buildWorkbook, readFormFile, readSheet } from "@/server/services/files"
 
 // Server actions shared by the school screens (manager/owner school pages, admin classes).
 
-export const createSchoolAction = action({ area: "manager", input: schoolFieldsSchema }, async (fields, ctx) => {
-  const created = await createSchool(ctx, fields);
-  refresh();
-  return created;
-});
+export const createSchoolAction = action(
+  { area: "manager", input: schoolFieldsSchema },
+  async (fields, ctx) => {
+    const created = await createSchool(ctx, fields);
+    refresh();
+    return created;
+  },
+);
 
 export const updateSchoolAction = action(
   { area: "manager", input: schoolFieldsSchema.extend({ schoolId: z.uuid() }) },
@@ -34,25 +42,41 @@ export const updateSchoolAction = action(
   },
 );
 
-export const schoolImpactAction = action({ area: "manager", input: z.object({ schoolId: z.uuid() }) }, (input, ctx) =>
-  schoolDeletionImpact(ctx, input.schoolId),
+export const schoolImpactAction = action(
+  { area: "manager", input: z.object({ schoolId: z.uuid() }) },
+  (input, ctx) => schoolDeletionImpact(ctx, input.schoolId),
 );
 
-export const deleteSchoolAction = action({ area: "manager", stepUp: true, input: deleteSchoolSchema }, async (input, ctx) => {
-  await deleteSchool(ctx, input.schoolId, input.confirmName);
-});
+export const deleteSchoolAction = action(
+  { area: "manager", stepUp: true, input: deleteSchoolSchema },
+  async (input, ctx) => {
+    await deleteSchool(ctx, input.schoolId, input.confirmName);
+  },
+);
 
-export const importSchoolsAction = action({ area: "manager", input: z.instanceof(FormData) }, async (form, ctx) => {
-  const file = await readFormFile(form, "file", { accept: [".xlsx", ".csv"] });
-  const sheet = await readSheet(file.bytes, { fileName: file.fileName, aliases: SCHOOL_COLUMN_ALIASES, maxRows: 10_000 });
-  if (!sheet.headers.includes("school") || !sheet.headers.includes("grade")) {
-    const missing = (["school", "grade"] as const).filter((h) => !sheet.headers.includes(h));
-    throw new AppError("VALIDATION", "Missing columns", { reason: "missing_columns", columns: missing.join(",") });
-  }
-  const result = await importSchools(ctx, sheet.rows, sheet.rowNumbers);
-  refresh();
-  return result;
-});
+// Bulk creation (up to 10,000 rows), so it needs a fresh authenticator code like the
+// other high-impact actions.
+export const importSchoolsAction = action(
+  { area: "manager", stepUp: true, input: z.instanceof(FormData) },
+  async (form, ctx) => {
+    const file = await readFormFile(form, "file", { accept: [".xlsx", ".csv"] });
+    const sheet = await readSheet(file.bytes, {
+      fileName: file.fileName,
+      aliases: SCHOOL_COLUMN_ALIASES,
+      maxRows: 10_000,
+    });
+    if (!sheet.headers.includes("school") || !sheet.headers.includes("grade")) {
+      const missing = (["school", "grade"] as const).filter((h) => !sheet.headers.includes(h));
+      throw new AppError("VALIDATION", "Missing columns", {
+        reason: "missing_columns",
+        columns: missing.join(","),
+      });
+    }
+    const result = await importSchools(ctx, sheet.rows, sheet.rowNumbers);
+    refresh();
+    return result;
+  },
+);
 
 /** A ready-to-fill schools spreadsheet with localized headers (base64 .xlsx). */
 export const schoolsTemplateAction = action({ area: "manager", input: z.object({}) }, async () => {

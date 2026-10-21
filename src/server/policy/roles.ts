@@ -25,9 +25,13 @@ export function homePath(role: Role): `/${Role}` {
   return `/${role}`;
 }
 
-// Roles that must enroll TOTP 2FA and pass step-up for high-risk actions.
+// Roles with the most access. They also pass step-up for high-risk actions.
 export const PRIVILEGED_ROLES = ["owner", "manager", "admin"] as const satisfies readonly Role[];
 
+// Every account must enroll TOTP 2FA (Microsoft Authenticator or any RFC 6238 app) before
+// it can use the platform, and can't turn it off afterwards.
+export const TWO_FACTOR_ROLES = ROLES;
+
 export function requiresTwoFactor(role: Role): boolean {
-  return (PRIVILEGED_ROLES as readonly Role[]).includes(role);
+  return (TWO_FACTOR_ROLES as readonly Role[]).includes(role);
 }

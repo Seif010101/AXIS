@@ -126,7 +126,7 @@
         "off": "Desactivada",
         "pending": "Sin terminar"
       },
-      "requiredNote": "Tu rol la exige, así que no se puede desactivar.",
+      "requiredNote": "Es obligatoria para todas las cuentas, así que no se puede desactivar. ¿Perdiste el teléfono? Pide a la administración de tu escuela que la restablezca.",
       "onNote": "Tu cuenta pide un código de tu móvil en cada inicio de sesión.",
       "offNote": "Añade una segunda capa de protección: aunque alguien tenga tu contraseña, no podrá entrar sin tu móvil.",
       "pendingNote": "Empezaste la configuración pero no confirmaste ningún código. Termínala para activar la protección.",

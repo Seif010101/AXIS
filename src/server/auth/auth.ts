@@ -26,7 +26,16 @@ export const auth = betterAuth({
     // client-sent value is replaced) while X-Forwarded-For arrives as a multi-hop chain that
     // Better Auth rightly refuses. X-Forwarded-For stays as a single-value fallback for
     // local runs and tests.
-    ipAddress: { ipAddressHeaders: ["x-real-ip", "x-forwarded-for"] },
+    //
+    // Behind Cloudflare's proxy X-Real-IP is a Cloudflare server, so with
+    // TRUST_CLOUDFLARE_IP the visitor's address is read from CF-Connecting-IP first.
+    ipAddress: {
+      // Strict `=== true`: if env validation is ever skipped the raw string "0" would be truthy.
+      ipAddressHeaders:
+        env.TRUST_CLOUDFLARE_IP === true
+          ? ["cf-connecting-ip", "x-real-ip", "x-forwarded-for"]
+          : ["x-real-ip", "x-forwarded-for"],
+    },
   },
 
   // Users can't edit their own profile through Better Auth: name is set by staff and the

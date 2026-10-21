@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { AuthHeading } from "@/components/auth/auth-heading";
+import { env } from "@/env";
 import { getSessionContext } from "@/server/auth/session";
 import { homePath } from "@/server/policy/roles";
 import { LoginForm } from "./login-form";
@@ -20,7 +21,7 @@ export default async function LoginPage() {
   return (
     <>
       <AuthHeading title={t("title")} subtitle={t("subtitle")} />
-      <LoginForm />
+      <LoginForm turnstileSiteKey={env.TURNSTILE_SECRET_KEY ? (env.TURNSTILE_SITE_KEY ?? null) : null} />
       <p className="mt-8 text-center text-xs text-muted-foreground">{t("accountsNote")}</p>
     </>
   );

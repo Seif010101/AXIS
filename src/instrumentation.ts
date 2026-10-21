@@ -8,6 +8,10 @@ export async function register() {
 
   // First-owner bootstrap for a fresh production database (no-op unless configured).
   // A misconfiguration is logged, not fatal: the rest of the platform keeps working.
+  // Expired sessions, challenges, counters and cache rows: removed now and every 6 hours.
+  const { scheduleHousekeeping } = await import("./server/housekeeping");
+  scheduleHousekeeping();
+
   const { bootstrapOwner } = await import("./server/bootstrap-owner");
   await bootstrapOwner().catch((error: unknown) =>
     console.error(error instanceof Error ? error.message : error),

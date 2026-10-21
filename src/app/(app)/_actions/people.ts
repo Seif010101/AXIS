@@ -17,6 +17,7 @@ import {
   removeAssignment,
   removeAssignmentSchema,
   resetPersonPassword,
+  resetPersonTwoFactor,
   setActiveSchema,
   setPersonActive,
   updatePerson,
@@ -46,18 +47,31 @@ export const resetPasswordAction = action({ stepUp: true, input: userIdSchema },
   return credentials;
 });
 
-export const reissueCredentialsAction = action({ stepUp: true, input: reissueSchema }, async ({ userIds }, ctx) => {
-  const credentials = await reissueCredentials(ctx, userIds);
-  refresh();
-  return credentials;
-});
-
-export const setActiveAction = action({ stepUp: true, input: setActiveSchema }, async ({ userId, isActive }, ctx) => {
-  await setPersonActive(ctx, userId, isActive);
+export const resetTwoFactorAction = action({ stepUp: true, input: userIdSchema }, async ({ userId }, ctx) => {
+  await resetPersonTwoFactor(ctx, userId);
   refresh();
 });
 
-export const personImpactAction = action({ input: userIdSchema }, ({ userId }, ctx) => personDeletionImpact(ctx, userId));
+export const reissueCredentialsAction = action(
+  { stepUp: true, input: reissueSchema },
+  async ({ userIds }, ctx) => {
+    const credentials = await reissueCredentials(ctx, userIds);
+    refresh();
+    return credentials;
+  },
+);
+
+export const setActiveAction = action(
+  { stepUp: true, input: setActiveSchema },
+  async ({ userId, isActive }, ctx) => {
+    await setPersonActive(ctx, userId, isActive);
+    refresh();
+  },
+);
+
+export const personImpactAction = action({ input: userIdSchema }, ({ userId }, ctx) =>
+  personDeletionImpact(ctx, userId),
+);
 
 export const deletePersonAction = action({ stepUp: true, input: userIdSchema }, async ({ userId }, ctx) => {
   await deletePerson(ctx, userId);
@@ -95,7 +109,9 @@ export const exportPeopleAction = action(
       grade: r.grade ?? "",
       section: r.section ?? "",
       subject: r.subject ?? "",
-      classes: r.assignments.map((a) => [a.grade, a.section, a.subject].filter(Boolean).join(" / ")).join("; "),
+      classes: r.assignments
+        .map((a) => [a.grade, a.section, a.subject].filter(Boolean).join(" / "))
+        .join("; "),
       ministryId: r.ministryId ?? "",
       status: r.isActive ? (r.pending ? "pending" : "active") : "inactive",
       lastLoginAt: r.lastLoginAt ? r.lastLoginAt.toISOString() : "",

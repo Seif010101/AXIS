@@ -85,7 +85,7 @@
       },
       "security": {
         "title": "Sécurité dès la conception",
-        "description": "Validation en deux étapes pour le personnel, séparation stricte entre établissements et un nouveau code pour les actions sensibles."
+        "description": "Validation en deux étapes pour tous les comptes, séparation stricte entre les écoles et un nouveau code pour chaque action sensible."
       }
     }
   },
@@ -99,7 +99,7 @@
       },
       "signIn": {
         "title": "Chacun se connecte en sécurité",
-        "description": "Chaque personne a son propre compte. Le personnel confirme avec un code d'application d'authentification."
+        "description": "Chacun a son propre compte, et tout le monde confirme avec un code de Microsoft Authenticator."
       },
       "learn": {
         "title": "Enseigner et apprendre",
@@ -130,7 +130,7 @@
       },
       "security": {
         "question": "Comment nos données sont-elles protégées ?",
-        "answer": "Chaque établissement ne voit que ses propres données. Les mots de passe sont stockés sous forme de hachages irréversibles, les comptes du personnel utilisent la validation en deux étapes et les actions sensibles demandent un nouveau code de l'application d'authentification."
+        "answer": "Chaque école ne voit que ses propres données. Les mots de passe sont stockés sous forme de hachage irréversible, tous les comptes — élèves, enseignants et personnel — utilisent la validation en deux étapes, les actions sensibles demandent un nouveau code de l'application d'authentification, et le contrôle anti-robots de Cloudflare bloque les tentatives de connexion automatisées."
       },
       "ai": {
         "question": "Que fait le tuteur IA ?",

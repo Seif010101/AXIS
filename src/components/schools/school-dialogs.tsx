@@ -4,7 +4,12 @@ import { Download, FileSpreadsheet, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { deleteSchoolAction, importSchoolsAction, schoolImpactAction, schoolsTemplateAction } from "@/app/(app)/_actions/schools";
+import {
+  deleteSchoolAction,
+  importSchoolsAction,
+  schoolImpactAction,
+  schoolsTemplateAction,
+} from "@/app/(app)/_actions/schools";
 import { FileUpload } from "@/components/common/file-upload";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -38,6 +43,8 @@ export function ImportSchoolsDialog() {
     silent: true,
     onSuccess: setResult,
     onError: (failure) => {
+      // The user closed the authenticator-code dialog: nothing went wrong with the file.
+      if (failure.code === "STEP_UP_REQUIRED") return;
       const reason = failure.details?.reason;
       if (reason === "missing_columns") setError(t("errors.missingColumns"));
       else if (reason === "no_schools") setError(t("errors.noSchools"));
@@ -80,7 +87,10 @@ export function ImportSchoolsDialog() {
             <p className="font-medium">{t("summary", { created, existing, classes })}</p>
             <ul className="max-h-48 divide-y overflow-auto rounded-lg border text-sm">
               {result.schools.map((s) => (
-                <li key={`${s.name}|${s.branch ?? ""}`} className="flex items-center justify-between gap-2 px-3 py-2">
+                <li
+                  key={`${s.name}|${s.branch ?? ""}`}
+                  className="flex items-center justify-between gap-2 px-3 py-2"
+                >
                   <span>{s.branch ? `${s.name} — ${s.branch}` : s.name}</span>
                   <Badge variant={s.status === "created" ? "default" : "secondary"}>
                     {t(`status.${s.status}`)} · {t("classesAdded", { count: s.classesAdded })}
@@ -94,7 +104,8 @@ export function ImportSchoolsDialog() {
                 <ul className="max-h-32 list-inside list-disc overflow-auto">
                   {result.issues.map((issue, i) => (
                     <li key={i}>
-                      {t("row", { row: issue.row })}: {t(`issues.${issue.code}`, { value: "value" in issue ? issue.value : "" })}
+                      {t("row", { row: issue.row })}:{" "}
+                      {t(`issues.${issue.code}`, { value: "value" in issue ? issue.value : "" })}
                     </li>
                   ))}
                 </ul>
@@ -183,19 +194,26 @@ export function DeleteSchoolDialog({ schoolId, schoolName }: { schoolId: string;
         </DialogHeader>
         {impact ? (
           <ul className="grid grid-cols-2 gap-2 text-sm">
-            {(["students", "teachers", "admins", "classes", "homework", "tests", "worksheets"] as const).map((key) => (
-              <li key={key} className="flex justify-between rounded-md bg-muted/60 px-3 py-1.5">
-                <span>{t(`impact.${key}`)}</span>
-                <span className="font-semibold tabular-nums">{impact[key]}</span>
-              </li>
-            ))}
+            {(["students", "teachers", "admins", "classes", "homework", "tests", "worksheets"] as const).map(
+              (key) => (
+                <li key={key} className="flex justify-between rounded-md bg-muted/60 px-3 py-1.5">
+                  <span>{t(`impact.${key}`)}</span>
+                  <span className="font-semibold tabular-nums">{impact[key]}</span>
+                </li>
+              ),
+            )}
           </ul>
         ) : (
           <Skeleton className="h-24 w-full" />
         )}
         <Field>
           <FieldLabel htmlFor="confirm-school-name">{t("typeName")}</FieldLabel>
-          <Input id="confirm-school-name" value={typed} onChange={(e) => setTyped(e.target.value)} autoComplete="off" />
+          <Input
+            id="confirm-school-name"
+            value={typed}
+            onChange={(e) => setTyped(e.target.value)}
+            autoComplete="off"
+          />
           <FieldDescription>{schoolName}</FieldDescription>
         </Field>
         <DialogFooter>

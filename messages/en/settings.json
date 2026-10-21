@@ -126,7 +126,7 @@
         "off": "Off",
         "pending": "Not finished"
       },
-      "requiredNote": "Your role requires it, so it can't be turned off.",
+      "requiredNote": "Required for every account, so it can't be turned off. Lost your phone? Ask your school's administration to reset it.",
       "onNote": "Your account asks for a code from your phone at every sign-in.",
       "offNote": "Add a second layer of protection: even with your password, nobody can sign in without your phone.",
       "pendingNote": "You started the setup but never confirmed a code. Finish it to turn protection on.",

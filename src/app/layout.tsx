@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getTranslations } from "next-intl/server";
+import { headers } from "next/headers";
 import { IBM_Plex_Sans_Arabic } from "next/font/google";
 import type { ReactNode } from "react";
 import { AppProviders } from "@/components/shell/providers";
@@ -37,11 +38,20 @@ export const viewport: Viewport = {
 export default async function RootLayout({ children }: { children: ReactNode }) {
   const locale = await getLocale();
   const dir = directionOf(locale);
+  // Set by src/proxy.ts for the page's Content Security Policy.
+  const nonce = (await headers()).get("x-nonce") ?? undefined;
   return (
-    <html lang={locale} dir={dir} className={cn("h-full antialiased", plex.variable)} suppressHydrationWarning>
+    <html
+      lang={locale}
+      dir={dir}
+      className={cn("h-full antialiased", plex.variable)}
+      suppressHydrationWarning
+    >
       <body className="flex min-h-full flex-col">
         <NextIntlClientProvider>
-          <AppProviders dir={dir}>{children}</AppProviders>
+          <AppProviders dir={dir} nonce={nonce}>
+            {children}
+          </AppProviders>
         </NextIntlClientProvider>
       </body>
     </html>

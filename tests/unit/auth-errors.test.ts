@@ -13,6 +13,8 @@ describe("sign-in errors", () => {
     expect(signInErrorKey({ status: 429, code: "ACCOUNT_LOCKED" })).toBe("accountLocked");
     expect(signInErrorKey({ status: 403, code: "ACCOUNT_DISABLED" })).toBe("accountDisabled");
     expect(signInErrorKey({ status: 429 })).toBe("rateLimited");
+    expect(signInErrorKey({ status: 403, code: "BOT_CHECK_FAILED" })).toBe("botCheckFailed");
+    expect(signInErrorKey({ status: 503, code: "BOT_CHECK_UNAVAILABLE" })).toBe("botCheckUnavailable");
     expect(signInErrorKey({ status: 0 })).toBe("network");
     expect(signInErrorKey({})).toBe("network");
     expect(signInErrorKey({ status: 500, code: "SOMETHING" })).toBe("unknown");

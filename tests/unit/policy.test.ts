@@ -43,8 +43,8 @@ describe("area access matrix", () => {
     expect(canAccessArea("admin", "manager")).toBe(false);
   });
 
-  it("owner, manager and admin must enroll 2FA; teachers and students don't", () => {
-    expect(ROLES.filter(requiresTwoFactor).sort()).toEqual(["admin", "manager", "owner"]);
+  it("every role must enroll 2FA, students and teachers included", () => {
+    expect(ROLES.filter(requiresTwoFactor).sort()).toEqual([...ROLES].sort());
   });
 });
 

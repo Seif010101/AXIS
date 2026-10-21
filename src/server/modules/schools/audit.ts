@@ -20,6 +20,7 @@ export const AUDIT_EVENTS = [
   "account_deactivated",
   "password_reset",
   "credentials_reissued",
+  "two_factor_reset",
 ] as const;
 
 export type AuditEvent = (typeof AUDIT_EVENTS)[number];
@@ -45,15 +46,21 @@ export const RATE_RULES = {
   importSchools: { max: 10, windowSeconds: 3600 },
   importAccounts: { max: 20, windowSeconds: 3600 },
   mintPassword: { max: 200, windowSeconds: 3600 },
+  resetTwoFactor: { max: 50, windowSeconds: 3600 },
   deleteAccount: { max: 100, windowSeconds: 3600 },
   deleteSchool: { max: 10, windowSeconds: 3600 },
 } as const satisfies Record<string, ThrottleRule>;
 
 /** Counts `amount` uses of an administrative action; throws RATE_LIMITED past the limit. */
-export async function consumeRate(ctx: SessionContext, action: keyof typeof RATE_RULES, amount = 1): Promise<void> {
+export async function consumeRate(
+  ctx: SessionContext,
+  action: keyof typeof RATE_RULES,
+  amount = 1,
+): Promise<void> {
   const rule = RATE_RULES[action];
   const key = throttleKey("schools", action, ctx.user.id);
   let count = 0;
   for (let i = 0; i < amount; i++) count = await throttleHit(key, rule);
-  if (count > rule.max) throw new AppError("RATE_LIMITED", "Too many administrative actions, try again later");
+  if (count > rule.max)
+    throw new AppError("RATE_LIMITED", "Too many administrative actions, try again later");
 }

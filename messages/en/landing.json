@@ -85,7 +85,7 @@
       },
       "security": {
         "title": "Security by design",
-        "description": "Two-step verification for staff, strict separation between schools and a fresh code for sensitive actions."
+        "description": "Two-step verification for every account, strict separation between schools and a fresh code for sensitive actions."
       }
     }
   },
@@ -99,7 +99,7 @@
       },
       "signIn": {
         "title": "Everyone signs in securely",
-        "description": "Each person has their own account. Staff confirm with a code from an authenticator app."
+        "description": "Each person has their own account, and everyone confirms with a code from Microsoft Authenticator."
       },
       "learn": {
         "title": "Teach and learn",
@@ -130,7 +130,7 @@
       },
       "security": {
         "question": "How is our data protected?",
-        "answer": "Each school sees only its own data. Passwords are stored as one-way hashes, staff accounts use two-step verification, and sensitive actions ask for a fresh code from the authenticator app."
+        "answer": "Each school sees only its own data. Passwords are stored as one-way hashes, every account — students, teachers and staff — uses two-step verification, sensitive actions ask for a fresh code from the authenticator app, and Cloudflare's bot check keeps automated sign-in attempts out."
       },
       "ai": {
         "question": "What does the AI tutor do?",

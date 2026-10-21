@@ -1,1 +1,286 @@
-{}
+{
+  "list": {
+    "title": "Schools",
+    "description": "{count, plural, =0 {No schools yet} one {# school in the network} other {# schools in the network}}",
+    "searchPlaceholder": "Search by school name, branch or ministry code…",
+    "status": {
+      "label": "Status",
+      "all": "All schools",
+      "configured": "Set up",
+      "pending": "Being set up"
+    },
+    "noResults": "No schools match your search.",
+    "empty": {
+      "title": "No schools yet",
+      "description": "Add the first school by hand, or import schools and their classes from an Excel file."
+    },
+    "code": "Ministry code: {code}",
+    "noBranch": "No branch",
+    "counts": {
+      "students": "Students",
+      "teachers": "Teachers",
+      "admins": "Admins",
+      "classes": "Classes"
+    },
+    "created": "Added {date}"
+  },
+  "detail": {
+    "back": "Schools",
+    "code": "Ministry code: {code}",
+    "noCode": "No ministry code",
+    "stats": {
+      "students": "Students",
+      "teachers": "Teachers",
+      "admins": "Admins",
+      "classes": "Classes"
+    },
+    "manageAccounts": "Manage accounts"
+  },
+  "form": {
+    "created": "School added.",
+    "updated": "School details saved.",
+    "errors": {
+      "codeInUse": "This ministry code belongs to another school.",
+      "duplicate": "A school with this name and branch already exists.",
+      "invalid": "Check this value."
+    },
+    "optional": " (optional)",
+    "createButton": "Add school",
+    "editTitle": "Edit school",
+    "createTitle": "New school",
+    "description": "The name is required. Branch and ministry code help tell similar schools apart.",
+    "name": "School name",
+    "branch": "Branch",
+    "ministryCode": "Ministry code"
+  },
+  "import": {
+    "button": "Import from Excel",
+    "title": "Import schools",
+    "description": "Upload a file with one row per class. New schools are created and missing classes are added to existing ones.",
+    "summary": "New schools: {created} · Already existed: {existing} · Classes added: {classes}",
+    "status": {
+      "created": "New",
+      "existing": "Existing"
+    },
+    "classesAdded": "{count, plural, =0 {no classes added} one {# class added} other {# classes added}}",
+    "issuesTitle": "{count, plural, one {# row was not imported} other {# rows were not imported}}",
+    "row": "Row {row}",
+    "issues": {
+      "BLANK_SCHOOL": "The school name is empty",
+      "FIELD_TOO_LONG": "A value is longer than allowed",
+      "MINISTRY_CODE_IN_USE": "Ministry code {value} belongs to another school",
+      "CODE_CONFLICT_IN_GROUP": "Ministry code {value} differs from the one given for the same school in an earlier row"
+    },
+    "columnsTitle": "Required columns",
+    "columns": "School, Grade (required) — Branch, Ministry code, Section (optional).",
+    "note": "Leave the section empty when the grade has a single class. Importing the same file twice never creates duplicates.",
+    "drop": "Drop an .xlsx or .csv file here, or click to choose",
+    "processing": "Reading the file…",
+    "template": "Download a blank template",
+    "errors": {
+      "missingColumns": "The file needs a \"School\" and a \"Grade\" column. Use the template.",
+      "noSchools": "No schools were found in the file.",
+      "file": "The file couldn't be read. Make sure it's .xlsx or .csv and under 8 MB.",
+      "generic": "Couldn't import right now. Please try again."
+    }
+  },
+  "deleteSchool": {
+    "title": "Delete \"{name}\"?",
+    "description": "Everything below is permanently deleted, together with every student, teacher and admin account of the school. This can't be undone.",
+    "impact": {
+      "students": "Students",
+      "teachers": "Teachers",
+      "admins": "Admins",
+      "classes": "Classes",
+      "homework": "Homework",
+      "tests": "Tests",
+      "worksheets": "Worksheets"
+    },
+    "typeName": "Type the school's name to confirm",
+    "confirm": "Delete school permanently",
+    "deleted": "School deleted."
+  },
+  "classes": {
+    "title": "Grades and sections",
+    "description": "{count, plural, =0 {No classes yet} one {# class} other {# classes}}",
+    "empty": "No classes yet. Add the first grade and its sections below.",
+    "grade": "Grade {grade}",
+    "wholeGrade": "Whole grade",
+    "counts": "{students} students · {assignments} teachers",
+    "remove": "Remove {name}",
+    "gradeLabel": "Grade",
+    "sectionsLabel": "Sections",
+    "sectionsPlaceholder": "A, B, C",
+    "sectionsHint": "Separate sections with commas. Leave empty when the grade has a single class.",
+    "add": "Add",
+    "added": "Added {added} · already existed {existing}",
+    "deleted": "Class removed.",
+    "inUse": "Can't remove: the class has {students} students and {assignments} teacher assignments.",
+    "deleteFailed": "Couldn't remove the class.",
+    "removeTitle": "Remove this class?",
+    "removeDescription": "A class is removed only when no student is in it and no teacher is assigned to it."
+  },
+  "people": {
+    "adminTitle": "School accounts",
+    "directoryTitle": "All users",
+    "schoolTitle": "{school} accounts",
+    "searchPlaceholder": "Search by name, email or ministry ID…",
+    "filters": {
+      "role": "Role",
+      "allRoles": "All roles",
+      "status": "Status",
+      "allStatuses": "All statuses",
+      "school": "School",
+      "allSchools": "All schools",
+      "grade": "Grade",
+      "allGrades": "All grades"
+    },
+    "total": "{count, plural, =0 {No accounts} one {# account} other {# accounts}}",
+    "status": {
+      "active": "Active",
+      "inactive": "Deactivated",
+      "pending": "Not signed in yet"
+    },
+    "statusChanged": "Account status changed.",
+    "noClasses": "No classes",
+    "noSchool": "No school",
+    "select": "Select",
+    "selectRow": "Select {name}",
+    "columns": {
+      "name": "Name",
+      "email": "Email",
+      "role": "Role",
+      "school": "School",
+      "class": "Class",
+      "stars": "Stars",
+      "status": "Status",
+      "lastLogin": "Last sign-in"
+    },
+    "starsStreak": "⭐ {stars} · 🔥 {streak}",
+    "never": "Never",
+    "export": {
+      "button": "Export CSV",
+      "grade": "Grade",
+      "section": "Section",
+      "subject": "Subject",
+      "ministryId": "Ministry ID"
+    },
+    "create": "New account",
+    "selectPending": "Select not signed in ({count})",
+    "reissue": "{count, plural, =0 {Issue new passwords} one {Issue a new password for # account} other {Issue new passwords for # accounts}}",
+    "actionsFor": "Actions for {name}",
+    "actions": {
+      "reset": "Reset password",
+      "resetTwoFactor": "Reset two-step verification",
+      "edit": "Edit",
+      "classes": "Teacher's classes",
+      "deactivate": "Deactivate",
+      "activate": "Activate",
+      "delete": "Delete permanently"
+    },
+    "caption": "Accounts",
+    "empty": {
+      "title": "No accounts",
+      "description": "No account matches the current filters."
+    },
+    "resetConfirm": {
+      "title": "Reset {name}'s password?",
+      "description": "A new temporary password is created and shown once, and the account is signed out everywhere."
+    },
+    "resetTwoFactorConfirm": {
+      "title": "Reset two-step verification for {name}?",
+      "description": "Only do this when the person lost their phone, after confirming who they are. They are signed out everywhere and, at their next sign-in with the password, must link Microsoft Authenticator again."
+    },
+    "twoFactorReset": "Two-step verification was reset.",
+    "deactivateConfirm": {
+      "title": "Deactivate {name}?",
+      "description": "They can't sign in and are signed out right away. Their data stays and the account can be reactivated later."
+    },
+    "activateConfirm": {
+      "title": "Activate {name}?",
+      "description": "They can sign in again with their current password."
+    }
+  },
+  "person": {
+    "createTitle": "New account",
+    "editTitle": "Edit account",
+    "createDescription": "The email address is generated automatically and a temporary password is shown once after creating.",
+    "editDescription": "Change the name, ministry ID or class. The email address stays the same.",
+    "role": "Role",
+    "name": "Full name",
+    "ministryId": "Ministry ID",
+    "optional": "(optional)",
+    "ministryIdHint": "When set, it's used in the email address and prevents duplicate accounts.",
+    "school": "School",
+    "chooseSchool": "Choose a school",
+    "class": "Class",
+    "firstClass": "First class they teach",
+    "noClasses": "This school has no classes yet. Add the classes first.",
+    "chooseClass": "Choose a class",
+    "noClassYet": "Later",
+    "subject": "Subject",
+    "passwordNote": "The temporary password is shown only once after creating. At first sign-in the person changes it and links Microsoft Authenticator.",
+    "createSubmit": "Create account",
+    "updated": "Changes saved.",
+    "errors": {
+      "idInUse": "This ministry ID is used by another account.",
+      "class": "Choose a class that exists in the school.",
+      "invalid": "Check this value."
+    }
+  },
+  "assignments": {
+    "title": "{name}'s classes",
+    "description": "The classes and subjects this teacher teaches.",
+    "empty": "No class assigned yet.",
+    "remove": "Remove",
+    "class": "Class",
+    "chooseClass": "Choose a class",
+    "subject": "Subject",
+    "add": "Assign",
+    "added": "Class assigned.",
+    "removed": "Class removed."
+  },
+  "deletePerson": {
+    "title": "Delete {name} permanently?",
+    "description": "The account and all its private data are deleted. This can't be undone. To only stop sign-ins, use \"Deactivate\".",
+    "authored": "Created {homework} homework, {tests} tests and {worksheets} worksheets.",
+    "studentData": "Has {submissions} submissions, {results} test results and {chats} chats.",
+    "blocked": "A teacher who created content can't be deleted. Deactivate the account instead.",
+    "deleted": "Account deleted."
+  },
+  "credentials": {
+    "title": "{count, plural, one {Sign-in details} other {Sign-in details for # accounts}}",
+    "description": "Give each person their details. At first sign-in they change the password, then link Microsoft Authenticator on their phone.",
+    "warningTitle": "Shown only once",
+    "warning": "These passwords aren't stored anywhere. Download or copy them before closing, and keep them safe.",
+    "columns": {
+      "name": "Name",
+      "email": "Email",
+      "role": "Role",
+      "class": "Class",
+      "password": "Temporary password"
+    },
+    "download": "Download CSV",
+    "copyAll": "Copy all",
+    "close": "Close",
+    "closeConfirmTitle": "Close without saving?",
+    "closeConfirm": "You haven't downloaded or copied the passwords. Once closed they won't be shown again and you'd need to issue new ones.",
+    "closeAnyway": "Close anyway"
+  },
+  "pagination": {
+    "label": "Pages",
+    "previous": "Previous",
+    "next": "Next",
+    "pageOf": "Page {page} of {count}"
+  },
+  "template": {
+    "schoolsSheet": "Schools",
+    "school": "School",
+    "branch": "Branch",
+    "ministryCode": "Ministry code",
+    "grade": "Grade",
+    "section": "Section",
+    "sampleSchool": "Al Noor School",
+    "sampleBranch": "Main branch"
+  }
+}

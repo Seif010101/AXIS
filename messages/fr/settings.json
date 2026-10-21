@@ -126,7 +126,7 @@
         "off": "Désactivée",
         "pending": "Inachevée"
       },
-      "requiredNote": "Votre rôle l'exige : elle ne peut pas être désactivée.",
+      "requiredNote": "Obligatoire pour tous les comptes, elle ne peut pas être désactivée. Téléphone perdu ? Demandez à l'administration de votre école de la réinitialiser.",
       "onNote": "Votre compte demande un code de votre téléphone à chaque connexion.",
       "offNote": "Ajoutez une deuxième protection : même avec votre mot de passe, personne ne peut se connecter sans votre téléphone.",
       "pendingNote": "Vous avez commencé la configuration sans confirmer de code. Terminez-la pour activer la protection.",

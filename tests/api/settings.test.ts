@@ -214,12 +214,12 @@ describe("settings module", () => {
   });
 
   describe("two-step verification status", () => {
-    it("is required for privileged roles only", async () => {
+    it("is required for every role, students included", async () => {
       const { getTwoFactorStatus } = await import("@/server/modules/settings/settings");
       const admin = await createUser({ role: "admin", twoFactorEnabled: true });
       const student = await createUser({ role: "student" });
       expect(await getTwoFactorStatus(contextFor(admin))).toEqual({ enabled: true, required: true, pending: false });
-      expect(await getTwoFactorStatus(contextFor(student))).toEqual({ enabled: false, required: false, pending: false });
+      expect(await getTwoFactorStatus(contextFor(student))).toEqual({ enabled: false, required: true, pending: false });
     });
 
     it("reports an enrollment that was started but never verified", async () => {
@@ -233,7 +233,7 @@ describe("settings module", () => {
         backupCodes: "encrypted",
         verified: false,
       });
-      expect(await getTwoFactorStatus(contextFor(teacher))).toEqual({ enabled: false, required: false, pending: true });
+      expect(await getTwoFactorStatus(contextFor(teacher))).toEqual({ enabled: false, required: true, pending: true });
     });
   });
 

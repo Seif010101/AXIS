@@ -1,1 +1,286 @@
-{}
+{
+  "list": {
+    "title": "学校",
+    "description": "{count, plural, =0 {还没有学校} other {网络中共有 # 所学校}}",
+    "searchPlaceholder": "按校名、校区或教育部编号搜索…",
+    "status": {
+      "label": "状态",
+      "all": "全部学校",
+      "configured": "已设置",
+      "pending": "设置中"
+    },
+    "noResults": "没有符合搜索条件的学校。",
+    "empty": {
+      "title": "还没有学校",
+      "description": "手动添加第一所学校，或从 Excel 文件导入学校及其班级。"
+    },
+    "code": "教育部编号：{code}",
+    "noBranch": "无校区",
+    "counts": {
+      "students": "学生",
+      "teachers": "教师",
+      "admins": "管理员",
+      "classes": "班级"
+    },
+    "created": "添加于 {date}"
+  },
+  "detail": {
+    "back": "学校",
+    "code": "教育部编号：{code}",
+    "noCode": "无教育部编号",
+    "stats": {
+      "students": "学生",
+      "teachers": "教师",
+      "admins": "管理员",
+      "classes": "班级"
+    },
+    "manageAccounts": "管理账户"
+  },
+  "form": {
+    "created": "学校已添加。",
+    "updated": "学校信息已保存。",
+    "errors": {
+      "codeInUse": "此教育部编号已属于另一所学校。",
+      "duplicate": "已存在同名同校区的学校。",
+      "invalid": "请检查此项。"
+    },
+    "optional": "（可选）",
+    "createButton": "添加学校",
+    "editTitle": "编辑学校",
+    "createTitle": "新建学校",
+    "description": "校名为必填。校区和教育部编号有助于区分名称相近的学校。",
+    "name": "校名",
+    "branch": "校区",
+    "ministryCode": "教育部编号"
+  },
+  "import": {
+    "button": "从 Excel 导入",
+    "title": "导入学校",
+    "description": "上传每行一个班级的文件。系统会创建新学校，并为已有学校补充缺少的班级。",
+    "summary": "新学校：{created} · 已存在：{existing} · 新增班级：{classes}",
+    "status": {
+      "created": "新建",
+      "existing": "已存在"
+    },
+    "classesAdded": "{count, plural, =0 {未新增班级} other {新增 # 个班级}}",
+    "issuesTitle": "{count, plural, other {# 行未导入}}",
+    "row": "第 {row} 行",
+    "issues": {
+      "BLANK_SCHOOL": "校名为空",
+      "FIELD_TOO_LONG": "某项内容超出长度限制",
+      "MINISTRY_CODE_IN_USE": "教育部编号 {value} 已属于另一所学校",
+      "CODE_CONFLICT_IN_GROUP": "教育部编号 {value} 与前面行中同一学校的编号不一致"
+    },
+    "columnsTitle": "必需的列",
+    "columns": "School、Grade（必填）— Branch、Ministry code、Section（可选）。",
+    "note": "年级只有一个班时，Section 留空。重复导入同一文件不会产生重复数据。",
+    "drop": "将 .xlsx 或 .csv 文件拖到这里，或点击选择",
+    "processing": "正在读取文件…",
+    "template": "下载空白模板",
+    "errors": {
+      "missingColumns": "文件需要包含“School”和“Grade”两列。请使用模板。",
+      "noSchools": "文件中没有找到学校。",
+      "file": "无法读取文件。请确认它是 .xlsx 或 .csv 格式且小于 8 MB。",
+      "generic": "暂时无法导入，请重试。"
+    }
+  },
+  "deleteSchool": {
+    "title": "删除“{name}”？",
+    "description": "以下所有内容将被永久删除，学校的所有学生、教师和管理员账户也会一并删除。此操作无法撤销。",
+    "impact": {
+      "students": "学生",
+      "teachers": "教师",
+      "admins": "管理员",
+      "classes": "班级",
+      "homework": "作业",
+      "tests": "测验",
+      "worksheets": "练习单"
+    },
+    "typeName": "输入校名以确认",
+    "confirm": "永久删除学校",
+    "deleted": "学校已删除。"
+  },
+  "classes": {
+    "title": "年级与班级",
+    "description": "{count, plural, =0 {还没有班级} other {共 # 个班级}}",
+    "empty": "还没有班级。请在下方添加第一个年级及其班级。",
+    "grade": "{grade} 年级",
+    "wholeGrade": "整个年级",
+    "counts": "{students} 名学生 · {assignments} 名教师",
+    "remove": "移除 {name}",
+    "gradeLabel": "年级",
+    "sectionsLabel": "班级",
+    "sectionsPlaceholder": "A, B, C",
+    "sectionsHint": "用逗号分隔班级。年级只有一个班时留空。",
+    "add": "添加",
+    "added": "已添加 {added} 个 · 已存在 {existing} 个",
+    "deleted": "班级已移除。",
+    "inUse": "无法移除：该班级有 {students} 名学生和 {assignments} 个教师分配。",
+    "deleteFailed": "无法移除班级。",
+    "removeTitle": "移除此班级？",
+    "removeDescription": "只有没有学生、也没有分配教师的班级才能移除。"
+  },
+  "people": {
+    "adminTitle": "学校账户",
+    "directoryTitle": "全部用户",
+    "schoolTitle": "{school} 的账户",
+    "searchPlaceholder": "按姓名、邮箱或教育部编号搜索…",
+    "filters": {
+      "role": "角色",
+      "allRoles": "全部角色",
+      "status": "状态",
+      "allStatuses": "全部状态",
+      "school": "学校",
+      "allSchools": "全部学校",
+      "grade": "年级",
+      "allGrades": "全部年级"
+    },
+    "total": "{count, plural, =0 {没有账户} other {共 # 个账户}}",
+    "status": {
+      "active": "正常",
+      "inactive": "已停用",
+      "pending": "尚未登录"
+    },
+    "statusChanged": "账户状态已更改。",
+    "noClasses": "无班级",
+    "noSchool": "无学校",
+    "select": "选择",
+    "selectRow": "选择 {name}",
+    "columns": {
+      "name": "姓名",
+      "email": "邮箱",
+      "role": "角色",
+      "school": "学校",
+      "class": "班级",
+      "stars": "星星",
+      "status": "状态",
+      "lastLogin": "最近登录"
+    },
+    "starsStreak": "⭐ {stars} · 🔥 {streak}",
+    "never": "从未",
+    "export": {
+      "button": "导出 CSV",
+      "grade": "年级",
+      "section": "班级",
+      "subject": "科目",
+      "ministryId": "教育部编号"
+    },
+    "create": "新建账户",
+    "selectPending": "选择尚未登录的账户（{count}）",
+    "reissue": "{count, plural, =0 {重新生成密码} other {为 # 个账户重新生成密码}}",
+    "actionsFor": "{name} 的操作",
+    "actions": {
+      "reset": "重置密码",
+      "resetTwoFactor": "重置两步验证",
+      "edit": "编辑",
+      "classes": "教师的班级",
+      "deactivate": "停用",
+      "activate": "启用",
+      "delete": "永久删除"
+    },
+    "caption": "账户列表",
+    "empty": {
+      "title": "没有账户",
+      "description": "没有符合当前筛选条件的账户。"
+    },
+    "resetConfirm": {
+      "title": "重置 {name} 的密码？",
+      "description": "将生成一个仅显示一次的新临时密码，并在所有设备上退出该账户。"
+    },
+    "resetTwoFactorConfirm": {
+      "title": "重置 {name} 的两步验证？",
+      "description": "仅在对方丢失手机且已核实身份后使用。对方会在所有设备上退出，下次用密码登录时需要重新绑定 Microsoft Authenticator。"
+    },
+    "twoFactorReset": "两步验证已重置。",
+    "deactivateConfirm": {
+      "title": "停用 {name}？",
+      "description": "对方将无法登录，并会立即退出。数据会保留，之后可以重新启用。"
+    },
+    "activateConfirm": {
+      "title": "启用 {name}？",
+      "description": "对方可以用当前密码重新登录。"
+    }
+  },
+  "person": {
+    "createTitle": "新建账户",
+    "editTitle": "编辑账户",
+    "createDescription": "邮箱地址会自动生成，创建后会显示一次临时密码。",
+    "editDescription": "可修改姓名、教育部编号或班级。邮箱地址不会改变。",
+    "role": "角色",
+    "name": "姓名",
+    "ministryId": "教育部编号",
+    "optional": "（可选）",
+    "ministryIdHint": "填写后会用于生成邮箱地址，并防止重复账户。",
+    "school": "学校",
+    "chooseSchool": "选择学校",
+    "class": "班级",
+    "firstClass": "任教的第一个班级",
+    "noClasses": "这所学校还没有班级。请先添加班级。",
+    "chooseClass": "选择班级",
+    "noClassYet": "稍后",
+    "subject": "科目",
+    "passwordNote": "临时密码只显示一次。首次登录时，对方需要修改密码并绑定 Microsoft Authenticator。",
+    "createSubmit": "创建账户",
+    "updated": "更改已保存。",
+    "errors": {
+      "idInUse": "此教育部编号已被另一个账户使用。",
+      "class": "请选择学校中已有的班级。",
+      "invalid": "请检查此项。"
+    }
+  },
+  "assignments": {
+    "title": "{name} 的班级",
+    "description": "该教师任教的班级和科目。",
+    "empty": "尚未分配班级。",
+    "remove": "移除",
+    "class": "班级",
+    "chooseClass": "选择班级",
+    "subject": "科目",
+    "add": "分配",
+    "added": "班级已分配。",
+    "removed": "班级已移除。"
+  },
+  "deletePerson": {
+    "title": "永久删除 {name}？",
+    "description": "账户及其所有私人数据将被删除，且无法撤销。如只想禁止登录，请使用“停用”。",
+    "authored": "创建了 {homework} 份作业、{tests} 个测验和 {worksheets} 份练习单。",
+    "studentData": "有 {submissions} 份提交、{results} 个测验结果和 {chats} 个对话。",
+    "blocked": "创建过内容的教师无法删除。请改为停用该账户。",
+    "deleted": "账户已删除。"
+  },
+  "credentials": {
+    "title": "{count, plural, =1 {登录信息} other {# 个账户的登录信息}}",
+    "description": "把登录信息交给每个人。首次登录时，对方需要修改密码，然后在手机上绑定 Microsoft Authenticator。",
+    "warningTitle": "只显示一次",
+    "warning": "这些密码不会保存在任何地方。关闭前请下载或复制，并妥善保管。",
+    "columns": {
+      "name": "姓名",
+      "email": "邮箱",
+      "role": "角色",
+      "class": "班级",
+      "password": "临时密码"
+    },
+    "download": "下载 CSV",
+    "copyAll": "全部复制",
+    "close": "关闭",
+    "closeConfirmTitle": "不保存就关闭？",
+    "closeConfirm": "你还没有下载或复制这些密码。关闭后将不再显示，需要重新生成。",
+    "closeAnyway": "仍然关闭"
+  },
+  "pagination": {
+    "label": "分页",
+    "previous": "上一页",
+    "next": "下一页",
+    "pageOf": "第 {page} 页，共 {count} 页"
+  },
+  "template": {
+    "schoolsSheet": "Schools",
+    "school": "School",
+    "branch": "Branch",
+    "ministryCode": "Ministry code",
+    "grade": "Grade",
+    "section": "Section",
+    "sampleSchool": "光明学校",
+    "sampleBranch": "主校区"
+  }
+}

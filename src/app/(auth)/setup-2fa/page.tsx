@@ -13,8 +13,8 @@ export async function generateMetadata(): Promise<Metadata> {
   return { title: t("metaTitle") };
 }
 
-// Mandatory for owner/manager/admin (requirePageSession sends them here); optional for
-// teachers and students, who reach it from Settings → Security.
+// Mandatory for every account: requirePageSession sends anyone without 2FA here, right
+// after the temporary password is changed.
 export default async function SetupTwoFactorPage() {
   const context = await getSessionContext();
   if (!context) redirect("/login");

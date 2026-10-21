@@ -233,11 +233,14 @@ export interface MarkdownProps {
   className?: string;
   /** Smaller headings for chat bubbles and cards. */
   size?: Size;
-  /** Render https images (default true). Turn off where third-party image loads are unwanted. */
+  /**
+   * Render https images. Off by default: loading a third-party image tells that server the
+   * viewer's IP address (a tracking pixel), so only enable it for content you trust.
+   */
   images?: boolean;
 }
 
-function MarkdownImpl({ children, className, size = "base", images = true }: MarkdownProps) {
+function MarkdownImpl({ children, className, size = "base", images = false }: MarkdownProps) {
   const t = useTranslations("common");
   // Per-instance prefix for footnote ids (useId is the same in the server and client render).
   const scope = `md${useId().replace(/[^\w-]/g, "")}-`;
@@ -290,6 +293,7 @@ function MarkdownImpl({ children, className, size = "base", images = true }: Mar
  *
  * @example
  * <Markdown>{message.content}</Markdown>
- * <Markdown size="sm" images={false}>{studentNote}</Markdown>
+ * <Markdown size="sm">{studentNote}</Markdown>
+ * <Markdown images>{trustedLessonText}</Markdown>
  */
 export const Markdown = memo(MarkdownImpl);

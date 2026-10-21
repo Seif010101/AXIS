@@ -36,7 +36,7 @@ npm run dev
 ```
 
 There is no public sign-up. `create-owner` prints a temporary password once; the owner must
-change it and set up two-factor authentication on first login.
+change it and set up two-factor authentication on first login (every account does).
 
 ## Scripts
 
@@ -72,7 +72,11 @@ change it and set up two-factor authentication on first login.
 
 - Sessions are httpOnly cookies backed by the database; nothing is kept in localStorage.
 - Every route handler calls `requireSession()`. It enforces the temporary-password change,
-  two-factor enrollment for owner/manager/admin, and the role's allowed area.
+  two-factor enrollment for **every** role (it can't be turned off), and the role's allowed area.
+- Sign-in is protected from bots by Cloudflare Turnstile when `TURNSTILE_SITE_KEY` /
+  `TURNSTILE_SECRET_KEY` are set; the token is verified before the password is checked.
+- `hostinger-setup/` has the full database SQL, 2FA admin queries, and the Cloudflare setup
+  guide (Arabic).
 - High-risk actions also call `requireStepUp()`: a TOTP code entered in the last 5 minutes.
 - Passwords are stored only as hashes. A temporary password is shown once when an account
   is created or reset.

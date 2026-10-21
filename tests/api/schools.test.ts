@@ -44,7 +44,9 @@ describe("schools", () => {
     expect(fields).toEqual({ name: "Gamma School", branch: "East", ministryCode: null });
     const { id } = await create(manager, fields);
     expect(id).toBeTruthy();
-    expect(await codeOf(create(owner, schoolFieldsSchema.parse({ name: "gamma school", branch: "east" })))).toBe("CONFLICT");
+    expect(
+      await codeOf(create(owner, schoolFieldsSchema.parse({ name: "gamma school", branch: "east" }))),
+    ).toBe("CONFLICT");
     expect(await codeOf(create(adminA, schoolFieldsSchema.parse({ name: "Delta" })))).toBe("FORBIDDEN");
     expect(await codeOf(create(teacherA, schoolFieldsSchema.parse({ name: "Delta" })))).toBe("FORBIDDEN");
   });
@@ -94,7 +96,9 @@ describe("classes", () => {
       ["C", 1],
     ]);
     expect(await codeOf(deleteClass(adminA, { grade: "5", section: "C" }))).toBe("CONFLICT");
-    expect(await codeOf(deleteClass(adminA, { schoolId: schoolB, grade: "7", section: "" }))).toBe("NOT_FOUND");
+    expect(await codeOf(deleteClass(adminA, { schoolId: schoolB, grade: "7", section: "" }))).toBe(
+      "NOT_FOUND",
+    );
   });
 });
 
@@ -103,9 +107,20 @@ describe("accounts", () => {
     const { createPerson, createPersonSchema } = await m.people();
     const created = await createPerson(
       adminA,
-      createPersonSchema.parse({ role: "student", name: "Sara Ali", grade: "5", section: "a", ministryId: "S-100" }),
+      createPersonSchema.parse({
+        role: "student",
+        name: "Sara Ali",
+        grade: "5",
+        section: "a",
+        ministryId: "S-100",
+      }),
     );
-    expect(created).toMatchObject({ email: "axiss100@school.test", grade: "5", section: "A", role: "student" });
+    expect(created).toMatchObject({
+      email: "axiss100@school.test",
+      grade: "5",
+      section: "A",
+      role: "student",
+    });
     expect(created.password).toHaveLength(12);
 
     const { db, schema } = await import("@/server/db");
@@ -114,25 +129,39 @@ describe("accounts", () => {
 
     // Same ministry ID, same school and role → conflict; unknown class → validation.
     expect(
-      await codeOf(createPerson(adminA, createPersonSchema.parse({ role: "student", name: "Other", grade: "5", ministryId: "S-100" }))),
+      await codeOf(
+        createPerson(
+          adminA,
+          createPersonSchema.parse({ role: "student", name: "Other", grade: "5", ministryId: "S-100" }),
+        ),
+      ),
     ).toBe("CONFLICT");
-    expect(await codeOf(createPerson(adminA, createPersonSchema.parse({ role: "student", name: "Other", grade: "9" })))).toBe(
-      "VALIDATION",
-    );
+    expect(
+      await codeOf(
+        createPerson(adminA, createPersonSchema.parse({ role: "student", name: "Other", grade: "9" })),
+      ),
+    ).toBe("VALIDATION");
   });
 
   it("enforces who may create which role, and where", async () => {
     const { createPerson, createPersonSchema } = await m.people();
     const admin = createPersonSchema.parse({ role: "admin", name: "New Admin", schoolId: schoolB });
     expect(await codeOf(createPerson(adminA, admin))).toBe("FORBIDDEN");
-    expect(await codeOf(createPerson(manager, createPersonSchema.parse({ role: "manager", name: "M Two" })))).toBe("FORBIDDEN");
+    expect(
+      await codeOf(createPerson(manager, createPersonSchema.parse({ role: "manager", name: "M Two" }))),
+    ).toBe("FORBIDDEN");
     const viaManager = await createPerson(manager, admin);
     expect(viaManager.email).toMatch(/^axis\.admin\d+@school\.test$/);
-    const ownerMade = await createPerson(owner, createPersonSchema.parse({ role: "manager", name: "Network Lead" }));
+    const ownerMade = await createPerson(
+      owner,
+      createPersonSchema.parse({ role: "manager", name: "Network Lead" }),
+    );
     expect(ownerMade.email).toMatch(/^axis\.manager\d+@school\.test$/);
     // An admin naming another school is treated as not found.
     expect(
-      await codeOf(createPerson(adminA, createPersonSchema.parse({ role: "teacher", name: "Tee", schoolId: schoolB }))),
+      await codeOf(
+        createPerson(adminA, createPersonSchema.parse({ role: "teacher", name: "Tee", schoolId: schoolB })),
+      ),
     ).toBe("NOT_FOUND");
   });
 
@@ -143,9 +172,17 @@ describe("accounts", () => {
     expect(own.rows.every((r) => r.schoolId === schoolA && r.role !== "admin")).toBe(true);
     expect(await codeOf(listPeople(adminA, { kind: "school", schoolId: schoolB }, all))).toBe("NOT_FOUND");
     expect(await codeOf(listPeople(manager, { kind: "directory" }, all))).toBe("FORBIDDEN");
-    const directory = await listPeople(owner, { kind: "directory" }, peopleFiltersSchema.parse({ school: "none" }));
+    const directory = await listPeople(
+      owner,
+      { kind: "directory" },
+      peopleFiltersSchema.parse({ school: "none" }),
+    );
     expect(directory.rows.every((r) => r.schoolId === null && (r.role as string) !== "owner")).toBe(true);
-    const search = await listPeople(manager, { kind: "school", schoolId: schoolA }, peopleFiltersSchema.parse({ q: "sara%" }));
+    const search = await listPeople(
+      manager,
+      { kind: "school", schoolId: schoolA },
+      peopleFiltersSchema.parse({ q: "sara%" }),
+    );
     expect(search.total).toBe(0); // % is matched literally
   });
 
@@ -188,23 +225,45 @@ describe("accounts", () => {
     ]);
     expect(await codeOf(deletePerson(adminA, student.id))).toBe("FORBIDDEN");
     await deletePerson(manager, student.id);
-    const events = await db.select().from(schema.analyticsEvents).where(eq(schema.analyticsEvents.eventType, "mood_tracker"));
+    const events = await db
+      .select()
+      .from(schema.analyticsEvents)
+      .where(eq(schema.analyticsEvents.eventType, "mood_tracker"));
     expect(events).toHaveLength(0);
-    const logins = await db.select().from(schema.analyticsEvents).where(eq(schema.analyticsEvents.eventType, "login"));
+    const logins = await db
+      .select()
+      .from(schema.analyticsEvents)
+      .where(eq(schema.analyticsEvents.eventType, "login"));
     expect(logins.some((e) => e.userId === null)).toBe(true);
 
-    await db.insert(schema.homework).values({ teacherId: teacherA.user.id, schoolId: schoolA, grade: "5", title: "HW" });
+    await db
+      .insert(schema.homework)
+      .values({ teacherId: teacherA.user.id, schoolId: schoolA, grade: "5", title: "HW" });
     expect(await codeOf(deletePerson(manager, teacherA.user.id))).toBe("CONFLICT");
   });
 
   it("manages teacher assignments inside the teacher's school", async () => {
-    const { addAssignment, removeAssignment, assignmentSchema, listPeople, peopleFiltersSchema } = await m.people();
-    await addAssignment(adminA, assignmentSchema.parse({ teacherId: teacherA.user.id, grade: "5", section: "b", subject: "Math" }));
+    const { addAssignment, removeAssignment, assignmentSchema, listPeople, peopleFiltersSchema } =
+      await m.people();
+    await addAssignment(
+      adminA,
+      assignmentSchema.parse({ teacherId: teacherA.user.id, grade: "5", section: "b", subject: "Math" }),
+    );
     expect(
-      await codeOf(addAssignment(adminA, assignmentSchema.parse({ teacherId: teacherA.user.id, grade: "5", section: "B", subject: "Math" }))),
+      await codeOf(
+        addAssignment(
+          adminA,
+          assignmentSchema.parse({ teacherId: teacherA.user.id, grade: "5", section: "B", subject: "Math" }),
+        ),
+      ),
     ).toBe("CONFLICT");
     expect(
-      await codeOf(addAssignment(adminA, assignmentSchema.parse({ teacherId: teacherA.user.id, grade: "7", section: "" }))),
+      await codeOf(
+        addAssignment(
+          adminA,
+          assignmentSchema.parse({ teacherId: teacherA.user.id, grade: "7", section: "" }),
+        ),
+      ),
     ).toBe("VALIDATION");
     const list = await listPeople(adminA, { kind: "school" }, peopleFiltersSchema.parse({ role: "teacher" }));
     const row = list.rows.find((r) => r.id === teacherA.user.id)!;
@@ -228,5 +287,66 @@ describe("deleting a school", () => {
     expect(await db.select().from(schema.users).where(eq(schema.users.id, student.id))).toHaveLength(0);
     const [kept] = await db.select().from(schema.users).where(eq(schema.users.id, linkedManager.id));
     expect(kept.schoolId).toBeNull();
+  });
+});
+
+describe("resetting a lost authenticator", () => {
+  async function withAuthenticator(role: "teacher" | "student" | "admin", schoolId: string) {
+    const { db, schema } = await import("@/server/db");
+    const user = await createUser({
+      role,
+      schoolId,
+      grade: role === "student" ? "5" : null,
+      twoFactorEnabled: true,
+    });
+    await db
+      .insert(schema.twoFactors)
+      .values({
+        id: crypto.randomUUID(),
+        userId: user.id,
+        secret: "enc",
+        backupCodes: "enc",
+        verified: true,
+      });
+    const sessionId = crypto.randomUUID();
+    await db.insert(schema.sessions).values({
+      id: sessionId,
+      userId: user.id,
+      token: crypto.randomUUID(),
+      expiresAt: new Date(Date.now() + 86_400_000),
+    });
+    return user;
+  }
+
+  it("removes the authenticator, signs the user out everywhere and is audited", async () => {
+    const { db, schema } = await import("@/server/db");
+    const { resetPersonTwoFactor } = await m.people();
+    const student = await withAuthenticator("student", schoolA);
+    await resetPersonTwoFactor(adminA, student.id);
+
+    const [user] = await db.select().from(schema.users).where(eq(schema.users.id, student.id));
+    expect(user.twoFactorEnabled).toBe(false);
+    expect(
+      await db.select().from(schema.twoFactors).where(eq(schema.twoFactors.userId, student.id)),
+    ).toHaveLength(0);
+    expect(
+      await db.select().from(schema.sessions).where(eq(schema.sessions.userId, student.id)),
+    ).toHaveLength(0);
+    const audit = await db
+      .select()
+      .from(schema.analyticsEvents)
+      .where(eq(schema.analyticsEvents.eventType, "two_factor_reset"));
+    expect(audit.some((e) => (e.eventData as { targetId?: string }).targetId === student.id)).toBe(true);
+  });
+
+  it("follows who-may-manage-whom: no other school, no peers, not yourself", async () => {
+    const { resetPersonTwoFactor } = await m.people();
+    const otherSchoolTeacher = await withAuthenticator("teacher", schoolB);
+    const peerAdmin = await withAuthenticator("admin", schoolA);
+    expect(await codeOf(resetPersonTwoFactor(adminA, otherSchoolTeacher.id))).toBe("NOT_FOUND");
+    expect(await codeOf(resetPersonTwoFactor(adminA, peerAdmin.id))).toBe("FORBIDDEN");
+    expect(await codeOf(resetPersonTwoFactor(adminA, adminA.user.id))).toBe("FORBIDDEN");
+    expect(await codeOf(resetPersonTwoFactor(teacherA, otherSchoolTeacher.id))).not.toBe("OK");
+    expect(await codeOf(resetPersonTwoFactor(manager, peerAdmin.id))).toBe("OK");
   });
 });

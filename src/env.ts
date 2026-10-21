@@ -51,18 +51,34 @@ const schema = z.object({
   B2_ENDPOINT: z.url().optional(),
   B2_REGION: z.string().optional(),
 
+  // Cloudflare Turnstile (bot check on the sign-in form). Set both keys to turn it on;
+  // with neither set (local development) the check is skipped. See hostinger-setup/.
+  TURNSTILE_SITE_KEY: z.string().min(1).optional(),
+  TURNSTILE_SECRET_KEY: z.string().min(1).optional(),
+  // "1" when the site is served through Cloudflare's proxy (orange cloud): the client
+  // address then comes from CF-Connecting-IP, since X-Real-IP would be a Cloudflare server.
+  TRUST_CLOUDFLARE_IP: z
+    .enum(["0", "1", "true", "false"])
+    .default("0")
+    .transform((value) => value === "1" || value === "true"),
+
   // Optional "Sign in with Microsoft" (single tenant).
   MICROSOFT_CLIENT_ID: z.string().optional(),
   MICROSOFT_CLIENT_SECRET: z.string().optional(),
   MICROSOFT_TENANT_ID: z.string().optional(),
 });
 
-export type Env = z.infer<typeof schema>;
+const refined = schema.refine((value) => Boolean(value.TURNSTILE_SITE_KEY) === Boolean(value.TURNSTILE_SECRET_KEY), {
+  message: "Set both TURNSTILE_SITE_KEY and TURNSTILE_SECRET_KEY, or neither",
+  path: ["TURNSTILE_SECRET_KEY"],
+});
+
+export type Env = z.infer<typeof refined>;
 
 function parseEnv(): Env {
   // Hosting panels save unset variables as empty strings; treat those as missing.
   const source = Object.fromEntries(Object.entries(process.env).filter(([, value]) => value !== ""));
-  const result = schema.safeParse(source);
+  const result = refined.safeParse(source);
   if (!result.success) {
     const issues = result.error.issues.map((i) => `  - ${i.path.join(".")}: ${i.message}`).join("\n");
     throw new Error(`Invalid environment variables:\n${issues}`);

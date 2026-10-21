@@ -1,5 +1,5 @@
 import { APICallError } from "ai";
-import { MockLanguageModelV4 } from "ai/test";
+import { MockLanguageModelV4, simulateReadableStream } from "ai/test";
 import { and, eq } from "drizzle-orm";
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import { z } from "zod";
@@ -440,6 +440,99 @@ describe("AI service", () => {
       });
       await response.text();
       expect(JSON.stringify(model.doStreamCalls[0].prompt)).toContain('"type":"file"');
+    });
+  });
+
+  describe("chat hardening", () => {
+    async function waitFor(check: () => Promise<boolean>) {
+      for (let attempt = 0; attempt < 50; attempt++) {
+        if (await check()) return;
+        await new Promise((resolve) => setTimeout(resolve, 20));
+      }
+      throw new Error("condition not met");
+    }
+
+    it("regression: attachments that are each allowed can't add up past the provider limit", async () => {
+      setAiTestModel(mockTextModel("ok"));
+      const student = await createUser({ role: "student", schoolId });
+      // 3 × 7 MB: under the 8 MB per-file and 4-file limits, over the 18 MB total.
+      const sevenMb = "A".repeat(Math.ceil((7 * 1024 * 1024 * 4) / 3 / 4) * 4);
+      const file = { type: "file", mediaType: "image/png", url: `data:image/png;base64,${sevenMb}` };
+      await expectAppError(
+        streamChat({
+          ctx: contextFor(student),
+          feature: "test.chat",
+          tier: "fast",
+          system: "s",
+          messages: [{ id: "u", role: "user", parts: [{ type: "text", text: "look" }, file, file, file] }],
+        }),
+        "VALIDATION",
+      );
+      expect(await usageRows(student.id)).toHaveLength(0);
+    });
+
+    it("regression: a reply that breaks after it started still counts against the quota", async () => {
+      vi.spyOn(console, "error").mockImplementation(() => undefined);
+      setAiTestModel(
+        new MockLanguageModelV4({
+          doStream: async () => ({
+            stream: simulateReadableStream({
+              chunks: [
+                { type: "stream-start", warnings: [] },
+                { type: "text-start", id: "t" },
+                { type: "text-delta", id: "t", delta: "Half an ans" },
+                { type: "error", error: new Error("connection reset") },
+              ],
+            }),
+          }),
+        }),
+      );
+      const student = await createUser({ role: "student", schoolId });
+      const saved: string[] = [];
+      const response = await streamChat({
+        ctx: contextFor(student),
+        feature: "test.chat",
+        tier: "fast",
+        system: "s",
+        messages: [userMessage("Hi")],
+        onFinish: ({ text }) => {
+          saved.push(text);
+        },
+      });
+      await response.text();
+      await waitFor(async () => (await usageRows(student.id)).length === 1);
+      await new Promise((resolve) => setTimeout(resolve, 100));
+      expect(await usageRows(student.id)).toHaveLength(1);
+      // regression: the SDK fires onEnd after the error; the broken reply isn't saved.
+      expect(saved).toEqual([]);
+    });
+
+    it("a provider failure before anything was sent costs no quota", async () => {
+      vi.spyOn(console, "error").mockImplementation(() => undefined);
+      setAiTestModel(
+        new MockLanguageModelV4({
+          doStream: async () => ({
+            stream: simulateReadableStream({
+              chunks: [
+                { type: "stream-start", warnings: [] },
+                { type: "error", error: new Error("busy") },
+              ],
+            }),
+          }),
+        }),
+      );
+      const student = await createUser({ role: "student", schoolId });
+      const response = await streamChat({
+        ctx: contextFor(student),
+        feature: "test.chat",
+        tier: "fast",
+        system: "s",
+        messages: [userMessage("Hi")],
+      });
+      await response.text();
+      await waitFor(async () => (await usageRows(student.id)).length === 0);
+      await new Promise((resolve) => setTimeout(resolve, 100));
+      expect(await usageRows(student.id)).toHaveLength(0);
     });
   });
 

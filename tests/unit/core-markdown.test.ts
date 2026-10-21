@@ -67,15 +67,20 @@ describe("Markdown", () => {
     expect(html).toMatch(/<a (?![^>]*target=)[^>]*href="#fn-1"[^>]*>note<\/a>/);
   });
 
-  it("only renders https images, without leaking the referrer", () => {
+  it("only renders https images (when enabled), without leaking the referrer", () => {
     const html = render(
       "![safe](https://cdn.test/a.png) ![insecure](http://cdn.test/b.png) ![data](data:image/png;base64,AAAA)",
+      { images: true },
     );
     expect(html).toContain('src="https://cdn.test/a.png"');
     expect(html).toMatch(/referrerPolicy="no-referrer"/i);
     expect(html).not.toContain("http://cdn.test/b.png");
     expect(html).not.toContain("data:image");
     expect(render("![x](https://cdn.test/a.png)", { images: false })).not.toContain("<img");
+  });
+
+  it("regression: third-party images (tracking pixels) are off unless asked for", () => {
+    expect(render("![x](https://tracker.test/pixel.png)")).not.toContain("<img");
   });
 
   it("renders inline and display math with KaTeX, with dangerous commands disabled", () => {

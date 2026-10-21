@@ -8,6 +8,7 @@ import {
   Pencil,
   Power,
   RotateCcw,
+  ShieldOff,
   Trash2,
   UserPlus,
   Users,
@@ -15,7 +16,13 @@ import {
 import { useFormatter, useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
-import { exportPeopleAction, reissueCredentialsAction, resetPasswordAction, setActiveAction } from "@/app/(app)/_actions/people";
+import {
+  exportPeopleAction,
+  reissueCredentialsAction,
+  resetPasswordAction,
+  resetTwoFactorAction,
+  setActiveAction,
+} from "@/app/(app)/_actions/people";
 import { ConfirmDialog } from "@/components/common/confirm-dialog";
 import { DataTable, type DataTableColumn } from "@/components/common/data-table";
 import { EmptyState } from "@/components/common/empty-state";
@@ -57,7 +64,16 @@ export interface PeopleListProps {
 }
 
 /** The accounts table with every administrative action (dialogs, step-up, one-time passwords). */
-export function PeopleList({ rows, scope, creatableRoles, canDelete, classes, schools, exportName, showSchool }: PeopleListProps) {
+export function PeopleList({
+  rows,
+  scope,
+  creatableRoles,
+  canDelete,
+  classes,
+  schools,
+  exportName,
+  showSchool,
+}: PeopleListProps) {
   const t = useTranslations("schools.people");
   const tRoles = useTranslations("common.roles");
   const format = useFormatter();
@@ -69,10 +85,12 @@ export function PeopleList({ rows, scope, creatableRoles, canDelete, classes, sc
   const [teacherId, setTeacherId] = useState<string | null>(null);
   const [deleting, setDeleting] = useState<PersonRow | null>(null);
   const [resetting, setResetting] = useState<PersonRow | null>(null);
+  const [resettingTwoFactor, setResettingTwoFactor] = useState<PersonRow | null>(null);
   const [toggling, setToggling] = useState<PersonRow | null>(null);
   const [selected, setSelected] = useState<Set<string>>(new Set());
 
   const reset = useAction(resetPasswordAction, { onSuccess: (c) => setCredentials([c]) });
+  const resetTwoFactor = useAction(resetTwoFactorAction, { successMessage: t("twoFactorReset") });
   const toggle = useAction(setActiveAction, { successMessage: t("statusChanged") });
   const reissue = useAction(reissueCredentialsAction, {
     onSuccess: (list) => {
@@ -165,9 +183,7 @@ export function PeopleList({ rows, scope, creatableRoles, canDelete, classes, sc
       header: t("columns.stars"),
       cell: (row) =>
         row.role === "student" ? (
-          <span className="tabular-nums">
-            {t("starsStreak", { stars: row.stars, streak: row.streak })}
-          </span>
+          <span className="tabular-nums">{t("starsStreak", { stars: row.stars, streak: row.streak })}</span>
         ) : (
           "—"
         ),
@@ -185,7 +201,19 @@ export function PeopleList({ rows, scope, creatableRoles, canDelete, classes, sc
     const filters = Object.fromEntries([...params.entries()].filter(([key]) => key !== "page"));
     const result = await exporter.execute({ scope, filters });
     if (!result.ok) return;
-    const header = [t("columns.name"), t("columns.email"), t("columns.role"), t("columns.school"), t("export.grade"), t("export.section"), t("export.subject"), t("columns.class"), t("export.ministryId"), t("columns.status"), t("columns.lastLogin")];
+    const header = [
+      t("columns.name"),
+      t("columns.email"),
+      t("columns.role"),
+      t("columns.school"),
+      t("export.grade"),
+      t("export.section"),
+      t("export.subject"),
+      t("columns.class"),
+      t("export.ministryId"),
+      t("columns.status"),
+      t("columns.lastLogin"),
+    ];
     const lines = result.data.map((r) => [
       r.name,
       r.email,
@@ -218,7 +246,11 @@ export function PeopleList({ rows, scope, creatableRoles, canDelete, classes, sc
           {t("create")}
         </Button>
       )}
-      <Button variant="outline" onClick={() => void exportCsv()} disabled={exporter.pending || rows.length === 0}>
+      <Button
+        variant="outline"
+        onClick={() => void exportCsv()}
+        disabled={exporter.pending || rows.length === 0}
+      >
         {exporter.pending ? <Spinner /> : <Download aria-hidden />}
         {t("export.button")}
       </Button>
@@ -252,6 +284,12 @@ export function PeopleList({ rows, scope, creatableRoles, canDelete, classes, sc
           <RotateCcw aria-hidden />
           {t("actions.reset")}
         </DropdownMenuItem>
+        {row.twoFactorEnabled && (
+          <DropdownMenuItem onSelect={() => setResettingTwoFactor(row)}>
+            <ShieldOff aria-hidden />
+            {t("actions.resetTwoFactor")}
+          </DropdownMenuItem>
+        )}
         <DropdownMenuItem
           onSelect={() => {
             setEditing(row);
@@ -293,7 +331,14 @@ export function PeopleList({ rows, scope, creatableRoles, canDelete, classes, sc
         toolbar={toolbar}
         rowActions={rowActions}
         caption={t("caption")}
-        empty={<EmptyState icon={Users} title={t("empty.title")} description={t("empty.description")} action={toolbar} />}
+        empty={
+          <EmptyState
+            icon={Users}
+            title={t("empty.title")}
+            description={t("empty.description")}
+            action={toolbar}
+          />
+        }
       />
 
       <PersonFormDialog
@@ -306,7 +351,11 @@ export function PeopleList({ rows, scope, creatableRoles, canDelete, classes, sc
         schools={schools}
         onCreated={(c) => setCredentials([c])}
       />
-      <AssignmentsDialog teacher={teacher} classes={classes} onOpenChange={(open) => !open && setTeacherId(null)} />
+      <AssignmentsDialog
+        teacher={teacher}
+        classes={classes}
+        onOpenChange={(open) => !open && setTeacherId(null)}
+      />
       <DeletePersonDialog person={deleting} onOpenChange={(open) => !open && setDeleting(null)} />
 
       <ConfirmDialog
@@ -321,6 +370,18 @@ export function PeopleList({ rows, scope, creatableRoles, canDelete, classes, sc
         }}
       />
       <ConfirmDialog
+        open={resettingTwoFactor !== null}
+        onOpenChange={(open) => !open && setResettingTwoFactor(null)}
+        title={t("resetTwoFactorConfirm.title", { name: resettingTwoFactor?.name ?? "" })}
+        description={t("resetTwoFactorConfirm.description")}
+        confirmLabel={t("actions.resetTwoFactor")}
+        destructive
+        onConfirm={async () => {
+          if (resettingTwoFactor) await resetTwoFactor.execute({ userId: resettingTwoFactor.id });
+          setResettingTwoFactor(null);
+        }}
+      />
+      <ConfirmDialog
         open={toggling !== null}
         onOpenChange={(open) => !open && setToggling(null)}
         title={
@@ -328,7 +389,9 @@ export function PeopleList({ rows, scope, creatableRoles, canDelete, classes, sc
             ? t("deactivateConfirm.title", { name: toggling.name })
             : t("activateConfirm.title", { name: toggling?.name ?? "" })
         }
-        description={toggling?.isActive ? t("deactivateConfirm.description") : t("activateConfirm.description")}
+        description={
+          toggling?.isActive ? t("deactivateConfirm.description") : t("activateConfirm.description")
+        }
         confirmLabel={toggling?.isActive ? t("actions.deactivate") : t("actions.activate")}
         destructive={toggling?.isActive}
         onConfirm={async () => {

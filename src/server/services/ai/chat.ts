@@ -11,14 +11,31 @@ import { AppError } from "@/server/errors";
 import { resolveLanguageModel } from "./config";
 import { aiErrorCode, toAiAppError } from "./errors";
 import { assertFeature, toAiUsage, type AiCallOptions } from "./generate";
-import { CHAT_LIMITS, DEFAULT_MAX_OUTPUT_TOKENS, INLINE_FILE_MEDIA_TYPES } from "./limits";
+import {
+  CHAT_LIMITS,
+  DEFAULT_MAX_OUTPUT_TOKENS,
+  INLINE_FILE_MEDIA_TYPES,
+  INLINE_FILES_MAX_BYTES,
+} from "./limits";
 import { finalizeCall, releaseCall, reserveCall, type AiUsage } from "./quota";
 
 type ChatPart = UIMessage["parts"][number];
 
+/** Stream chunks that carry model output (anything else is bookkeeping). */
+const CONTENT_CHUNKS: ReadonlySet<string> = new Set([
+  "text-delta",
+  "reasoning-delta",
+  "source",
+  "file",
+  "tool-input-start",
+  "tool-input-delta",
+  "tool-call",
+]);
+
 const DATA_URL = /^data:([a-z0-9.+-]+\/[a-z0-9.+-]+)(;[a-z0-9=._+-]+)*;base64,([a-z0-9+/]*={0,2})$/i;
 
-function checkFilePart(part: Extract<ChatPart, { type: "file" }>): void {
+/** Checks one attachment and returns its decoded size in bytes. */
+function checkFilePart(part: Extract<ChatPart, { type: "file" }>): number {
   const match = DATA_URL.exec(part.url);
   // Only inline data: a URL would make the server (or the provider) fetch arbitrary links.
   if (!match || match[1].toLowerCase() !== part.mediaType.toLowerCase()) {
@@ -29,6 +46,7 @@ function checkFilePart(part: Extract<ChatPart, { type: "file" }>): void {
   }
   const bytes = Math.floor((match[3].length * 3) / 4);
   if (bytes > CHAT_LIMITS.maxFileBytes) throw new AppError("VALIDATION", "Chat attachment is too large");
+  return bytes;
 }
 
 /**
@@ -44,6 +62,7 @@ export async function toSafeModelMessages(raw: unknown): Promise<ModelMessage[]>
   const recent = validated.data.slice(-CHAT_LIMITS.maxMessages);
   let textChars = 0;
   let files = 0;
+  let fileBytes = 0;
   const cleaned: UIMessage[] = [];
   for (const message of recent) {
     if (message.role !== "user" && message.role !== "assistant") {
@@ -56,7 +75,7 @@ export async function toSafeModelMessages(raw: unknown): Promise<ModelMessage[]>
         parts.push({ type: "text", text: part.text });
       } else if (part.type === "file") {
         if (message.role !== "user") continue;
-        checkFilePart(part);
+        fileBytes += checkFilePart(part);
         files += 1;
         parts.push({ type: "file", url: part.url, mediaType: part.mediaType, filename: part.filename });
       }
@@ -66,6 +85,9 @@ export async function toSafeModelMessages(raw: unknown): Promise<ModelMessage[]>
   }
   if (textChars > CHAT_LIMITS.maxTextChars) throw new AppError("VALIDATION", "Chat history is too long");
   if (files > CHAT_LIMITS.maxFiles) throw new AppError("VALIDATION", "Too many chat attachments");
+  // Several files that are each allowed can still add up past what the provider accepts.
+  if (fileBytes > INLINE_FILES_MAX_BYTES)
+    throw new AppError("VALIDATION", "Chat attachments are too large in total");
   if (cleaned.at(-1)?.role !== "user")
     throw new AppError("VALIDATION", "The last message must be from the user");
   return convertToModelMessages(cleaned);
@@ -142,6 +164,12 @@ export async function streamChat(input: StreamChatInput): Promise<Response> {
   });
   const context = { feature: input.feature, modelId };
   let settled = false;
+  // Set once the model has produced content: from then on the call was billed, so a
+  // failure still counts against the quota (otherwise breaking streams would give free
+  // retries). Bookkeeping chunks such as "start" don't count.
+  let started = false;
+  // The SDK still calls onEnd after a stream error; a failed reply must not be saved.
+  let failed = false;
 
   const settle = async (usage: AiUsage | null) => {
     if (settled) return;
@@ -163,10 +191,13 @@ export async function streamChat(input: StreamChatInput): Promise<Response> {
       maxOutputTokens: input.maxOutputTokens ?? DEFAULT_MAX_OUTPUT_TOKENS,
       temperature: input.temperature,
       abortSignal: input.abortSignal,
+      onChunk: ({ chunk }) => {
+        if (CONTENT_CHUNKS.has(chunk.type)) started = true;
+      },
       onEnd: async (event) => {
         const usage = toAiUsage(event.totalUsage);
         await settle(usage);
-        if (input.onFinish) {
+        if (input.onFinish && !failed) {
           try {
             await input.onFinish({ text: event.text, usage });
           } catch (error) {
@@ -178,8 +209,10 @@ export async function streamChat(input: StreamChatInput): Promise<Response> {
         await settle(sumUsage(event.steps.map((step) => step.usage)));
       },
       onError: async ({ error }) => {
+        failed = true;
         toAiAppError(error, context); // logs the provider error
-        await settle(null);
+        // Exact usage isn't reported for a broken stream; the call itself still counts.
+        await settle(started ? { inputTokens: 0, outputTokens: 0 } : null);
       },
     });
   } catch (error) {

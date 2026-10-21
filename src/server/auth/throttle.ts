@@ -1,5 +1,5 @@
 import "server-only";
-import { createHash, randomInt } from "node:crypto";
+import { createHash, createHmac, randomInt } from "node:crypto";
 import { eq, like, lt, sql } from "drizzle-orm";
 import { db } from "@/server/db";
 import { throttles } from "@/server/db/schema";
@@ -90,6 +90,37 @@ export function loginThrottleKeys(email: string, ip: string | null) {
     account,
     pair: `${throttleKey("login-pair", normalizeEmail(email))}:${throttleKey("ip", ip ?? "unknown").slice(3, 19)}`,
   };
+}
+
+// Known devices (OWASP "device cookie"). Account emails are predictable, so anyone could
+// keep an account locked by burning its account-wide budget. A browser that has signed in
+// to the account before carries a tag for it and is exempt from that account-wide lock
+// (the per-IP limit still applies), so the real user isn't locked out by strangers.
+
+export const KNOWN_DEVICE_COOKIE = "app.known_device";
+export const KNOWN_DEVICE_MAX_AGE = 60 * 60 * 24 * 180;
+const KNOWN_DEVICE_MAX_TAGS = 10; // shared school computers sign in many accounts
+
+/** Unforgeable per-account tag (HMAC with the auth secret); reveals nothing about the email. */
+export function knownDeviceTag(email: string, secret: string): string {
+  return createHmac("sha256", secret)
+    .update(`known-device\u0000${normalizeEmail(email)}`)
+    .digest("base64url")
+    .slice(0, 22);
+}
+
+export function parseKnownDevices(cookie: string | null | undefined): string[] {
+  return (cookie ?? "")
+    .split(".")
+    .filter((tag) => /^[\w-]{22}$/.test(tag))
+    .slice(0, KNOWN_DEVICE_MAX_TAGS);
+}
+
+/** The cookie value after a successful sign-in: this account's tag first, oldest dropped. */
+export function addKnownDevice(cookie: string | null | undefined, tag: string): string {
+  return [tag, ...parseKnownDevices(cookie).filter((t) => t !== tag)]
+    .slice(0, KNOWN_DEVICE_MAX_TAGS)
+    .join(".");
 }
 
 /** Clears every sign-in counter for an account, e.g. after a staff password reset. */

@@ -51,7 +51,11 @@ afterAll(() => {
 });
 
 /** Creates an account and signs it in with a changed password, ready for normal use. */
-async function readyAccount(email: string, role: "student" | "owner" | "manager" | "admin", ip?: string) {
+async function readyAccount(
+  email: string,
+  role: "student" | "teacher" | "owner" | "manager" | "admin",
+  ip?: string,
+) {
   const created = await m.accounts.createAccount({ email, name: email.split("@")[0], role });
   const client = new TestClient(ip);
   await client.signIn(email, created.password);
@@ -137,6 +141,7 @@ describe("student sign-in", () => {
   const client = new TestClient();
   let password: string;
   let userId: string;
+  let totpUri: string;
 
   beforeAll(async () => {
     const created = await m.accounts.createAccount({
@@ -193,7 +198,11 @@ describe("student sign-in", () => {
   it("the temporary password must be changed before anything else works", async () => {
     as(client);
     expect(await codeOf(m.session.requireSession())).toBe("PASSWORD_CHANGE_REQUIRED");
-    expect(await codeOf(m.session.requireSession({ allowPendingPasswordChange: true }))).toBeUndefined();
+    expect(
+      await codeOf(
+        m.session.requireSession({ allowPendingPasswordChange: true, allowPendingTwoFactor: true }),
+      ),
+    ).toBeUndefined();
 
     const changed = await client.request("POST", "/change-password", {
       currentPassword: password,
@@ -203,22 +212,29 @@ describe("student sign-in", () => {
     expect(changed.status).toBe(200);
     password = "A-new-strong-password-1";
     as(client);
-    expect(await codeOf(m.session.requireSession())).toBeUndefined();
+    // Next mandatory step: every account, students included, enrolls an authenticator.
+    expect(await codeOf(m.session.requireSession())).toBe("TWO_FACTOR_REQUIRED");
+    expect(await codeOf(m.session.requireSession({ allowPendingTwoFactor: true }))).toBeUndefined();
   });
 
-  it("students are confined to the student area and need no 2FA", async () => {
+  it("step-up is impossible without 2FA, so high-risk actions stay closed", async () => {
+    as(client);
+    const context = await m.session.requireSession({ allowPendingTwoFactor: true });
+    expect(await codeOf(m.stepUp.requireStepUp(context))).toBe("STEP_UP_REQUIRED");
+    expect(await codeOf(m.stepUp.verifyStepUp(context, "123456"))).toBe("TWO_FACTOR_REQUIRED");
+  });
+
+  it("students must enroll 2FA, then are confined to the student area", async () => {
+    totpUri = await enroll(client, password);
     as(client);
     expect(await codeOf(m.session.requireSession({ area: "student" }))).toBeUndefined();
     for (const area of ["teacher", "admin", "manager", "owner"] as const) {
       expect(await codeOf(m.session.requireSession({ area }))).toBe("FORBIDDEN");
     }
-  });
-
-  it("step-up is impossible without 2FA, so high-risk actions stay closed", async () => {
-    as(client);
-    const context = await m.session.requireSession();
-    expect(await codeOf(m.stepUp.requireStepUp(context))).toBe("STEP_UP_REQUIRED");
-    expect(await codeOf(m.stepUp.verifyStepUp(context, "123456"))).toBe("TWO_FACTOR_REQUIRED");
+    // From now on the password alone is not enough to sign in.
+    const again = await new TestClient().signIn("student1@school.test", password);
+    expect(again.status).toBe(200);
+    expect(again.body.twoFactorRedirect).toBe(true);
   });
 
   it("deactivating the account kills the live session and blocks sign-in", async () => {
@@ -241,7 +257,13 @@ describe("student sign-in", () => {
     expect(await m.session.getSessionContext()).toBeNull();
     expect((await new TestClient().signIn("student1@school.test", password)).status).toBe(401);
     const fresh = new TestClient();
-    expect((await fresh.signIn("student1@school.test", temporary)).status).toBe(200);
+    const first = await fresh.signIn("student1@school.test", temporary);
+    expect(first.status).toBe(200);
+    // A password reset doesn't remove the authenticator: the code is still asked for.
+    expect(first.body.twoFactorRedirect).toBe(true);
+    expect(
+      (await fresh.request("POST", "/two-factor/verify-totp", { code: freshCode(totpUri) })).status,
+    ).toBe(200);
     as(fresh);
     expect(await codeOf(m.session.requireSession())).toBe("PASSWORD_CHANGE_REQUIRED");
   });
@@ -284,6 +306,36 @@ describe("sign-in lockout", () => {
     }
     const anywhere = await new TestClient("198.51.100.99").signIn("spread@school.test", password);
     expect(anywhere.status).toBe(429);
+  });
+
+  it("regression: strangers can't lock the real user out of a device they signed in on before", async () => {
+    const { password } = await m.accounts.createAccount({
+      email: "known@school.test",
+      name: "K",
+      role: "student",
+    });
+    const home = new TestClient("203.0.113.77");
+    expect((await home.signIn("known@school.test", password)).status).toBe(200);
+    expect(home.hasCookie("known_device")).toBe(true);
+
+    for (let i = 0; i < LOGIN_ACCOUNT_RULE.max + 5; i++) {
+      await new TestClient(`192.0.2.${(i % 250) + 1}`).signIn("known@school.test", "nope");
+    }
+    // A new browser is held by the account-wide lock…
+    expect((await new TestClient("198.51.100.123").signIn("known@school.test", password)).status).toBe(429);
+    // …but the user's own browser still gets in.
+    expect((await home.signIn("known@school.test", password)).status).toBe(200);
+  });
+
+  it("regression: a known-device cookie for one account doesn't help with another", async () => {
+    const a = await m.accounts.createAccount({ email: "deva@school.test", name: "A", role: "student" });
+    await m.accounts.createAccount({ email: "devb@school.test", name: "B", role: "student" });
+    const browser = new TestClient("203.0.113.78");
+    await browser.signIn("deva@school.test", a.password);
+    for (let i = 0; i < LOGIN_ACCOUNT_RULE.max; i++) {
+      await new TestClient(`192.0.2.${i + 1}`).signIn("devb@school.test", "nope");
+    }
+    expect((await browser.signIn("devb@school.test", "nope")).status).toBe(429);
   });
 
   it("regression: a parallel burst cannot test more passwords than the limit", async () => {
@@ -341,7 +393,7 @@ describe("sign-in lockout", () => {
   });
 });
 
-describe("privileged roles: mandatory 2FA and step-up", () => {
+describe("mandatory 2FA and step-up", () => {
   let owner: Awaited<ReturnType<typeof readyAccount>>;
   let totpUri: string;
 
@@ -536,7 +588,11 @@ describe("authenticator management needs step-up", () => {
   });
 
   it("regression: the password alone can't reveal, replace or remove the authenticator", async () => {
-    for (const path of ["/two-factor/get-totp-uri", "/two-factor/disable", "/two-factor/enable"]) {
+    for (const path of [
+      "/two-factor/get-totp-uri",
+      "/two-factor/enable",
+      "/two-factor/generate-backup-codes",
+    ]) {
       const response = await manager.client.request("POST", path, { password: manager.password });
       expect(response.status, path).toBe(403);
       expect(response.body.code, path).toBe("STEP_UP_REQUIRED");
@@ -545,16 +601,36 @@ describe("authenticator management needs step-up", () => {
     expect((await m.session.requireSession({ area: "manager" })).user.twoFactorEnabled).toBe(true);
   });
 
-  it("with a fresh code it works, and disabling sends the user back to enrollment", async () => {
+  it("with a fresh code the authenticator can be revealed", async () => {
     as(manager.client);
     const context = await m.session.requireSession({ area: "manager" });
     await m.stepUp.verifyStepUp(context, freshCode(totpUri));
+    const uri = await manager.client.request("POST", "/two-factor/get-totp-uri", {
+      password: manager.password,
+    });
+    expect(uri.status).toBe(200);
+  });
+
+  it("regression: 2FA is mandatory, so it can't be turned off even with a fresh code", async () => {
+    as(manager.client);
+    expect(await m.stepUp.hasStepUp(await m.session.requireSession({ area: "manager" }))).toBe(true);
     const disabled = await manager.client.request("POST", "/two-factor/disable", {
       password: manager.password,
     });
-    expect(disabled.status).toBe(200);
+    expect(disabled.status).toBe(403);
+    expect(disabled.body.code).toBe("TWO_FACTOR_MANDATORY");
     as(manager.client);
-    expect(await codeOf(m.session.requireSession({ area: "manager" }))).toBe("TWO_FACTOR_REQUIRED");
+    expect((await m.session.requireSession({ area: "manager" })).user.twoFactorEnabled).toBe(true);
+  });
+
+  it("regression: a student can't turn it off either", async () => {
+    const student = await readyAccount("nodisable@school.test", "student");
+    await enroll(student.client, student.password);
+    const disabled = await student.client.request("POST", "/two-factor/disable", {
+      password: student.password,
+    });
+    expect(disabled.status).toBe(403);
+    expect(disabled.body.code).toBe("TWO_FACTOR_MANDATORY");
   });
 });
 
@@ -599,5 +675,47 @@ describe("database invariants", () => {
       .from(schema.homework)
       .where(eq(schema.homework.teacherId, teacher.id));
     expect(remaining).toHaveLength(1);
+  });
+});
+
+describe("two-step verification hardening", () => {
+  it("regression: one authenticator code can't open two sessions", async () => {
+    const { client, password } = await readyAccount("replay@school.test", "student");
+    const uri = await enroll(client, password);
+    const code = freshCode(uri);
+
+    const first = new TestClient("203.0.113.21");
+    await first.signIn("replay@school.test", password);
+    expect((await first.request("POST", "/two-factor/verify-totp", { code })).status).toBe(200);
+
+    const second = new TestClient("198.51.100.22");
+    await second.signIn("replay@school.test", password);
+    const replay = await second.request("POST", "/two-factor/verify-totp", { code });
+    expect(replay.status).toBe(401);
+    expect(replay.body.code).toBe("INVALID_CODE");
+    as(second);
+    expect(await m.session.getSessionContext()).toBeNull();
+
+    // The next code works as usual.
+    const again = new TestClient("198.51.100.22");
+    await again.signIn("replay@school.test", password);
+    expect((await again.request("POST", "/two-factor/verify-totp", { code: freshCode(uri) })).status).toBe(
+      200,
+    );
+  });
+
+  it("regression: sessions opened with only the password are ended when 2FA is turned on", async () => {
+    const { client, password } = await readyAccount("stale@school.test", "teacher");
+    const other = new TestClient("198.51.100.66");
+    expect((await other.signIn("stale@school.test", password)).status).toBe(200);
+    as(other);
+    expect(await m.session.getSessionContext()).not.toBeNull();
+
+    await enroll(client, password);
+
+    as(other);
+    expect(await m.session.getSessionContext()).toBeNull();
+    as(client);
+    expect((await m.session.requireSession()).user.twoFactorEnabled).toBe(true);
   });
 });

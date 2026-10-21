@@ -8,11 +8,25 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 
 /**
  * Client-side providers mounted once in the root layout: theme (class strategy, follows
- * the OS by default), reading direction for Radix primitives, tooltips and toasts.
+ * the OS by default; its inline no-flash script carries the CSP nonce), reading direction for Radix primitives, tooltips and toasts.
  */
-export function AppProviders({ dir, children }: { dir: "rtl" | "ltr"; children: ReactNode }) {
+export function AppProviders({
+  dir,
+  nonce,
+  children,
+}: {
+  dir: "rtl" | "ltr";
+  nonce?: string;
+  children: ReactNode;
+}) {
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+      nonce={nonce}
+    >
       <DirectionProvider dir={dir}>
         <TooltipProvider delayDuration={250}>
           {children}

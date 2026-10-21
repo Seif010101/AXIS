@@ -11,6 +11,8 @@ export type SignInErrorKey =
   | "accountLocked"
   | "accountDisabled"
   | "rateLimited"
+  | "botCheckFailed"
+  | "botCheckUnavailable"
   | "network"
   | "unknown";
 
@@ -18,6 +20,8 @@ export function signInErrorKey(error: AuthClientError | null | undefined): SignI
   if (!error) return "unknown";
   if (error.code === "ACCOUNT_LOCKED") return "accountLocked";
   if (error.code === "ACCOUNT_DISABLED") return "accountDisabled";
+  if (error.code === "BOT_CHECK_FAILED") return "botCheckFailed";
+  if (error.code === "BOT_CHECK_UNAVAILABLE") return "botCheckUnavailable";
   if (error.status === 429) return "rateLimited";
   if (error.code === "INVALID_EMAIL_OR_PASSWORD" || error.code === "INVALID_EMAIL" || error.status === 401) {
     return "invalidCredentials";

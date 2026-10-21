@@ -85,7 +85,7 @@
       },
       "security": {
         "title": "Sicherheit von Grund auf",
-        "description": "Zwei-Schritt-Verifizierung für das Personal, strikte Trennung zwischen Schulen und ein frischer Code für heikle Aktionen."
+        "description": "Bestätigung in zwei Schritten für alle Konten, strikte Trennung zwischen Schulen und ein frischer Code für sensible Aktionen."
       }
     }
   },
@@ -99,7 +99,7 @@
       },
       "signIn": {
         "title": "Alle melden sich sicher an",
-        "description": "Jede Person hat ihr eigenes Konto. Das Personal bestätigt mit einem Code aus einer Authenticator-App."
+        "description": "Jede Person hat ein eigenes Konto, und alle bestätigen mit einem Code aus Microsoft Authenticator."
       },
       "learn": {
         "title": "Unterrichten und lernen",
@@ -130,7 +130,7 @@
       },
       "security": {
         "question": "Wie werden unsere Daten geschützt?",
-        "answer": "Jede Schule sieht nur ihre eigenen Daten. Passwörter werden als Einweg-Hashes gespeichert, Konten des Personals nutzen die Zwei-Schritt-Verifizierung, und heikle Aktionen verlangen einen frischen Code aus der Authenticator-App."
+        "answer": "Jede Schule sieht nur ihre eigenen Daten. Passwörter werden als Einweg-Hash gespeichert, alle Konten – Schüler, Lehrkräfte und Verwaltung – nutzen die Bestätigung in zwei Schritten, sensible Aktionen verlangen einen frischen Code aus der Authenticator-App, und die Bot-Prüfung von Cloudflare hält automatisierte Anmeldeversuche fern."
       },
       "ai": {
         "question": "Was macht der KI-Tutor?",

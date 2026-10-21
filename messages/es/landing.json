@@ -85,7 +85,7 @@
       },
       "security": {
         "title": "Seguridad desde el diseño",
-        "description": "Verificación en dos pasos para el personal, separación estricta entre centros y un código nuevo para las acciones delicadas."
+        "description": "Verificación en dos pasos para todas las cuentas, separación estricta entre escuelas y un código nuevo para cada acción sensible."
       }
     }
   },
@@ -99,7 +99,7 @@
       },
       "signIn": {
         "title": "Todos inician sesión con seguridad",
-        "description": "Cada persona tiene su propia cuenta. El personal confirma con un código de una app de autenticación."
+        "description": "Cada persona tiene su propia cuenta, y todos confirman con un código de Microsoft Authenticator."
       },
       "learn": {
         "title": "Enseñar y aprender",
@@ -130,7 +130,7 @@
       },
       "security": {
         "question": "¿Cómo se protegen nuestros datos?",
-        "answer": "Cada centro solo ve sus propios datos. Las contraseñas se guardan como hashes irreversibles, las cuentas del personal usan verificación en dos pasos y las acciones delicadas piden un código nuevo de la app de autenticación."
+        "answer": "Cada escuela solo ve sus propios datos. Las contraseñas se guardan con un hash irreversible, todas las cuentas —alumnos, docentes y personal— usan verificación en dos pasos, las acciones sensibles piden un código nuevo de la app de autenticación y la verificación antibots de Cloudflare bloquea los intentos de acceso automatizados."
       },
       "ai": {
         "question": "¿Qué hace el tutor con IA?",

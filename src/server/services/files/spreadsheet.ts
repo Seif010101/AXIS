@@ -8,9 +8,16 @@ import { loadZipSafely } from "./zip";
 /** Default maximum size of an uploaded spreadsheet. */
 export const SHEET_MAX_BYTES = 8 * 1024 * 1024;
 
+/**
+ * Decompressed-size ceiling for a workbook. ExcelJS holds the whole sheet in memory (many
+ * times the XML size), so the generic 150 MB zip limit could exhaust a shared host. Even
+ * the 10,000-row school import is a few MB uncompressed.
+ */
+export const SHEET_MAX_UNCOMPRESSED_BYTES = 30 * 1024 * 1024;
+
 /** Opens an .xlsx workbook (after the zip-bomb check). */
 export async function loadWorkbook(bytes: Uint8Array): Promise<ExcelJS.Workbook> {
-  await loadZipSafely(bytes);
+  await loadZipSafely(bytes, SHEET_MAX_UNCOMPRESSED_BYTES);
   const workbook = new ExcelJS.Workbook();
   // ExcelJS types its input as an ArrayBuffer; a copy gives one of exactly the right size.
   await workbook.xlsx.load(new Uint8Array(bytes).buffer);

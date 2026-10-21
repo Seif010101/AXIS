@@ -1,1 +1,286 @@
-{}
+{
+  "list": {
+    "title": "Écoles",
+    "description": "{count, plural, =0 {Aucune école pour le moment} one {# école dans le réseau} other {# écoles dans le réseau}}",
+    "searchPlaceholder": "Rechercher par nom, site ou code ministériel…",
+    "status": {
+      "label": "Statut",
+      "all": "Toutes les écoles",
+      "configured": "Configurée",
+      "pending": "En configuration"
+    },
+    "noResults": "Aucune école ne correspond à votre recherche.",
+    "empty": {
+      "title": "Aucune école pour le moment",
+      "description": "Ajoutez la première école à la main, ou importez les écoles et leurs classes depuis un fichier Excel."
+    },
+    "code": "Code ministériel : {code}",
+    "noBranch": "Sans site",
+    "counts": {
+      "students": "Élèves",
+      "teachers": "Enseignants",
+      "admins": "Administrateurs",
+      "classes": "Classes"
+    },
+    "created": "Ajoutée le {date}"
+  },
+  "detail": {
+    "back": "Écoles",
+    "code": "Code ministériel : {code}",
+    "noCode": "Sans code ministériel",
+    "stats": {
+      "students": "Élèves",
+      "teachers": "Enseignants",
+      "admins": "Administrateurs",
+      "classes": "Classes"
+    },
+    "manageAccounts": "Gérer les comptes"
+  },
+  "form": {
+    "created": "École ajoutée.",
+    "updated": "Informations de l'école enregistrées.",
+    "errors": {
+      "codeInUse": "Ce code ministériel appartient à une autre école.",
+      "duplicate": "Une école avec ce nom et ce site existe déjà.",
+      "invalid": "Vérifiez cette valeur."
+    },
+    "optional": " (facultatif)",
+    "createButton": "Ajouter une école",
+    "editTitle": "Modifier l'école",
+    "createTitle": "Nouvelle école",
+    "description": "Le nom est obligatoire. Le site et le code ministériel aident à distinguer des écoles semblables.",
+    "name": "Nom de l'école",
+    "branch": "Site",
+    "ministryCode": "Code ministériel"
+  },
+  "import": {
+    "button": "Importer depuis Excel",
+    "title": "Importer des écoles",
+    "description": "Envoyez un fichier avec une ligne par classe. Les nouvelles écoles sont créées et les classes manquantes ajoutées aux écoles existantes.",
+    "summary": "Nouvelles écoles : {created} · Déjà existantes : {existing} · Classes ajoutées : {classes}",
+    "status": {
+      "created": "Nouvelle",
+      "existing": "Existante"
+    },
+    "classesAdded": "{count, plural, =0 {aucune classe ajoutée} one {# classe ajoutée} other {# classes ajoutées}}",
+    "issuesTitle": "{count, plural, one {# ligne non importée} other {# lignes non importées}}",
+    "row": "Ligne {row}",
+    "issues": {
+      "BLANK_SCHOOL": "Le nom de l'école est vide",
+      "FIELD_TOO_LONG": "Une valeur dépasse la longueur autorisée",
+      "MINISTRY_CODE_IN_USE": "Le code ministériel {value} appartient à une autre école",
+      "CODE_CONFLICT_IN_GROUP": "Le code ministériel {value} diffère de celui indiqué pour la même école sur une ligne précédente"
+    },
+    "columnsTitle": "Colonnes requises",
+    "columns": "School, Grade (obligatoires) — Branch, Ministry code, Section (facultatives).",
+    "note": "Laissez la section vide si le niveau n'a qu'une classe. Importer deux fois le même fichier ne crée jamais de doublons.",
+    "drop": "Déposez un fichier .xlsx ou .csv ici, ou cliquez pour choisir",
+    "processing": "Lecture du fichier…",
+    "template": "Télécharger un modèle vide",
+    "errors": {
+      "missingColumns": "Le fichier doit contenir les colonnes « School » et « Grade ». Utilisez le modèle.",
+      "noSchools": "Aucune école trouvée dans le fichier.",
+      "file": "Impossible de lire le fichier. Vérifiez qu'il est en .xlsx ou .csv et fait moins de 8 Mo.",
+      "generic": "Import impossible pour le moment. Réessayez."
+    }
+  },
+  "deleteSchool": {
+    "title": "Supprimer « {name} » ?",
+    "description": "Tout ce qui suit est supprimé définitivement, avec tous les comptes élèves, enseignants et administrateurs de l'école. Action irréversible.",
+    "impact": {
+      "students": "Élèves",
+      "teachers": "Enseignants",
+      "admins": "Administrateurs",
+      "classes": "Classes",
+      "homework": "Devoirs",
+      "tests": "Tests",
+      "worksheets": "Fiches"
+    },
+    "typeName": "Saisissez le nom de l'école pour confirmer",
+    "confirm": "Supprimer définitivement",
+    "deleted": "École supprimée."
+  },
+  "classes": {
+    "title": "Niveaux et sections",
+    "description": "{count, plural, =0 {Aucune classe} one {# classe} other {# classes}}",
+    "empty": "Aucune classe pour le moment. Ajoutez le premier niveau et ses sections ci-dessous.",
+    "grade": "Niveau {grade}",
+    "wholeGrade": "Niveau entier",
+    "counts": "{students} élèves · {assignments} enseignants",
+    "remove": "Retirer {name}",
+    "gradeLabel": "Niveau",
+    "sectionsLabel": "Sections",
+    "sectionsPlaceholder": "A, B, C",
+    "sectionsHint": "Séparez les sections par des virgules. Laissez vide si le niveau n'a qu'une classe.",
+    "add": "Ajouter",
+    "added": "Ajoutées : {added} · déjà existantes : {existing}",
+    "deleted": "Classe retirée.",
+    "inUse": "Impossible : la classe compte {students} élèves et {assignments} affectations d'enseignants.",
+    "deleteFailed": "Impossible de retirer la classe.",
+    "removeTitle": "Retirer cette classe ?",
+    "removeDescription": "Une classe n'est retirée que si aucun élève n'y est inscrit et qu'aucun enseignant n'y est affecté."
+  },
+  "people": {
+    "adminTitle": "Comptes de l'école",
+    "directoryTitle": "Tous les utilisateurs",
+    "schoolTitle": "Comptes – {school}",
+    "searchPlaceholder": "Rechercher par nom, e-mail ou identifiant ministériel…",
+    "filters": {
+      "role": "Rôle",
+      "allRoles": "Tous les rôles",
+      "status": "Statut",
+      "allStatuses": "Tous les statuts",
+      "school": "École",
+      "allSchools": "Toutes les écoles",
+      "grade": "Niveau",
+      "allGrades": "Tous les niveaux"
+    },
+    "total": "{count, plural, =0 {Aucun compte} one {# compte} other {# comptes}}",
+    "status": {
+      "active": "Actif",
+      "inactive": "Désactivé",
+      "pending": "Jamais connecté"
+    },
+    "statusChanged": "Statut du compte modifié.",
+    "noClasses": "Aucune classe",
+    "noSchool": "Sans école",
+    "select": "Sélection",
+    "selectRow": "Sélectionner {name}",
+    "columns": {
+      "name": "Nom",
+      "email": "E-mail",
+      "role": "Rôle",
+      "school": "École",
+      "class": "Classe",
+      "stars": "Étoiles",
+      "status": "Statut",
+      "lastLogin": "Dernière connexion"
+    },
+    "starsStreak": "⭐ {stars} · 🔥 {streak}",
+    "never": "Jamais",
+    "export": {
+      "button": "Exporter en CSV",
+      "grade": "Niveau",
+      "section": "Section",
+      "subject": "Matière",
+      "ministryId": "Identifiant ministériel"
+    },
+    "create": "Nouveau compte",
+    "selectPending": "Sélectionner les non connectés ({count})",
+    "reissue": "{count, plural, =0 {Émettre de nouveaux mots de passe} one {Nouveau mot de passe pour # compte} other {Nouveaux mots de passe pour # comptes}}",
+    "actionsFor": "Actions pour {name}",
+    "actions": {
+      "reset": "Réinitialiser le mot de passe",
+      "resetTwoFactor": "Réinitialiser la validation en deux étapes",
+      "edit": "Modifier",
+      "classes": "Classes de l'enseignant",
+      "deactivate": "Désactiver",
+      "activate": "Activer",
+      "delete": "Supprimer définitivement"
+    },
+    "caption": "Comptes",
+    "empty": {
+      "title": "Aucun compte",
+      "description": "Aucun compte ne correspond aux filtres actuels."
+    },
+    "resetConfirm": {
+      "title": "Réinitialiser le mot de passe de {name} ?",
+      "description": "Un nouveau mot de passe temporaire est créé et affiché une seule fois, et le compte est déconnecté partout."
+    },
+    "resetTwoFactorConfirm": {
+      "title": "Réinitialiser la validation en deux étapes de {name} ?",
+      "description": "À utiliser seulement si la personne a perdu son téléphone, après avoir vérifié son identité. Elle est déconnectée partout et devra associer Microsoft Authenticator à nouveau lors de sa prochaine connexion."
+    },
+    "twoFactorReset": "La validation en deux étapes a été réinitialisée.",
+    "deactivateConfirm": {
+      "title": "Désactiver {name} ?",
+      "description": "La personne ne peut plus se connecter et est déconnectée immédiatement. Ses données sont conservées et le compte peut être réactivé."
+    },
+    "activateConfirm": {
+      "title": "Activer {name} ?",
+      "description": "La personne pourra se reconnecter avec son mot de passe actuel."
+    }
+  },
+  "person": {
+    "createTitle": "Nouveau compte",
+    "editTitle": "Modifier le compte",
+    "createDescription": "L'adresse e-mail est générée automatiquement et un mot de passe temporaire s'affiche une fois après la création.",
+    "editDescription": "Modifiez le nom, l'identifiant ministériel ou la classe. L'adresse e-mail ne change pas.",
+    "role": "Rôle",
+    "name": "Nom complet",
+    "ministryId": "Identifiant ministériel",
+    "optional": "(facultatif)",
+    "ministryIdHint": "S'il est renseigné, il sert dans l'adresse e-mail et évite les comptes en double.",
+    "school": "École",
+    "chooseSchool": "Choisir une école",
+    "class": "Classe",
+    "firstClass": "Première classe enseignée",
+    "noClasses": "Cette école n'a pas encore de classes. Ajoutez d'abord les classes.",
+    "chooseClass": "Choisir une classe",
+    "noClassYet": "Plus tard",
+    "subject": "Matière",
+    "passwordNote": "Le mot de passe temporaire ne s'affiche qu'une fois. À la première connexion, la personne le change puis associe Microsoft Authenticator.",
+    "createSubmit": "Créer le compte",
+    "updated": "Modifications enregistrées.",
+    "errors": {
+      "idInUse": "Cet identifiant ministériel est déjà utilisé par un autre compte.",
+      "class": "Choisissez une classe existante de l'école.",
+      "invalid": "Vérifiez cette valeur."
+    }
+  },
+  "assignments": {
+    "title": "Classes de {name}",
+    "description": "Les classes et matières enseignées par cet enseignant.",
+    "empty": "Aucune classe affectée pour le moment.",
+    "remove": "Retirer",
+    "class": "Classe",
+    "chooseClass": "Choisir une classe",
+    "subject": "Matière",
+    "add": "Affecter",
+    "added": "Classe affectée.",
+    "removed": "Classe retirée."
+  },
+  "deletePerson": {
+    "title": "Supprimer {name} définitivement ?",
+    "description": "Le compte et toutes ses données privées sont supprimés. Action irréversible. Pour seulement bloquer la connexion, utilisez « Désactiver ».",
+    "authored": "A créé {homework} devoirs, {tests} tests et {worksheets} fiches.",
+    "studentData": "A {submissions} rendus, {results} résultats de tests et {chats} conversations.",
+    "blocked": "Un enseignant ayant créé du contenu ne peut pas être supprimé. Désactivez plutôt le compte.",
+    "deleted": "Compte supprimé."
+  },
+  "credentials": {
+    "title": "{count, plural, one {Identifiants de connexion} other {Identifiants de # comptes}}",
+    "description": "Remettez à chacun ses identifiants. À la première connexion, il change le mot de passe puis associe Microsoft Authenticator sur son téléphone.",
+    "warningTitle": "Affichés une seule fois",
+    "warning": "Ces mots de passe ne sont stockés nulle part. Téléchargez-les ou copiez-les avant de fermer, et conservez-les en lieu sûr.",
+    "columns": {
+      "name": "Nom",
+      "email": "E-mail",
+      "role": "Rôle",
+      "class": "Classe",
+      "password": "Mot de passe temporaire"
+    },
+    "download": "Télécharger le CSV",
+    "copyAll": "Tout copier",
+    "close": "Fermer",
+    "closeConfirmTitle": "Fermer sans enregistrer ?",
+    "closeConfirm": "Vous n'avez ni téléchargé ni copié les mots de passe. Une fois fermés, ils ne s'afficheront plus et il faudra en émettre de nouveaux.",
+    "closeAnyway": "Fermer quand même"
+  },
+  "pagination": {
+    "label": "Pages",
+    "previous": "Précédent",
+    "next": "Suivant",
+    "pageOf": "Page {page} sur {count}"
+  },
+  "template": {
+    "schoolsSheet": "Schools",
+    "school": "School",
+    "branch": "Branch",
+    "ministryCode": "Ministry code",
+    "grade": "Grade",
+    "section": "Section",
+    "sampleSchool": "École Al Nour",
+    "sampleBranch": "Site principal"
+  }
+}

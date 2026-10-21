@@ -126,7 +126,7 @@
         "off": "Aus",
         "pending": "Nicht abgeschlossen"
       },
-      "requiredNote": "Deine Rolle erfordert sie, daher kann sie nicht ausgeschaltet werden.",
+      "requiredNote": "Für alle Konten Pflicht und daher nicht abschaltbar. Handy verloren? Bitten Sie die Schulverwaltung, sie zurückzusetzen.",
       "onNote": "Dein Konto verlangt bei jeder Anmeldung einen Code von deinem Handy.",
       "offNote": "Füge eine zweite Schutzebene hinzu: Selbst mit deinem Passwort kann sich ohne dein Handy niemand anmelden.",
       "pendingNote": "Du hast die Einrichtung begonnen, aber noch keinen Code bestätigt. Schließe sie ab, um den Schutz zu aktivieren.",
